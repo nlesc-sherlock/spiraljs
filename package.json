@@ -1,0 +1,26 @@
+{
+
+  "name": "tstut",
+  "version": "1.0.0",
+  "description": "setup from a tutorial about typescript and gulp",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gulp",
+    "tutorial",
+    "typescript"
+  ],
+  "author": "Jurriaan H. Spaaks",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-typescript": "^2.9.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-task-listing": "^1.0.1"
+  }
+}
