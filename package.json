@@ -17,10 +17,18 @@
   ],
   "author": "Jurriaan H. Spaaks",
   "license": "Apache-2.0",
+  "repository" :
+    {
+      "type": "git",
+      "url": "https://github.com/jspaaks/gulptut.git"
+    },
   "devDependencies": {
+    "del": "^2.1.0",
     "gulp": "^3.9.0",
     "gulp-typescript": "^2.9.2",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-task-listing": "^1.0.1"
+    "gulp-task-listing": "^1.0.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-minify": "^0.0.5"
   }
 }

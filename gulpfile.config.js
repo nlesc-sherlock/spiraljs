@@ -4,11 +4,13 @@
 var GulpConfig = (function () {
     function gulpConfig() {
 
-    this.source   = 'src/';
+    this.src      = 'src/';
     this.build    = 'build/';
     this.dist     = 'dist/';
-    this.allts    = '**/*.ts';
-    this.alljs    = '**/*.js';
+    this.allts    = '*.ts';
+    this.alljs    = '*.js';
+    this.allminjs = '*-min.js';
+    this.allhtml  = '*.html';
 
     }
     return gulpConfig;

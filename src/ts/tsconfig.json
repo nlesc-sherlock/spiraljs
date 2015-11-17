@@ -22,6 +22,7 @@
         "!node_modules/**"
     ],
     "files": [
-        "Customer.ts"
+        "Customer.ts",
+        "Customer2.ts"
     ]
 }
