@@ -10,7 +10,9 @@ var gulp,
     concat,
     minify,
     beautify,
-    tsconfig;
+    tsconfig,
+    readjson,
+    pkg;
 
 
 // load modules
@@ -24,6 +26,8 @@ concat      = require('gulp-concat'),
 minify      = require('gulp-minify'),
 beautify    = require('js-beautify');
 tsconfig    = require('tsconfig');
+readjson    = require('read-package-json');
+pkg         = require('./package.json');
 // end load modules
 
 
@@ -38,13 +42,30 @@ indent = "           ";
  */
 
 
-gulp.task('assemble',['uglify'],function() {
+gulp.task('assemble',['_concatenate'],function() {
+
+    var s,
+        d,
+        libname;
+
+    // copy the html
+    s = config.build + config.allhtml;
+    d = config.dist;
+    gulp.src(s).pipe(gulp.dest(d));
+
+    // copy the javascript:
+    libname = pkg.name + "-" + pkg.version + ".js";
+    s = config.build + libname;
+    d = config.dist;
+
+    gulp.src(s).pipe(gulp.dest(d));
+
 });
 
 
 
 
-gulp.task('beautify',function() {
+gulp.task('_beautify',function() {
     process.stdout.write(indent + "See https://www.npmjs.com/package/js-beautify" + "\n");
     process.stdout.write("beautify: not yet implemented."  + "\n");
 
@@ -53,7 +74,7 @@ gulp.task('beautify',function() {
 
 
 
-gulp.task('build',['transpile', 'copy-html'],function() {
+gulp.task('build',['_transpile', '_copyhtml'],function() {
 
 });
 
@@ -63,7 +84,7 @@ gulp.task('build',['transpile', 'copy-html'],function() {
 gulp.task('clean',function() {
 
     process.stdout.write(indent + "See https://www.npmjs.com/package/del" + "\n");
-    del([config.build, config.dist]).then(paths => {
+    return del([config.build, config.dist]).then(paths => {
         if (false) {
             process.stdout.write('Nothing to clean.\n');
         }
@@ -79,34 +100,36 @@ gulp.task('clean',function() {
 
 
 
-gulp.task('concatenate',['minify'],function() {
+gulp.task('_concatenate', ['_minify'], function() {
 
     process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-concat"  + "\n");
-    var src,
-        dest;
+    var s,
+        d,
+        libname;
 
-    src = config.build + config.allminjs;
-    dest = config.build;
+    s = config.build + config.allminjs;
+    d = config.build;
+    libname = pkg.name + "-" + pkg.version + ".js";
 
-    return gulp.src(src)
-        .pipe(concat('concatenated.js'))
-        .pipe(gulp.dest(dest));
+    return gulp.src(s)
+        .pipe(concat(libname))
+        .pipe(gulp.dest(d));
 
 });
 
 
 
 
-gulp.task('copy-html',function() {
+gulp.task('_copyhtml',function() {
 
-    var src,
-        dest;
+    var s,
+        d;
 
-    src = config.src + config.allhtml;
-    dest = config.build;
+    s = config.src + config.allhtml;
+    d = config.build;
 
-    return gulp.src(src)
-        .pipe(gulp.dest(dest));
+    return gulp.src(s)
+        .pipe(gulp.dest(d));
 
 });
 
@@ -129,22 +152,22 @@ gulp.task('help',function() {
 
 
 
-gulp.task('minify',['build'],function() {
+gulp.task('_minify',['build'],function() {
 
     process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-minify"  + "\n");
 
-    var src,
-        dest;
+    var s,
+        d;
 
-    src = config.build + config.alljs;
-    dest = config.build;
+    s = config.build + config.alljs;
+    d = config.build;
 
-    gulp.src(src)
+    return gulp.src(s)
         .pipe(minify({
-            ignoreFiles: ['*-min.js'],
+            ignoreFiles: ['-min.js'],
             mangle: true
         }))
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(d));
 
 });
 
@@ -189,16 +212,17 @@ gulp.task('tasks',function() {
 
 
 
-gulp.task('transpile',function() {
+gulp.task('_transpile',function() {
 
     process.stdout.write(indent + "See https://www.npmjs.com/package/tsconfig"  + "\n");
     process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-typescript"  + "\n");
+    process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-sourcemaps"  + "\n");
 
     var tsconfDir,
         tsconfFile,
         tsconfObj,
-        src,
-        dest,
+        s,
+        d,
         tscResult,
         options;
 
@@ -214,26 +238,31 @@ gulp.task('transpile',function() {
     // parse the tsconfig file into an object
     tsconfObj = tsconfig.readFileSync(tsconfFile);
 
-    // define the tsc options
+    // define the gulp-typescript options
     options = tsconfObj.compilerOptions;
 
-    // define the sources that you want tsc to compile
-    src = tsconfObj.files;
+    // source map generation is not supported by gulp-typescript, so we will use
+    // gulp-sourcemaps instead. I'm setting the sourceMap option to false here,
+    // in order to be more explicit about what we do.
+    options.sourceMap = false;
+
+    // define the sources that you want gulp-typescript to compile
+    s = tsconfObj.files;
 
     // tsconfDir contains the directory where tsconfig.json lives (relative to
     // the root directory); options.outDir contains the directory where the
     // TypeScript compiler should output its files (relative to the directory
     // containing tsconfig.json); by concatenating them, you get the location
     // that can be passed to gulp.dest():
-    dest = tsconfDir + options.outDir;
+    d = tsconfDir + options.outDir;
 
-    tscResult = gulp.src(src)     // Take the TypeScript sources...
+    tscResult = gulp.src(s)       // Take the TypeScript sources...
         .pipe(srcmaps.init())     // generate source maps (in memory)...
         .pipe(tsc(options));      // transpile the TypeScript into JavaScript (in memory)
 
     return tscResult.js           // Take the JavaScript that was just generated...
         .pipe(srcmaps.write('.')) // write the source maps next to where the JavaScript will be...
-        .pipe(gulp.dest(dest));   // write the JavaScript files.
+        .pipe(gulp.dest(d));      // write the JavaScript files.
 
 });
 
