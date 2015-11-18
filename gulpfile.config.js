@@ -4,13 +4,14 @@
 var GulpConfig = (function () {
     function gulpConfig() {
 
-    this.src      = 'src/';
-    this.build    = 'build/';
-    this.dist     = 'dist/';
-    this.allts    = '*.ts';
-    this.alljs    = '*.js';
-    this.allminjs = '*-min.js';
-    this.allhtml  = '*.html';
+        this.src      = 'src/';
+        this.build    = 'build/';
+        this.dist     = 'dist/';
+        this.allts    = '*.ts';
+        this.alljs    = '*.js';
+        this.allminjs = '*.min.js';
+        this.allhtml  = '*.html';
+        this.typings  = 'typings/';
 
     }
     return gulpConfig;
