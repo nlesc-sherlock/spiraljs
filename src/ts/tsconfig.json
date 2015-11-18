@@ -8,13 +8,13 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "declaration": false,
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "removeComments": true,
         "noLib": false,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
         "sourceMap": true,
-        "outDir": "../js"
+        "outDir": "../../build/"
     },
     "filesGlob": [
         "**/*.ts",
@@ -22,7 +22,6 @@
         "!node_modules/**"
     ],
     "files": [
-        "Customer.ts",
-        "Customer2.ts"
+        "Customer.ts"
     ]
 }

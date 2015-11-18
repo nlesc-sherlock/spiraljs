@@ -7,9 +7,10 @@ var gulp,
     del,
     config,
     indent,
-    tscoptions,
     concat,
-    minify;
+    minify,
+    beautify,
+    tsconfig;
 
 
 // load modules
@@ -18,9 +19,11 @@ Config      = require('./gulpfile.config'),
 tsc         = require('gulp-typescript'),
 srcmaps     = require('gulp-sourcemaps'),
 taskListing = require('gulp-task-listing'),
-del         = require('del') ;
-concat      = require('gulp-concat');
-minify      = require('gulp-minify');
+del         = require('del'),
+concat      = require('gulp-concat'),
+minify      = require('gulp-minify'),
+beautify    = require('js-beautify');
+tsconfig    = require('tsconfig');
 // end load modules
 
 
@@ -30,20 +33,21 @@ config = new Config();
 // the indent size for gulp's command line stdout
 indent = "           ";
 
-
-// the options that are passed to the typescript compiler:
-tscoptions = {
-    outDir: config.build,
-    noImplicitAny: true,
-    target: "es5",
-    removeComments: false
-}
+/*
+ *   from here on, it's just task definitions:
+ */
 
 
-
-
-// from here on, it's just task definitions:
 gulp.task('assemble',['uglify'],function() {
+});
+
+
+
+
+gulp.task('beautify',function() {
+    process.stdout.write(indent + "See https://www.npmjs.com/package/js-beautify" + "\n");
+    process.stdout.write("beautify: not yet implemented."  + "\n");
+
 });
 
 
@@ -58,7 +62,7 @@ gulp.task('build',['transpile', 'copy-html'],function() {
 
 gulp.task('clean',function() {
 
-    process.stdout.write(indent + "see https://www.npmjs.com/package/del" + "\n");
+    process.stdout.write(indent + "See https://www.npmjs.com/package/del" + "\n");
     del([config.build, config.dist]).then(paths => {
         if (false) {
             process.stdout.write('Nothing to clean.\n');
@@ -187,22 +191,50 @@ gulp.task('tasks',function() {
 
 gulp.task('transpile',function() {
 
+    process.stdout.write(indent + "See https://www.npmjs.com/package/tsconfig"  + "\n");
     process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-typescript"  + "\n");
 
-    var src,
+    var tsconfDir,
+        tsconfFile,
+        tsconfObj,
+        src,
         dest,
-        tsResult;
+        tscResult,
+        options;
 
-    src = config.src + 'ts/' + config.allts;
-    dest = config.build;
+    // the location of the directory that holds tsconfig.json
+    tsconfDir = config.src + "ts/";
 
-    tsResult = gulp.src(src)
-                       .pipe(srcmaps.init()) // This means sourcemaps will be generated
-                       .pipe(tsc(tscoptions));
+    // let the tsconfig module find the tsconfig file in tsconfDir
+    tsconfFile = tsconfig.resolveSync(tsconfDir);
 
-    return tsResult.js
-                .pipe(srcmaps.write('.')) // Now the sourcemaps are added to the .js file
-                .pipe(gulp.dest(dest));
+    // provide feedback on which file we are using
+    process.stdout.write(indent + "Using file: " + tsconfFile + "\n");
+
+    // parse the tsconfig file into an object
+    tsconfObj = tsconfig.readFileSync(tsconfFile);
+
+    // define the tsc options
+    options = tsconfObj.compilerOptions;
+
+    // define the sources that you want tsc to compile
+    src = tsconfObj.files;
+
+    // tsconfDir contains the directory where tsconfig.json lives (relative to
+    // the root directory); options.outDir contains the directory where the
+    // TypeScript compiler should output its files (relative to the directory
+    // containing tsconfig.json); by concatenating them, you get the location
+    // that can be passed to gulp.dest():
+    dest = tsconfDir + options.outDir;
+
+    tscResult = gulp.src(src)     // Take the TypeScript sources...
+        .pipe(srcmaps.init())     // generate source maps (in memory)...
+        .pipe(tsc(options));      // transpile the TypeScript into JavaScript (in memory)
+
+    return tscResult.js           // Take the JavaScript that was just generated...
+        .pipe(srcmaps.write('.')) // write the source maps next to where the JavaScript will be...
+        .pipe(gulp.dest(dest));   // write the JavaScript files.
 
 });
+
 
