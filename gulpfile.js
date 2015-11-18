@@ -3,7 +3,7 @@ var gulp,
     Config,
     tsc,
     srcmaps,
-    taskListing,
+    showtasks,
     del,
     config,
     indent,
@@ -11,24 +11,52 @@ var gulp,
     minify,
     beautify,
     tsconfig,
-    readjson,
     pkg;
 
 
-// load modules
-gulp        = require('gulp'),
-Config      = require('./gulpfile.config'),
-tsc         = require('gulp-typescript'),
-srcmaps     = require('gulp-sourcemaps'),
-taskListing = require('gulp-task-listing'),
-del         = require('del'),
-concat      = require('gulp-concat'),
-minify      = require('gulp-minify'),
-beautify    = require('js-beautify');
-tsconfig    = require('tsconfig');
-readjson    = require('read-package-json');
-pkg         = require('./package.json');
-// end load modules
+/*
+ * module loading start
+ */
+
+// the base module for gulp buiild files:
+gulp = require('gulp'),
+
+// a file that contains the project's layout:
+Config = require('./gulpfile.config'),
+
+// the typescript compiler
+tsc = require('gulp-typescript'),
+
+// module for generating source maps linking (unminified/unuglified) typescript
+// to the JavaScript (helpful in debugging)
+srcmaps = require('gulp-sourcemaps'),
+
+// a module that lets you print the available tasks from this file at the
+// command line
+showtasks = require('gulp-task-listing'),
+
+// a module that lets you delete files and directories
+del = require('del'),
+
+// a module that lets you concatenate files
+concat = require('gulp-concat'),
+
+// a module that lets you minify files, including file name mangling
+minify = require('gulp-minify'),
+
+// a module that lets you adhere to standard coding styles
+beautify = require('js-beautify');       // FIXME not used yet
+
+// a module that is able to parse the tsconfig file into a JavaScript object
+tsconfig = require('tsconfig');
+
+// a module that lets you read in the contents of package.json, such as the
+// package name and version
+pkg = require('./package.json');
+
+/*
+ * module loading end
+ */
 
 
 // make a new configuration instance:
@@ -38,7 +66,12 @@ config = new Config();
 indent = "           ";
 
 /*
- *   from here on, it's just task definitions:
+ *
+ * from here on, it's just task definitions
+ * (you can get a list by entering
+ * gulp tasks
+ * at the command line)
+ *
  */
 
 
@@ -137,6 +170,7 @@ gulp.task('_copyhtml',function() {
 
 
 gulp.task('default',['build'],function() {
+    // set default as an alias for build
 });
 
 
@@ -145,7 +179,7 @@ gulp.task('default',['build'],function() {
 gulp.task('help',function() {
 
     process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-task-listing"  + "\n");
-    taskListing();
+    showtasks();
 
 });
 
@@ -205,7 +239,7 @@ gulp.task('test',function() {
 gulp.task('tasks',function() {
 
     process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-task-listing"  + "\n");
-    taskListing();
+    showtasks();
 
 });
 
