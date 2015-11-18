@@ -11,7 +11,10 @@ var gulp,
     minify,
     beautify,
     tsconfig,
-    pkg;
+    pkg,
+    serve,
+    tsd,
+    tslint;
 
 
 /*
@@ -44,15 +47,22 @@ concat = require('gulp-concat'),
 // a module that lets you minify files, including file name mangling
 minify = require('gulp-minify'),
 
-// a module that lets you adhere to standard coding styles
-beautify = require('js-beautify');       // FIXME not used yet
-
 // a module that is able to parse the tsconfig file into a JavaScript object
 tsconfig = require('tsconfig');
 
 // a module that lets you read in the contents of package.json, such as the
 // package name and version
 pkg = require('./package.json');
+
+// webserver
+serve = require('gulp-serve');
+
+// this module lets you get TypeScript Definitions/typings from DefinitelyTyped
+tsd = require('gulp-tsd');
+
+// this module lets you lint the typescript code according to the rules from
+tslint = require('gulp-tslint'),
+
 
 /*
  * module loading end
@@ -64,6 +74,7 @@ config = new Config();
 
 // the indent size for gulp's command line stdout
 indent = "           ";
+
 
 /*
  *
@@ -98,15 +109,6 @@ gulp.task('assemble',['_concatenate'],function() {
 
 
 
-gulp.task('_beautify',function() {
-    process.stdout.write(indent + "See https://www.npmjs.com/package/js-beautify" + "\n");
-    process.stdout.write("beautify: not yet implemented."  + "\n");
-
-});
-
-
-
-
 gulp.task('build',['_transpile', '_copyhtml'],function() {
 
 });
@@ -117,7 +119,7 @@ gulp.task('build',['_transpile', '_copyhtml'],function() {
 gulp.task('clean',function() {
 
     process.stdout.write(indent + "See https://www.npmjs.com/package/del" + "\n");
-    return del([config.build, config.dist]).then(paths => {
+    return del([config.build, config.dist, config.typings]).then(paths => {
         if (false) {
             process.stdout.write('Nothing to clean.\n');
         }
@@ -169,8 +171,8 @@ gulp.task('_copyhtml',function() {
 
 
 
-gulp.task('default',['build'],function() {
-    // set default as an alias for build
+gulp.task('default',['assemble'],function() {
+    // set default as an alias for assemble
 });
 
 
@@ -180,6 +182,21 @@ gulp.task('help',function() {
 
     process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-task-listing"  + "\n");
     showtasks();
+
+});
+
+
+
+
+gulp.task('_tslint',function() {
+
+    process.stdout.write(indent + "See https://www.npmjs.com/package/tslint"  + "\n");
+
+    var s = config.src + "ts/" + config.allts;
+
+    return gulp.src(s)
+        .pipe(tslint())
+        .pipe(tslint.report('verbose'));
 
 });
 
@@ -198,7 +215,7 @@ gulp.task('_minify',['build'],function() {
 
     return gulp.src(s)
         .pipe(minify({
-            ignoreFiles: ['-min.js'],
+            ignoreFiles: ['.min.js'],
             mangle: true
         }))
         .pipe(gulp.dest(d));
@@ -208,11 +225,28 @@ gulp.task('_minify',['build'],function() {
 
 
 
-gulp.task('serve',function() {
-
-    process.stdout.write("serve: not yet implemented."  + "\n");
-
+gulp.task('_tsd', function (callback) {
+    tsd({
+        command: 'reinstall',
+        config: './tsd.json'
+    }, callback);
 });
+
+
+
+
+gulp.task('serve', serve({
+    root: config.build,
+    port: 8087
+}));
+
+
+
+
+gulp.task('serve-dist', serve({
+    root: config.dist,
+    port: 8088
+}));
 
 
 
@@ -246,7 +280,7 @@ gulp.task('tasks',function() {
 
 
 
-gulp.task('_transpile',function() {
+gulp.task('_transpile',['_tsd', '_tslint'],function() {
 
     process.stdout.write(indent + "See https://www.npmjs.com/package/tsconfig"  + "\n");
     process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-typescript"  + "\n");
