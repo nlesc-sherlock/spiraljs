@@ -22,6 +22,10 @@
         "!node_modules/**"
     ],
     "files": [
-        "Customer.ts"
+        "dataloader.ts",
+        "histogram.ts",
+        "main-script.ts",
+        "map.ts",
+        "timeline.ts"
     ]
 }
