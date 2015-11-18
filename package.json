@@ -28,6 +28,9 @@
     "gulp-concat": "^2.6.0",
     "gulp-minify": "^0.0.5",
     "js-beautify": "^1.5.10",
-    "tsconfig": "^2.1.1"
+    "tsconfig": "^2.1.1",
+    "gulp-serve": "^1.2.0",
+    "gulp-tsd": "^0.0.4",
+    "gulp-tslint": "^3.6.0"
   }
 }
