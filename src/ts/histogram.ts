@@ -38,7 +38,7 @@ class Histogram {
         this.numberOfRecords = (data as any).length;
 
         // get the minimum and maximum datetime stamps from the dataset:
-        this.dateExtent = d3.extent(data as any, function (d: any) {return d.date; });
+        //this.dateExtent = d3.extent(data, function (d:IDataRow) {return d.date; });
         this.dateTimeFirst = this.dateExtent[0];
         this.dateTimeLast = this.dateExtent[1];
 

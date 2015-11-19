@@ -12,9 +12,7 @@
         "removeComments": true,
         "noLib": false,
         "preserveConstEnums": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "sourceMap": true,
-        "outDir": "../../build/"
+        "suppressImplicitAnyIndexErrors": true
     },
     "filesGlob": [
         "**/*.ts",

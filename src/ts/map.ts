@@ -1,7 +1,10 @@
 
+/// <reference path="../../typings/tsd.d.ts" />
+
+
 class Map extends L.Map {
 
-    private _data: IDataRow;
+    private _data: IDataRow[];
     private _bbox: L.LatLngBounds;
 
     constructor (id: string, options?: L.Map.MapOptions) {
@@ -49,7 +52,7 @@ class Map extends L.Map {
 
         let _latLngs: Array<L.LatLng> = [];
 
-        for (let elem of this._data as any) {
+        for (let elem of this._data) {
             _latLngs.push(new L.LatLng(elem.latitude, elem.longitude));
         }
         return L.latLngBounds(_latLngs);

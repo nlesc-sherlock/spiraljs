@@ -10,6 +10,7 @@ var GulpConfig = (function () {
         this.allts    = '*.ts';
         this.alljs    = '*.js';
         this.allminjs = '*.min.js';
+        this.allcss   = '*.css';
         this.allhtml  = '*.html';
         this.typings  = 'typings/';
 

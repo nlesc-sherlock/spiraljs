@@ -14,14 +14,15 @@ var gulp,
     pkg,
     serve,
     tsd,
-    tslint;
+    tslint,
+    libname;
 
 
 /*
  * module loading start
  */
 
-// the base module for gulp buiild files:
+// the base module for gulp build files:
 gulp = require('gulp'),
 
 // a file that contains the project's layout:
@@ -63,6 +64,8 @@ tsd = require('gulp-tsd');
 // this module lets you lint the typescript code according to the rules from
 tslint = require('gulp-tslint'),
 
+libname = pkg.name + '-' + pkg.version + '.js';
+
 
 /*
  * module loading end
@@ -73,7 +76,7 @@ tslint = require('gulp-tslint'),
 config = new Config();
 
 // the indent size for gulp's command line stdout
-indent = "           ";
+indent = '           ';
 
 
 /*
@@ -86,30 +89,36 @@ indent = "           ";
  */
 
 
-gulp.task('assemble',['_concatenate'],function() {
+gulp.task('assemble',['_copyhtml', '_copycss', '_minify'],function() {
 
-    var s,
-        d,
-        libname;
-
-    // copy the html
-    s = config.build + config.allhtml;
-    d = config.dist;
-    gulp.src(s).pipe(gulp.dest(d));
-
-    // copy the javascript:
-    libname = pkg.name + "-" + pkg.version + ".js";
-    s = config.build + libname;
-    d = config.dist;
-
-    gulp.src(s).pipe(gulp.dest(d));
+    process.stdout.write(indent + 'TODO: Errors may arise due to the order in which JS files were concatenated.' + '\n');
 
 });
 
 
 
 
-gulp.task('build',['_transpile', '_copyhtml'],function() {
+gulp.task('build',['_transpile'],function() {
+
+});
+
+
+
+
+gulp.task('checkout',['clean'],function() {
+
+    process.stdout.write(indent + 'See https://www.npmjs.com/package/del' + '\n');
+    return del(['node_modules']).then(paths => {
+        if (paths.length === 0) {
+            process.stdout.write(indent + 'Nothing to clean.\n');
+        }
+        else {
+            process.stdout.write(indent + 'Deleted files and folders:' + '\n');
+            for (var path of paths) {
+                process.stdout.write(indent + path + '\n');
+            }
+        };
+    });
 
 });
 
@@ -118,14 +127,17 @@ gulp.task('build',['_transpile', '_copyhtml'],function() {
 
 gulp.task('clean',function() {
 
-    process.stdout.write(indent + "See https://www.npmjs.com/package/del" + "\n");
+    process.stdout.write(indent + 'See https://www.npmjs.com/package/del' + '\n');
     return del([config.build, config.dist, config.typings]).then(paths => {
-        if (false) {
-            process.stdout.write('Nothing to clean.\n');
+        if (paths.length === 0) {
+            process.stdout.write(indent + 'Nothing to clean.\n');
         }
         else {
             // (you need console.log here for some reason)
-            console.log('Deleted files and folders:\n', paths.join('\n'));
+            process.stdout.write(indent + 'Deleted files and folders:' + '\n');
+            for (var path of paths) {
+                process.stdout.write(indent + path + '\n');
+            }
         };
     });
 
@@ -135,20 +147,34 @@ gulp.task('clean',function() {
 
 
 
-gulp.task('_concatenate', ['_minify'], function() {
+gulp.task('_concatenate', ['build'], function() {
 
-    process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-concat"  + "\n");
+    process.stdout.write(indent + 'See https://www.npmjs.com/package/gulp-concat'  + '\n');
     var s,
-        d,
-        libname;
+        d;
 
-    s = config.build + config.allminjs;
-    d = config.build;
-    libname = pkg.name + "-" + pkg.version + ".js";
+    // take all unminified js sources from build
+    s = [config.build + '**/' + config.alljs, '!' + config.build + '**/' + config.allminjs];
+    d = config.dist;
 
     return gulp.src(s)
         .pipe(concat(libname))
         .pipe(gulp.dest(d));
+
+});
+
+
+
+
+gulp.task('_copycss',function() {
+
+    var s,
+        d;
+
+    s = config.build + '**/' + config.allcss;
+    d = config.dist;
+
+    return gulp.src(s).pipe(gulp.dest(d));
 
 });
 
@@ -160,11 +186,10 @@ gulp.task('_copyhtml',function() {
     var s,
         d;
 
-    s = config.src + config.allhtml;
-    d = config.build;
+    s = config.build + config.allhtml;
+    d = config.dist;
 
-    return gulp.src(s)
-        .pipe(gulp.dest(d));
+    return gulp.src(s).pipe(gulp.dest(d));
 
 });
 
@@ -180,7 +205,7 @@ gulp.task('default',['assemble'],function() {
 
 gulp.task('help',function() {
 
-    process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-task-listing"  + "\n");
+    process.stdout.write(indent + 'See https://www.npmjs.com/package/gulp-task-listing'  + '\n');
     showtasks();
 
 });
@@ -190,9 +215,9 @@ gulp.task('help',function() {
 
 gulp.task('_tslint',function() {
 
-    process.stdout.write(indent + "See https://www.npmjs.com/package/tslint"  + "\n");
+    process.stdout.write(indent + 'See https://www.npmjs.com/package/tslint'  + '\n');
 
-    var s = config.src + "ts/" + config.allts;
+    var s = config.src + 'ts/' + config.allts;
 
     return gulp.src(s)
         .pipe(tslint())
@@ -203,19 +228,19 @@ gulp.task('_tslint',function() {
 
 
 
-gulp.task('_minify',['build'],function() {
+gulp.task('_minify',['_concatenate'],function() {
 
-    process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-minify"  + "\n");
+    process.stdout.write(indent + 'See https://www.npmjs.com/package/gulp-minify'  + '\n');
 
     var s,
         d;
 
-    s = config.build + config.alljs;
-    d = config.build;
+    s = config.dist + libname;
+    d = config.dist;
 
     return gulp.src(s)
         .pipe(minify({
-            ignoreFiles: ['.min.js'],
+            ignoreFiles: ['-min.js'],
             mangle: true
         }))
         .pipe(gulp.dest(d));
@@ -235,7 +260,7 @@ gulp.task('_tsd', function (callback) {
 
 
 
-gulp.task('serve', serve({
+gulp.task('servebuild', serve({
     root: config.build,
     port: 8087
 }));
@@ -243,7 +268,7 @@ gulp.task('serve', serve({
 
 
 
-gulp.task('serve-dist', serve({
+gulp.task('servedist', serve({
     root: config.dist,
     port: 8088
 }));
@@ -253,8 +278,23 @@ gulp.task('serve-dist', serve({
 
 gulp.task('showconfig',function() {
 
-    process.stdout.write("Configuration from ./gulpfile.config.js: "  + "\n");
+    process.stdout.write('Configuration from ./gulpfile.config.js: '  + '\n');
     process.stdout.write(config);
+});
+
+
+
+
+gulp.task('_srctobuild',function() {
+
+    var s,
+        d;
+
+    s = config.src + '**/*';
+    d = config.build;
+
+    return gulp.src(s, {base: config.src}).pipe(gulp.dest(d));
+
 });
 
 
@@ -262,17 +302,16 @@ gulp.task('showconfig',function() {
 
 gulp.task('test',function() {
 
-    process.stdout.write("test: not yet implemented."  + "\n");
+    process.stdout.write('test: not yet implemented.'  + '\n');
 
 });
 
 
 
 
-
 gulp.task('tasks',function() {
 
-    process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-task-listing"  + "\n");
+    process.stdout.write(indent + 'See https://www.npmjs.com/package/gulp-task-listing'  + '\n');
     showtasks();
 
 });
@@ -280,11 +319,11 @@ gulp.task('tasks',function() {
 
 
 
-gulp.task('_transpile',['_tsd', '_tslint'],function() {
+gulp.task('_transpile',['_srctobuild','_tsd', '_tslint'],function() {
 
-    process.stdout.write(indent + "See https://www.npmjs.com/package/tsconfig"  + "\n");
-    process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-typescript"  + "\n");
-    process.stdout.write(indent + "See https://www.npmjs.com/package/gulp-sourcemaps"  + "\n");
+    process.stdout.write(indent + 'See https://www.npmjs.com/package/tsconfig'  + '\n');
+    process.stdout.write(indent + 'See https://www.npmjs.com/package/gulp-typescript'  + '\n');
+    process.stdout.write(indent + 'See https://www.npmjs.com/package/gulp-sourcemaps'  + '\n');
 
     var tsconfDir,
         tsconfFile,
@@ -295,13 +334,13 @@ gulp.task('_transpile',['_tsd', '_tslint'],function() {
         options;
 
     // the location of the directory that holds tsconfig.json
-    tsconfDir = config.src + "ts/";
+    tsconfDir = config.build + 'ts/';
 
     // let the tsconfig module find the tsconfig file in tsconfDir
     tsconfFile = tsconfig.resolveSync(tsconfDir);
 
     // provide feedback on which file we are using
-    process.stdout.write(indent + "Using file: " + tsconfFile + "\n");
+    process.stdout.write(indent + 'Using file: ' + tsconfFile + '\n');
 
     // parse the tsconfig file into an object
     tsconfObj = tsconfig.readFileSync(tsconfFile);
@@ -317,12 +356,7 @@ gulp.task('_transpile',['_tsd', '_tslint'],function() {
     // define the sources that you want gulp-typescript to compile
     s = tsconfObj.files;
 
-    // tsconfDir contains the directory where tsconfig.json lives (relative to
-    // the root directory); options.outDir contains the directory where the
-    // TypeScript compiler should output its files (relative to the directory
-    // containing tsconfig.json); by concatenating them, you get the location
-    // that can be passed to gulp.dest():
-    d = tsconfDir + options.outDir;
+    d = config.build + 'ts/';
 
     tscResult = gulp.src(s)       // Take the TypeScript sources...
         .pipe(srcmaps.init())     // generate source maps (in memory)...

@@ -1,19 +1,20 @@
 
+
+
 // make a new map
 let map:Map = new Map('leaflet');
 
 // make a new dataloader
-let dataLoader:DataLoader = new DataLoader();
+let dataloader:DataLoader = new DataLoader();
 
 // configure the dataLoader
-dataLoader.limit = 100;
-
-// attempt to call Map's binddata method after data is loaded
-dataLoader.callback = map.binddata;
+dataloader.limit = 100;
 
 // load the data
-dataLoader.loadData();
+dataloader.loadData();
 
+
+map.binddata(dataloader._data);
 
 
 

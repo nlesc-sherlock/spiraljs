@@ -2,8 +2,7 @@
 class DataLoader {
 
     private _baseurl  : string;
-    private _callback : (_this:DataLoader) => void;
-    public  _data     : any;
+    private _data     : any;
     private _offset   : number;
     private _limit    : number;
     private _query    : string;
@@ -24,9 +23,6 @@ class DataLoader {
         // which column to include, and how each should be called
         this._select = 'case_number AS casenumber, date, description, primary_type AS primary, latitude, longitude';
 
-        // specify the default callback
-        this._callback = this.defaultCallback;
-
         // build the query with the default options:
         this.buildQuery();
 
@@ -35,9 +31,9 @@ class DataLoader {
 
 
 
-    public defaultCallback(_this:DataLoader) {
+    public callback(_this:DataLoader) {
 
-        console.log('This is the default callback. Specify your own to do something with the data that was just loaded.');
+        this._data = _this._data;
 
     }
 
@@ -63,7 +59,7 @@ class DataLoader {
                 for (let elem of tmpdata) {
                     elem.date = new Date(elem.date);
                 }
-                that._callback(that);
+                that.callback(that);
             }
         };
 
@@ -102,12 +98,14 @@ class DataLoader {
 
 
 
-    public set callback(callback:any) {
-        this._callback = callback;
+
+
+    public set data(data:any) {
+        this._data = data;
     }
 
-    public get callback():any {
-        return this._callback;
+    public get data():any {
+        return this._data;
     }
 
     public set limit(limit) {

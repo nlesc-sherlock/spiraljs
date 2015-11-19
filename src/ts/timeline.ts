@@ -1,4 +1,6 @@
 
+/// <reference path="../../typings/tsd.d.ts" />
+
 interface ITranslation {
     down: number;
     left: number;
@@ -420,7 +422,6 @@ class Timeline {
         this._todScale = todScale;
     }
 
-
-
-
 }
+
+
