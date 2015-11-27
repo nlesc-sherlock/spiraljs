@@ -1,8 +1,9 @@
 **Usage (Linux Ubuntu)**
 
-```
+```sh
 # use package manager to install git
 sudo apt-get install git
+
 
 # make a local copy of this repository
 git clone https://github.com/nlesc-sherlock/chicago.git
@@ -35,10 +36,13 @@ gulp
 # check what other tasks are available with 
 gulp tasks
 
-# you can also serve the build directory with
-gulp servebuild
+# build the project
+gulp build
 
-# after running a gulp servebuild, open up a browser and navigate 
+# you can also serve the build directory with
+gulp serve-build
+
+# after running a gulp serve-build, open up a browser and navigate 
 # to http://localhost:8087/ to inspect the website. You've been served!
 
 ```
