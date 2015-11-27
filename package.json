@@ -1,5 +1,4 @@
 {
-
   "name": "tstut",
   "version": "1.0.0",
   "description": "setup from a tutorial about typescript and gulp",
@@ -14,11 +13,10 @@
   ],
   "author": "Jurriaan H. Spaaks",
   "license": "Apache-2.0",
-  "repository" :
-    {
-      "type": "git",
-      "url": "https://github.com/jspaaks/gulptut.git"
-    },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nlesc-sherlock/chicago.git"
+  },
   "devDependencies": {
     "del": "^2.1.0",
     "gulp": "^3.9.0",
@@ -32,5 +30,8 @@
     "gulp-serve": "^1.2.0",
     "gulp-tsd": "^0.0.4",
     "gulp-tslint": "^3.6.0"
+  },
+  "dependencies": {
+    "moment-timezone": "^0.4.1"
   }
 }
