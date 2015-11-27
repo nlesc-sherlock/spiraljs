@@ -31,15 +31,6 @@ class DataLoader {
 
 
 
-    public callback(_this:DataLoader) {
-
-        this._data = _this._data;
-
-    }
-
-
-
-
     public loadData() {
         // capture the 'this' object from the current context
         let that = this;
@@ -53,13 +44,11 @@ class DataLoader {
                             'app-tokens.html#throttling-limits" for more information.');
             }
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-                //that.getDataFun(xmlHttp.responseText);
-                let tmpdata = JSON.parse(xmlHttp.responseText);
-                that._data = tmpdata;
-                for (let elem of tmpdata) {
+
+                that._data = JSON.parse(xmlHttp.responseText);
+                for (let elem of that._data) {
                     elem.date = new Date(elem.date);
                 }
-                that.callback(that);
             }
         };
 
