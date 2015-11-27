@@ -15,7 +15,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jspaaks/gulptut.git"
+    "url": "https://github.com/nlesc-sherlock/chicago.git"
   },
   "devDependencies": {
     "browser-sync": "^2.10.0",
@@ -31,5 +31,8 @@
     "gulp-typescript": "^2.9.2",
     "js-beautify": "^1.5.10",
     "tsconfig": "^2.1.1"
+  },
+  "dependencies": {
+    "moment-timezone": "^0.4.1"
   }
 }

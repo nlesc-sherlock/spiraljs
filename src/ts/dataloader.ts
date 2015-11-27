@@ -74,25 +74,6 @@ class DataLoader {
 
 
 
-    public getDataFun(responseText:string) {
-
-        let tmpdata = JSON.parse(responseText);
-        for (let elem of tmpdata) {
-            elem.date = new Date(elem.date);
-        }
-        this._data = tmpdata;
-        console.log('loading data complete.');
-    }
-
-
-
-
-
-
-    public set data(data:any) {
-        this._data = data;
-    }
-
     public get data():any {
         return this._data;
     }

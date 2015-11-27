@@ -1,8 +1,12 @@
+[![devDependency Status](https://david-dm.org/nlesc-sherlock/chicago/dev-status.svg)](https://david-dm.org/nlesc-sherlock/chicago#info=devDependencies)
+
+
 **Usage (Linux Ubuntu)**
 
-```
+```sh
 # use package manager to install git
 sudo apt-get install git
+
 
 # make a local copy of this repository
 git clone https://github.com/nlesc-sherlock/chicago.git
@@ -34,6 +38,9 @@ gulp
 
 # check what other tasks are available with 
 gulp tasks
+
+# build the project
+gulp build
 
 # you can also serve the build directory with
 gulp serve-build
