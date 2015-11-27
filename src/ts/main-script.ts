@@ -8,13 +8,10 @@ let map:Map = new Map('leaflet');
 let dataloader:DataLoader = new DataLoader();
 
 // configure the dataLoader
-dataloader.limit = 100;
+dataloader.limit = 98;
 
 // load the data
 dataloader.loadData();
-
-
-map.binddata(dataloader._data);
 
 
 
