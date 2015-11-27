@@ -1,3 +1,6 @@
+/// <reference path="../../typings/tsd.d.ts" />
+
+
 
 class DataLoader {
 
@@ -21,7 +24,7 @@ class DataLoader {
         this._offset = 0;
 
         // which column to include, and how each should be called
-        this._select = 'case_number AS casenumber, date, description, primary_type AS primary, latitude, longitude';
+        this._select = 'case_number AS casenumber, date AS datestr, description, primary_type AS primary, latitude, longitude';
 
         // build the query with the default options:
         this.buildQuery();
@@ -47,7 +50,7 @@ class DataLoader {
 
                 that._data = JSON.parse(xmlHttp.responseText);
                 for (let elem of that._data) {
-                    elem.date = new Date(elem.date);
+                    elem.date = moment(elem.datestr, 'YYYY-MM-DDTHH:mm:ss'); // TODO needs a timezone somehow
                 }
             }
         };
