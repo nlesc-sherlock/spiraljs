@@ -43,12 +43,6 @@ gulp servebuild
 # after running a gulp servebuild, open up a browser and navigate 
 # to http://localhost:8087/ to inspect the website. You've been served!
 
-
-
-
-
-
-
 ```
 
 
