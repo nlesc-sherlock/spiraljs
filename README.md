@@ -1,6 +1,4 @@
-This repository visualizes the city of chicago police data set using web-based tools such as JavaScript, TypeScript, Gulp and Node.js.
-
-**usage (linux)**
+**Usage (Linux Ubuntu)**
 
 ```
 # use package manager to install git
