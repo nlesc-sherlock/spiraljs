@@ -38,7 +38,7 @@ gulp tasks
 # you can also serve the build directory with
 gulp servebuild
 
-# after running a gulp servebuild, open up a browser and navigate 
+# after running a gulp serve-build, open up a browser and navigate 
 # to http://localhost:8087/ to inspect the website. You've been served!
 
 ```
