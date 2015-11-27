@@ -201,15 +201,9 @@ gulp.task('default',['assemble'],function() {
 });
 
 
-
-
-gulp.task('help',function() {
-
-    process.stdout.write(indent + 'See https://www.npmjs.com/package/gulp-task-listing'  + '\n');
-    showtasks();
-
-});
-
+// (for some reason, showtasks does not work when it's inside a function)
+// process.stdout.write(indent + 'See https://www.npmjs.com/package/gulp-task-listing'  + '\n');
+gulp.task('help', showtasks.withFilters(/^[_]{1}/gi) );
 
 
 
@@ -260,7 +254,7 @@ gulp.task('_tsd', function (callback) {
 
 
 
-gulp.task('servebuild', serve({
+gulp.task('serve-build', serve({
     root: config.build,
     port: 8087
 }));
@@ -268,7 +262,7 @@ gulp.task('servebuild', serve({
 
 
 
-gulp.task('servedist', serve({
+gulp.task('serve-dist', serve({
     root: config.dist,
     port: 8088
 }));
