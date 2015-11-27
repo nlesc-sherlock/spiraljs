@@ -35,6 +35,9 @@ gulp
 # check what other tasks are available with 
 gulp tasks
 
+# build the project
+gulp build
+
 # you can also serve the build directory with
 gulp serve-build
 
