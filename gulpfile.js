@@ -108,7 +108,7 @@ gulp.task('build',['_transpile'],function() {
 gulp.task('checkout',['clean'],function() {
 
     process.stdout.write(indent + 'See https://www.npmjs.com/package/del' + '\n');
-    return del(['node_modules']).then(paths => {
+    return del(['node_modules']).then(function(paths) {
         if (paths.length === 0) {
             process.stdout.write(indent + 'Nothing to clean.\n');
         }
@@ -128,7 +128,7 @@ gulp.task('checkout',['clean'],function() {
 gulp.task('clean',function() {
 
     process.stdout.write(indent + 'See https://www.npmjs.com/package/del' + '\n');
-    return del([config.build, config.dist, config.typings]).then(paths => {
+    return del([config.build, config.dist, config.typings]).then(function(paths) {
         if (paths.length === 0) {
             process.stdout.write(indent + 'Nothing to clean.\n');
         }
