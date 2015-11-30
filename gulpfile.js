@@ -15,7 +15,8 @@ var gulp,
     serve,
     tsd,
     tslint,
-    libname;
+    libname,
+    browsersync;
 
 
 /*
@@ -64,6 +65,10 @@ tsd = require('gulp-tsd');
 // this module lets you lint the typescript code according to the rules from
 tslint = require('gulp-tslint'),
 
+// use browser-sync for reloading
+browsersync = require('browser-sync');
+var reload = browsersync.reload;
+
 libname = pkg.name + '-' + pkg.version + '.js';
 
 
@@ -87,6 +92,12 @@ indent = '           ';
  * at the command line)
  *
  */
+
+
+gulp.watch([
+    'src/**/*.ts',
+    'src/**/*.css'
+]).on('change', reload);
 
 
 gulp.task('assemble',['_copyhtml', '_copycss', '_minify'],function() {

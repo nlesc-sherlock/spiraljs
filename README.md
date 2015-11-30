@@ -1,3 +1,6 @@
+[![devDependency Status](https://david-dm.org/nlesc-sherlock/chicago/dev-status.svg)](https://david-dm.org/nlesc-sherlock/chicago#info=devDependencies)
+
+
 **Usage (Linux Ubuntu)**
 
 ```sh
