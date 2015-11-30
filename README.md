@@ -4,18 +4,16 @@
 # use package manager to install git
 sudo apt-get install git
 
-
 # make a local copy of this repository
 git clone https://github.com/nlesc-sherlock/chicago.git
 
-# TODO install nvm somehow
-
-# TODO - (probably) install npm through nvm
-
-# TODO everytime you login (?) you have to tell nvm what version of npm to use
+# install nvm somehow, e.g. following these instructions: 
+# (http://www.liquidweb.com/kb/how-to-install-nvm-node-version-manager-for-node-js-on-ubuntu-14-04-lts/
 
 # install and start using the latest stable version of node.js
 nvm install stable
+
+# the npm install is local to the terminal it was installed in
 
 # verify what version of node you are running:
 nvm current
