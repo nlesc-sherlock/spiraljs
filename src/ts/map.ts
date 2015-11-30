@@ -4,48 +4,53 @@
 
 class Map extends L.Map {
 
-    private _data: IDataRow[];
-    private _bbox: L.LatLngBounds;
+    private _data               : IDataRow[];
+    private _bbox               : L.LatLngBounds;
+    private _tileLayerOptions   : L.TileLayerOptions;
+    private _circleMarkerOptions: L.PathOptions;
+    private _circleMarkerRadius : Number;
 
     constructor (id: string, options?: L.Map.MapOptions) {
 
-        d3.select(id)
-            .attr('width', window.innerWidth * 0.5)
-            .attr('height', window.innerHeight * 0.5);  // doesnt work yet
+        if (id === undefined) {
+            console.log('You need to define the name of div element to put the leaflet map into.');
+        }
 
         super(id, options);
 
-        if (id === undefined) {
-            console.log('You need to define the name of div element to put the leaflet amp into.');
-        }
+        this.fitWorld();
 
-    }
-
-    public init() {
-        // parent object L.Map already has a method .initialize()
-
-        let mapOptions = {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href=\'http://openstreetmap.org\'>OpenStreetMap</a> contributors, ' +
-				'<a href=\'http://creativecommons.org/licenses/by-sa/2.0/\'>CC-BY-SA</a>, ' +
-				'Imagery &copy; <a href=\'http://mapbox.com\'>Mapbox</a>',
-			id: 'mapbox.streets',
+        this._tileLayerOptions = {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href=\'http://openstreetmap.org\'>OpenStreetMap</a> contributors, ' +
+                '<a href=\'http://creativecommons.org/licenses/by-sa/2.0/\'>CC-BY-SA</a>, ' +
+                'Imagery &copy; <a href=\'http://mapbox.com\'>Mapbox</a>',
+            id: 'mapbox.streets',
             accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ'
         };
+        this._circleMarkerOptions = {
+            color: '#f20'
+        };
+        this.circleMarkerRadius = 12;
 
-        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', mapOptions).addTo(this);
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', this._tileLayerOptions).addTo(this);
 
     }
 
 
-    public binddata(data:any) {
+
+
+    public binddata(data:IDataRow[]) {
         this._data = data;
         this._bbox = this.calcBoundingBox();
-        // this.setView([(this._bbox.getNorth() + this._bbox.getSouth()) / 2,
-        //               (this._bbox.getEast() + this._bbox.getWest()) / 2]);
-        //
+        this.setView([(this._bbox.getNorth() + this._bbox.getSouth()) / 2,
+                      (this._bbox.getEast() + this._bbox.getWest()) / 2]);
+
         this.fitBounds(this._bbox);
+
     }
+
+
 
 
     public calcBoundingBox():L.LatLngBounds {
@@ -57,6 +62,48 @@ class Map extends L.Map {
         }
         return L.latLngBounds(_latLngs);
     }
+
+
+
+
+    public showCrimeLocations() {
+
+        for (let elem of this._data) {
+            let pos = new L.LatLng(elem.latitude, elem.longitude);
+            L.circleMarker(pos, this._circleMarkerOptions).setRadius(5).addTo(this);
+        }
+    }
+
+
+
+
+    public set circleMarkerOptions(circleMarkerOptions:L.PathOptions) {
+        this._circleMarkerOptions = circleMarkerOptions;
+    }
+
+
+
+
+    public get circleMarkerOptions():L.PathOptions {
+        return this._circleMarkerOptions;
+    }
+
+
+
+
+    public set circleMarkerRadius(circleMarkerRadius:Number) {
+        this._circleMarkerRadius = circleMarkerRadius;
+    }
+
+
+
+
+    public get circleMarkerRadius():Number {
+        return this._circleMarkerRadius;
+    }
+
+
+
 
 }
 
