@@ -1,22 +1,22 @@
-This repository visualizes the city of chicago police data set using web-based tools such as JavaScript, TypeScript, Gulp and Node.js.
+[![devDependency Status](https://david-dm.org/nlesc-sherlock/chicago/dev-status.svg)](https://david-dm.org/nlesc-sherlock/chicago#info=devDependencies)
 
-**usage (linux)**
 
-```
+**Usage (Linux Ubuntu)**
+
+```sh
 # use package manager to install git
 sudo apt-get install git
 
 # make a local copy of this repository
 git clone https://github.com/nlesc-sherlock/chicago.git
 
-# TODO install nvm somehow
-
-# TODO - (probably) install npm through nvm
-
-# TODO everytime you login (?) you have to tell nvm what version of npm to use
+# install nvm somehow, e.g. following these instructions: 
+# (http://www.liquidweb.com/kb/how-to-install-nvm-node-version-manager-for-node-js-on-ubuntu-14-04-lts/
 
 # install and start using the latest stable version of node.js
 nvm install stable
+
+# the npm install is local to the terminal it was installed in
 
 # verify what version of node you are running:
 nvm current
@@ -37,10 +37,13 @@ gulp
 # check what other tasks are available with 
 gulp tasks
 
-# you can also serve the build directory with
-gulp servebuild
+# build the project
+gulp build
 
-# after running a gulp servebuild, open up a browser and navigate 
+# you can also serve the build directory with
+gulp serve-build
+
+# after running a gulp serve-build, open up a browser and navigate 
 # to http://localhost:8087/ to inspect the website. You've been served!
 
 ```

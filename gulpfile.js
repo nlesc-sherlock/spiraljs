@@ -15,7 +15,8 @@ var gulp,
     serve,
     tsd,
     tslint,
-    libname;
+    libname,
+    browsersync;
 
 
 /*
@@ -64,6 +65,10 @@ tsd = require('gulp-tsd');
 // this module lets you lint the typescript code according to the rules from
 tslint = require('gulp-tslint'),
 
+// use browser-sync for reloading
+browsersync = require('browser-sync');
+var reload = browsersync.reload;
+
 libname = pkg.name + '-' + pkg.version + '.js';
 
 
@@ -87,6 +92,12 @@ indent = '           ';
  * at the command line)
  *
  */
+
+
+gulp.watch([
+    'src/**/*.ts',
+    'src/**/*.css'
+]).on('change', reload);
 
 
 gulp.task('assemble',['_copyhtml', '_copycss', '_minify'],function() {
@@ -201,15 +212,9 @@ gulp.task('default',['assemble'],function() {
 });
 
 
-
-
-gulp.task('help',function() {
-
-    process.stdout.write(indent + 'See https://www.npmjs.com/package/gulp-task-listing'  + '\n');
-    showtasks();
-
-});
-
+// (for some reason, showtasks does not work when it's inside a function)
+// process.stdout.write(indent + 'See https://www.npmjs.com/package/gulp-task-listing'  + '\n');
+gulp.task('help', showtasks.withFilters(/^[_]{1}/gi) );
 
 
 
@@ -260,7 +265,7 @@ gulp.task('_tsd', function (callback) {
 
 
 
-gulp.task('servebuild', serve({
+gulp.task('serve-build', serve({
     root: config.build,
     port: 8087
 }));
@@ -268,7 +273,7 @@ gulp.task('servebuild', serve({
 
 
 
-gulp.task('servedist', serve({
+gulp.task('serve-dist', serve({
     root: config.dist,
     port: 8088
 }));

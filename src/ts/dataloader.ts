@@ -1,3 +1,6 @@
+/// <reference path="../../typings/tsd.d.ts" />
+
+
 
 class DataLoader {
 
@@ -21,19 +24,10 @@ class DataLoader {
         this._offset = 0;
 
         // which column to include, and how each should be called
-        this._select = 'case_number AS casenumber, date, description, primary_type AS primary, latitude, longitude';
+        this._select = 'case_number AS casenumber, date AS datestr, description, primary_type AS primary, latitude, longitude';
 
         // build the query with the default options:
         this.buildQuery();
-
-    }
-
-
-
-
-    public callback(_this:DataLoader) {
-
-        this._data = _this._data;
 
     }
 
@@ -53,13 +47,11 @@ class DataLoader {
                             'app-tokens.html#throttling-limits" for more information.');
             }
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-                //that.getDataFun(xmlHttp.responseText);
-                let tmpdata = JSON.parse(xmlHttp.responseText);
-                that._data = tmpdata;
-                for (let elem of tmpdata) {
-                    elem.date = new Date(elem.date);
+
+                that._data = JSON.parse(xmlHttp.responseText);
+                for (let elem of that._data) {
+                    elem.date = moment(elem.datestr, 'YYYY-MM-DDTHH:mm:ss'); // TODO needs a timezone somehow
                 }
-                that.callback(that);
             }
         };
 
@@ -84,25 +76,6 @@ class DataLoader {
 
 
 
-
-    public getDataFun(responseText:string) {
-
-        let tmpdata = JSON.parse(responseText);
-        for (let elem of tmpdata) {
-            elem.date = new Date(elem.date);
-        }
-        this._data = tmpdata;
-        console.log('loading data complete.');
-    }
-
-
-
-
-
-
-    public set data(data:any) {
-        this._data = data;
-    }
 
     public get data():any {
         return this._data;
