@@ -68,7 +68,7 @@ class DataLoader {
 
                 that._data = JSON.parse(xmlHttp.responseText);
                 for (let elem of that._data) {
-                    elem.date = moment.tz(elem.datestr, 'YYYY-MM-DDTHH:mm:ss', 'America/Chicago');
+                    elem.moment = moment.tz(elem.datestr, 'YYYY-MM-DDTHH:mm:ss', 'America/Chicago');
                 }
             }
         };
