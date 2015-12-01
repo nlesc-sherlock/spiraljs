@@ -24,30 +24,30 @@ var gulp,
  */
 
 // the base module for gulp build files:
-gulp = require('gulp'),
+gulp = require('gulp');
 
 // a file that contains the project's layout:
-Config = require('./gulpfile.config'),
+Config = require('./gulpfile.config');
 
 // the typescript compiler
-tsc = require('gulp-typescript'),
+tsc = require('gulp-typescript');
 
 // module for generating source maps linking (unminified/unuglified) typescript
 // to the JavaScript (helpful in debugging)
-srcmaps = require('gulp-sourcemaps'),
+srcmaps = require('gulp-sourcemaps');
 
 // a module that lets you print the available tasks from this file at the
 // command line
-showtasks = require('gulp-task-listing'),
+showtasks = require('gulp-task-listing');
 
 // a module that lets you delete files and directories
-del = require('del'),
+del = require('del');
 
 // a module that lets you concatenate files
-concat = require('gulp-concat'),
+concat = require('gulp-concat');
 
 // a module that lets you minify files, including file name mangling
-minify = require('gulp-minify'),
+minify = require('gulp-minify');
 
 // a module that is able to parse the tsconfig file into a JavaScript object
 tsconfig = require('tsconfig');
