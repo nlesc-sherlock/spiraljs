@@ -5,11 +5,10 @@
 let dataloader:DataLoader = new DataLoader();
 
 // configure the dataLoader
-dataloader.limit = 50;
+dataloader.limit = 3000;
 
 // load the data
 dataloader.loadData();
-
 
 
 function doit(data: any) {
