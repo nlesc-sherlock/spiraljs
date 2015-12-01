@@ -10,6 +10,9 @@ sudo apt-get install git
 # make a local copy of this repository
 git clone https://github.com/nlesc-sherlock/chicago.git
 
+# change into chigaco directory
+cd chicago
+
 # install nvm somehow, e.g. following these instructions: 
 # (http://www.liquidweb.com/kb/how-to-install-nvm-node-version-manager-for-node-js-on-ubuntu-14-04-lts/
 
