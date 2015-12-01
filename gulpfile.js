@@ -1,5 +1,6 @@
 'use strict';
 var gulp,
+    help,
     Config,
     tsc,
     srcmaps,
@@ -24,7 +25,7 @@ var gulp,
  */
 
 // the base module for gulp build files:
-gulp = require('gulp');
+gulp = require('gulp-help')(require('gulp'));
 
 // a file that contains the project's layout:
 Config = require('./gulpfile.config');
