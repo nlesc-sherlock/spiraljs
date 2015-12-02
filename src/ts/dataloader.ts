@@ -10,6 +10,7 @@ class DataLoader {
     private _limit    : number;
     private _query    : string;
     private _select   : string;
+    private _where    : string;
     private _url      : string;
 
     constructor () {
@@ -25,6 +26,9 @@ class DataLoader {
 
         // which column to include, and how each should be called
         this._select = 'case_number AS casenumber, date AS datestr, description, primary_type AS primary, latitude, longitude';
+
+        // set the default 'where' condition string
+        this._where = '';
 
         // build the query with the default options:
         this.buildQuery();
@@ -52,7 +56,8 @@ class DataLoader {
 
 
 
-    public loadData() {
+    public loadData(callback:any) {
+
         // capture the 'this' object from the current context
         let that = this;
 
@@ -68,8 +73,14 @@ class DataLoader {
 
                 that._data = JSON.parse(xmlHttp.responseText);
                 for (let elem of that._data) {
-                    elem.date = moment.tz(elem.datestr, 'YYYY-MM-DDTHH:mm:ss', 'America/Chicago');
+                    elem.moment = moment.tz(elem.datestr, 'YYYY-MM-DDTHH:mm:ss', 'America/Chicago');
                 }
+                console.log('Done loading.');
+
+                // remove records that are invalid for whatever reason
+                that.clean();
+                // execute the callback
+                callback(that._data);
             }
         };
 
@@ -84,11 +95,63 @@ class DataLoader {
 
 
 
+    public clean() {
+        let iElem : number;
+        let nElems: number;
+
+        iElem = 0;
+        nElems = this._data.length;
+
+        let invalid:number[] = [];
+
+        console.log(this._data.length);
+        for (iElem = 0; iElem < nElems; iElem += 1) {
+            let elem =  this._data[iElem];
+            try {
+                if (typeof elem.latitude === 'undefined') {
+                    throw new Error('No latitude in this record.');
+                }
+                if (isNaN(elem.latitude)) {
+                    throw new Error('Latitude for this record is NaN.');
+                }
+                if (typeof elem.longitude === 'undefined' ) {
+                    throw new Error('No longitude in this record.');
+                }
+                if (isNaN(elem.longitude)) {
+                    throw new Error('Longitude for this record is NaN.');
+                }
+
+                // try if this works, just to see if we may get into trouble later:
+                let pos = L.latLng(elem.latitude, elem.longitude);
+
+            } catch (err) {
+
+                this._data[iElem].latitude = 0.0;
+                this._data[iElem].longitude = 0.0;
+                invalid.push(iElem);
+            }
+        }
+
+        for (let iInvalid of invalid.reverse()) {
+            this._data.splice(iInvalid, 1);
+        }
+    }
+
+
+
+
     private buildQuery() {
 
-        this._query = this._baseurl + '?' + '$limit=' + (this._limit) +
+        // see also:
+        // https://dev.socrata.com/docs/functions/#,
+        // for more on SoQL functions
+
+        this._query = this._baseurl + '?' +
+            '&' + '$order=date' +
+            '&' + '$limit=' + (this._limit) +
             '&' + '$offset=' + (this._offset) +
-            '&' + '$select=' + (this._select);
+            '&' + '$select=' + (this._select) +
+            '&' + '$where=' + (this._where);
 
     }
 

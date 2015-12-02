@@ -1,11 +1,12 @@
 
 interface IDataRow {
-    date: Date;
-    casenumber: string;
+    datestr    : string;
+    moment     : moment.Moment;
+    casenumber : string;
     description: string;
-    primary: string;
-    latitude: number;
-    longitude: number;
+    primary    : string;
+    latitude   : number;
+    longitude  : number;
 }
 
 
@@ -15,42 +16,48 @@ interface IDataRow {
 class Histogram {
 
     private _countdata                 : Array<any>;
-    private _dateExtent                : Array<Date>;
-    private _dateTimeFirst             : Date;
-    private _dateTimeLast              : Date;
+    private _dateExtent                : moment.Moment[];
+    private _dateTimeFirst             : moment.Moment;
+    private _dateTimeLast              : moment.Moment;
     private _max                       : number;
     private _min                       : number;
     private _nMilliSecondsPerDay       : number;
     private _numberOfRecords           : number;
     private _xDomainExtent             : number;
-    private _xDomainFrom               : Date;
-    private _xDomainSpacing            : number;
-    private _xDomainTo                 : Date;
+    private _xDomainFrom               : moment.Moment;
+    private _xDomainTo                 : moment.Moment;
     private _yDomainExtent             : number;
     private _yDomainFrom               : number;
     private _yDomainSpacing            : number;
     private _yDomainTo                 : number;
 
-    constructor (data: IDataRow) {
+    constructor (data: any) {
 
         this.nMilliSecondsPerDay = 60 * 60 * 24 * 1000;
 
         this.numberOfRecords = (data as any).length;
 
         // get the minimum and maximum datetime stamps from the dataset:
-        //this.dateExtent = d3.extent(data, function (d:IDataRow) {return d.date; });
-        this.dateTimeFirst = this.dateExtent[0];
-        this.dateTimeLast = this.dateExtent[1];
+        this.dateExtent = [];
+        this.dateExtent[0] = data[0].moment;
+        this.dateExtent[1] = data[0].moment;
+        for (let elem of data) {
+            if (elem.moment < this.dateExtent[0]) {
+                this.dateExtent[0] = elem.moment.clone();
+            }
+            if (elem.moment > this.dateExtent[1]) {
+                this.dateExtent[1] = elem.moment.clone();
+            }
+        }
+
+        this.dateTimeFirst = this.dateExtent[0].clone();
+        this.dateTimeLast = this.dateExtent[1].clone();
 
         // size descriptors of the horizontal dimension
-        this.xDomainFrom = new Date(this.dateExtent[0].getFullYear(),
-                                    this.dateExtent[0].getMonth(),
-                                    this.dateExtent[0].getDate(), 0, 0, 0);
-        this.xDomainTo = new Date(this.dateExtent[1].getFullYear(),
-                                  this.dateExtent[1].getMonth(),
-                                  this.dateExtent[1].getDate(), 0, 0, 0, this.nMilliSecondsPerDay);
-        this.xDomainSpacing = 1;
-        this.xDomainExtent = (this.xDomainTo.getTime() - this.xDomainFrom.getTime()) / this.nMilliSecondsPerDay;
+        this.xDomainFrom = this.dateExtent[0].clone().startOf('day');
+        this.xDomainTo = this.dateExtent[1].clone().add(1, 'days').startOf('day');
+
+        this.xDomainExtent = this.xDomainTo.diff(this.xDomainFrom, 'days', false);
 
         // size descriptors of the vertical dimension
         this.yDomainFrom = 0;
@@ -74,11 +81,17 @@ class Histogram {
             for (iHour = 0; iHour < nHours; iHour += 1) {
                 this.countData[iElem] = {
                     'count': null,
-                    'dateFrom': new Date(this.xDomainFrom.getTime() + this.nMilliSecondsPerDay * iDay),
-                    'dateTo': new Date(this.xDomainFrom.getTime() + this.nMilliSecondsPerDay * (iDay + 1)),
+                    'dateFrom': this.xDomainFrom.clone().add(moment.duration(iDay, 'days')),
+                    'dateTo': this.xDomainFrom.clone().add(moment.duration(iDay + 1, 'days')),
                     'todFrom': iHour,
                     'todTo': iHour + 1
                 };
+
+                // console.log('dateFrom: ' + this.countData[iElem].dateFrom.toString());
+                // console.log('dateTo  : ' + this.countData[iElem].dateTo.toString());
+                // console.log('todFrom : ' + this.countData[iElem].todFrom);
+                // console.log('todTo   : ' + this.countData[iElem].todTo);
+
                 iElem += 1;
             }
         }
@@ -99,12 +112,19 @@ class Histogram {
         // count occurences
         for (let elem of data as any) {
 
-            iDay = Math.floor((elem.date.getTime() - this.xDomainFrom.getTime()) / this.nMilliSecondsPerDay / this.xDomainSpacing);
-            iHour = Math.floor((elem.date.getHours() - this.yDomainFrom) / this.yDomainSpacing);
+            iDay = Math.floor(elem.moment.diff(this.xDomainFrom, 'days', true));
+            iHour = Math.floor(elem.moment.diff(elem.moment.clone().startOf('day'), 'hours', true));
+
+            // console.log('iDay  : ' + iDay);
+            // console.log('iHour : ' + iHour);
 
             let iElem = iDay * 24 + iHour;
 
-            this.countData[iElem].count += 1;
+            if (this.countData[iElem].count) {
+                this.countData[iElem].count += 1;
+            } else {
+                this.countData[iElem].count = 1;
+            }
         }
 
         // determine the maximum value in the histogram
@@ -126,27 +146,27 @@ class Histogram {
         this._countdata = countData;
     }
 
-    public get dateExtent():Array<Date> {
+    public get dateExtent():Array<moment.Moment> {
         return this._dateExtent;
     }
 
-    public set dateExtent(dateExtent:Array<Date>) {
+    public set dateExtent(dateExtent:Array<moment.Moment>) {
         this._dateExtent = dateExtent;
     }
 
-    public get dateTimeFirst():Date {
+    public get dateTimeFirst():moment.Moment {
         return this._dateTimeFirst;
     }
 
-    public set dateTimeFirst(dateTimeFirst:Date) {
+    public set dateTimeFirst(dateTimeFirst:moment.Moment) {
         this._dateTimeFirst = dateTimeFirst;
     }
 
-    public get dateTimeLast():Date {
+    public get dateTimeLast():moment.Moment {
         return this._dateTimeLast;
     }
 
-    public set dateTimeLast(dateTimeLast:Date) {
+    public set dateTimeLast(dateTimeLast:moment.Moment) {
         this._dateTimeLast = dateTimeLast;
     }
 
@@ -190,28 +210,19 @@ class Histogram {
         return this._xDomainExtent;
     }
 
-    public set xDomainFrom(xDomainFrom:Date) {
+    public set xDomainFrom(xDomainFrom:moment.Moment) {
         this._xDomainFrom = xDomainFrom;
     }
 
-    public get xDomainFrom():Date {
+    public get xDomainFrom():moment.Moment {
         return this._xDomainFrom;
     }
 
-    public set xDomainSpacing(xDomainSpacing:number) {
-        this._xDomainSpacing = xDomainSpacing;
-    }
-
-    public get xDomainSpacing():number {
-
-        return this._xDomainSpacing;
-    }
-
-    public set xDomainTo(xDomainTo:Date) {
+    public set xDomainTo(xDomainTo:moment.Moment) {
         this._xDomainTo = xDomainTo;
     }
 
-    public get xDomainTo():Date {
+    public get xDomainTo():moment.Moment {
         return this._xDomainTo;
     }
 

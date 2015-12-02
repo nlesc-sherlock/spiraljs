@@ -58,7 +58,7 @@ class Map extends L.Map {
         let _latLngs: Array<L.LatLng> = [];
 
         for (let elem of this._data) {
-            _latLngs.push(new L.LatLng(elem.latitude, elem.longitude));
+            _latLngs.push(L.latLng(elem.latitude, elem.longitude));
         }
         return L.latLngBounds(_latLngs);
     }
@@ -69,7 +69,7 @@ class Map extends L.Map {
     public showCrimeLocations() {
 
         for (let elem of this._data) {
-            let pos = new L.LatLng(elem.latitude, elem.longitude);
+            let pos = L.latLng(elem.latitude, elem.longitude);
             L.circleMarker(pos, this._circleMarkerOptions).setRadius(5).addTo(this);
         }
     }
