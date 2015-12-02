@@ -43,15 +43,15 @@ class Histogram {
         this.dateExtent[1] = data[0].moment;
         for (let elem of data) {
             if (elem.moment < this.dateExtent[0]) {
-                this.dateExtent[0] = elem.moment;
+                this.dateExtent[0] = elem.moment.clone();
             }
             if (elem.moment > this.dateExtent[1]) {
-                this.dateExtent[1] = elem.moment;
+                this.dateExtent[1] = elem.moment.clone();
             }
         }
 
-        this.dateTimeFirst = this.dateExtent[0];
-        this.dateTimeLast = this.dateExtent[1];
+        this.dateTimeFirst = this.dateExtent[0].clone();
+        this.dateTimeLast = this.dateExtent[1].clone();
 
         // size descriptors of the horizontal dimension
         this.xDomainFrom = this.dateExtent[0].clone().startOf('day');
@@ -86,6 +86,12 @@ class Histogram {
                     'todFrom': iHour,
                     'todTo': iHour + 1
                 };
+
+                // console.log('dateFrom: ' + this.countData[iElem].dateFrom.toString());
+                // console.log('dateTo  : ' + this.countData[iElem].dateTo.toString());
+                // console.log('todFrom : ' + this.countData[iElem].todFrom);
+                // console.log('todTo   : ' + this.countData[iElem].todTo);
+
                 iElem += 1;
             }
         }
@@ -107,10 +113,13 @@ class Histogram {
         for (let elem of data as any) {
 
             iDay = Math.floor(elem.moment.diff(this.xDomainFrom, 'days', true));
-            iHour = Math.floor(elem.moment.diff(elem.moment.startOf('day'), 'hours', true));
+            iHour = Math.floor(elem.moment.diff(elem.moment.clone().startOf('day'), 'hours', true));
+
+            // console.log('iDay  : ' + iDay);
+            // console.log('iHour : ' + iHour);
 
             let iElem = iDay * 24 + iHour;
-            console.log(iDay, iHour, iElem);
+
             if (this.countData[iElem].count) {
                 this.countData[iElem].count += 1;
             } else {
