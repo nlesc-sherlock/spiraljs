@@ -37,3 +37,8 @@ gulp.task('ts', function() {
 
     return tsResult.js.pipe(gulp.dest("./"));
 });
+
+gulp.task('copy-build', function() {
+    gulp.src('./src/*.html').pipe(gulp.dest('./build/'))
+    gulp.src('./src/styles/*.css').pipe(gulp.dest('./build/styles/'))
+});
