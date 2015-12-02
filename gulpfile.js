@@ -2,6 +2,7 @@ var gulp = require("gulp");
 var tslint = require("gulp-tslint");
 var eslint = require("gulp-eslint");
 var beautify = require("gulp-beautify");
+var sourcemaps
 var ts = require("gulp-typescript");
 var watch = require("gulp-watch");
 var browsersync = require("browser-sync").create();
@@ -36,10 +37,13 @@ gulp.task('beautify-ts', function() {
 var tsProject = ts.createProject('tsconfig.json');
 // compile typescript
 gulp.task('ts', ['tslint'], function() {
-    var tsResult = tsProject.src() // instead of gulp.src(...) 
+    var tsResult = tsProject.src()
+        .pipe(sourcemaps.init())
         .pipe(ts(tsProject));
 
-    return tsResult.js.pipe(gulp.dest("./"));
+    return tsResult.js
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest("./"));
 });
 
 // copy html and css files to build
