@@ -82,11 +82,11 @@ class Timeline {
                 color[iElem] = this.cLimLowColor[iElem] + (this.cLimHighColor[iElem] - this.cLimLowColor[iElem]) * unitValue;
             }
 
-            return 'rgba(' + Math.floor(color[0]) + ',' +
+            return 'rgb(' + Math.floor(color[0]) + ',' +
                              Math.floor(color[1]) + ',' +
-                             Math.floor(color[2]) + ', 255)';
+                             Math.floor(color[2]) + ')';
         } else {
-            return 'rgba(0,0,0,0)';
+            return 'rgb(0,0,0)';
         }
 
     } // end method calcColor()
@@ -210,6 +210,7 @@ class Timeline {
             .attr('width', function () {return that.elements.chart.size.width / that.histogram.xDomainExtent; })
             .attr('height', function () {return that.elements.chart.size.height / that.histogram.yDomainExtent; })
             .attr('fill', function (d:any) {return that.calcColor(that.histogram.min, that.histogram.max, d.count); })
+            .attr('fill-opacity', function (d:any) {return d.count ? 1.0 : 0.0; })
             .attr('class', 'histogram');
 
         // retieve the data associated with the element that the user clicked
