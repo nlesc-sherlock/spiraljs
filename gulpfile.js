@@ -2,7 +2,8 @@ var gulp = require("gulp");
 var tslint = require("gulp-tslint");
 var eslint = require("gulp-eslint");
 var beautify = require("gulp-beautify");
-var ts = require("gulp-typescript")
+var ts = require("gulp-typescript");
+var watch = require("gulp-watch");
 var browsersync = require("browser-sync").create();
 
 // tasks
@@ -43,6 +44,12 @@ gulp.task('ts', function() {
 gulp.task('copy-build', function() {
     gulp.src('./src/*.html').pipe(gulp.dest('./build/'))
     gulp.src('./src/styles/*.css').pipe(gulp.dest('./build/styles/'))
+});
+
+
+// watch and build on change
+gulp.task('watch', ['ts'], function(){
+   gulp.watch('src/**/*.ts', ['ts']); 
 });
 
 // run BrowserSync
