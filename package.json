@@ -4,6 +4,9 @@
   "description": "setup from a tutorial about typescript and gulp",
   "main": "index.js",
   "scripts": {
+    "deploy": "npm install --production && bower install",
+    "deploy-dev": "npm install && bower install && tsd install",
+    "dev-watch": "gulp dev-watch",
     "test": "gulp test"
   },
   "keywords": [
@@ -19,20 +22,17 @@
   },
   "devDependencies": {
     "browser-sync": "^2.10.0",
-    "del": "^2.1.0",
     "gulp": "^3.9.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-minify": "^0.0.5",
-    "gulp-serve": "^1.2.0",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-task-listing": "^1.0.1",
-    "gulp-tsd": "^0.0.4",
-    "gulp-tslint": "^3.6.0",
+    "gulp-beautify": "^2.0.0",
+    "gulp-eslint": "^1.1.1",
+    "gulp-help": "^1.6.1",
+    "gulp-tslint": "^4.1.0",
     "gulp-typescript": "^2.9.2",
+    "gulp-watch": "^4.3.5",
     "js-beautify": "^1.5.10",
-    "tsconfig": "^2.1.1"
+    "merge2": "^0.3.6",
+    "tslint": "^3.1.1",
+    "typescript": "^1.7.3"
   },
-  "dependencies": {
-    "moment-timezone": "^0.4.1"
-  }
+  "dependencies": {}
 }
