@@ -35,7 +35,7 @@ gulp.task('beautify-ts', function() {
 // compile javascript from typescript
 var tsProject = ts.createProject('tsconfig.json');
 // compile typescript
-gulp.task('ts', ['tslint', 'beautify-ts'], function() {
+gulp.task('ts', ['tslint'], function() {
     var tsResult = tsProject.src() // instead of gulp.src(...) 
         .pipe(ts(tsProject));
 
