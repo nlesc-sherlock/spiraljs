@@ -70,4 +70,4 @@ gulp.task('browser-sync', function() {
         .on('change', browsersync.reload);
 });
 
-gulp.task('dev-watch', ['watch', 'browser-sync']);
+gulp.task('dev-watch', ['ts', 'copy-build', 'watch', 'browser-sync']);
