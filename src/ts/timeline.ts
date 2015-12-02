@@ -96,8 +96,10 @@ class Timeline {
 
     private drawAxisHorizontal() {
         // draw the horizontal axis
-        this.dateScale = d3.time.scale()
-            .domain([this.histogram.xDomainFrom, this.histogram.xDomainTo])
+        // FIXME some weird shiznit is happening here.
+        this.dateScale = d3.time.scale.utc()
+            .domain([new Date(this.histogram.xDomainFrom.clone().utc().toString()),
+                     new Date( this.histogram.xDomainTo.clone().utc().toString())])
             .range([0, this.elements.chart.size.width]);
 
         // create an axis object for the date
