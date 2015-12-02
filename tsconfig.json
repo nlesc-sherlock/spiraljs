@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "out": "build/js/chicago.js"
+    },
+    "files": [
+        "src/ts/dataloader.ts",
+        "src/ts/histogram.ts",
+        "src/ts/main-script.ts",
+        "src/ts/map.ts",
+        "src/ts/timeline.ts"
+    ]
+}
