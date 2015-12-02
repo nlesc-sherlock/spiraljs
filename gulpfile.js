@@ -21,10 +21,12 @@ gulp.task('tslint', function() {
 });
 
 // cleanup files
-gulp.task('beautify', function() {
+gulp.task('beautify-js', function() {
     gulp.src('*.js')
         .pipe(beautify())
         .pipe(gulp.dest('./'));
+});
+gulp.task('beautify-ts', function() {      
     gulp.src('src/ts/*.ts')
         .pipe(beautify())
         .pipe(gulp.dest('src/ts'));
@@ -33,7 +35,7 @@ gulp.task('beautify', function() {
 // compile javascript from typescript
 var tsProject = ts.createProject('tsconfig.json');
 // compile typescript
-gulp.task('ts', function() {
+gulp.task('ts', ['tslint', 'beautify-ts'], function() {
     var tsResult = tsProject.src() // instead of gulp.src(...) 
         .pipe(ts(tsProject));
 
@@ -49,16 +51,20 @@ gulp.task('copy-build', function() {
 
 // watch and build on change
 gulp.task('watch', ['ts'], function(){
-   gulp.watch('src/**/*.ts', ['ts']); 
+   gulp.watch('src/**/*.ts', ['ts']);
+   gulp.watch('./*.js', ['eslint', 'beautify-js']);
+   gulp.watch(['src/*.html', './src/styles/*.css'], ['copy-build'])
 });
 
 // run BrowserSync
 gulp.task('browser-sync', function() {
     browsersync.init({
         server: {
-            baseDir: ["./", "build"],
-            index: "build/index.html"
+            baseDir: ['./', 'build'],
+            index: 'build/index.html'
         },
-        files: ["build/**/*.js", "build/**/*.css", "build/**/*.html"]
+        files: ['build/**/*.js', 'build/**/*.css', 'build/**/*.html']
     });
 });
+
+gulp.task('dev-watch', ['watch', 'browser-sync']);
