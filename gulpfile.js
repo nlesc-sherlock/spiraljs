@@ -2,8 +2,9 @@ var gulp = require("gulp");
 var tslint = require("gulp-tslint");
 var eslint = require("gulp-eslint");
 var beautify = require("gulp-beautify");
-var sourcemaps
+var sourcemaps = require("gulp-beautify");
 var ts = require("gulp-typescript");
+var concatCss = require('gulp-concat-css');
 var watch = require("gulp-watch");
 var browsersync = require("browser-sync").create();
 
@@ -44,6 +45,14 @@ gulp.task('ts', ['tslint'], function() {
     return tsResult.js
         .pipe(sourcemaps.write())
         .pipe(gulp.dest("./"));
+});
+
+
+//concatenate css files
+gulp.task('concat-css', function () {
+  return gulp.src('src/**/*.css')
+    .pipe(concatCss('bundle.css'))
+    .pipe(gulp.dest('build/styles/'));
 });
 
 // copy html and css files to build
