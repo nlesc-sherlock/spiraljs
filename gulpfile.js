@@ -65,6 +65,9 @@ gulp.task('browser-sync', function() {
         },
         files: ['build/**/*.js', 'build/**/*.css', 'build/**/*.html']
     });
+    
+    gulp.watch(['build/**/*.js', 'build/**/*.css', 'build/**/*.html'])
+        .on('change', browsersync.reload());
 });
 
 gulp.task('dev-watch', ['watch', 'browser-sync']);
