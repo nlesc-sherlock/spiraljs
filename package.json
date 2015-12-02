@@ -20,6 +20,7 @@
     "url": "https://github.com/nlesc-sherlock/chicago.git"
   },
   "devDependencies": {
+    "browser-sync": "^2.10.0",
     "gulp": "^3.9.0",
     "gulp-beautify": "^2.0.0",
     "gulp-eslint": "^1.1.1",
