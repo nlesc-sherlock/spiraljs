@@ -115,9 +115,6 @@ class Histogram {
             iDay = Math.floor(elem.moment.diff(this.xDomainFrom, 'days', true));
             iHour = Math.floor(elem.moment.diff(elem.moment.clone().startOf('day'), 'hours', true));
 
-            // console.log('iDay  : ' + iDay);
-            // console.log('iHour : ' + iHour);
-
             let iElem = iDay * 24 + iHour;
 
             if (this.countData[iElem].count) {
