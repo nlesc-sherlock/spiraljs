@@ -3,6 +3,7 @@
 interface TimedRecord<T> {
     date:   Date;
     record: T;
+    color?: string;
 }
 
 interface Coordinate {
@@ -32,21 +33,22 @@ module Chart {
 
         constructor (public element: d3.Selection<any>) {}
 
-        public render(data: T[]) {
-            // empty
+        public render(data: T[]): d3.Selection<any> {
+            return null;
         }
     }
 
     export class BubbleSpiral<T> extends Base<T> {
         public radial_map: (x: T) => number;
 
-        // should return a number between 0 and 1
         public radial_scale: number;
 
         // the fraction of one turn against the entire range
         public period_fraction: number;
 
         public radius_map: (x: T) => number;
+
+        public color_map: (x: T) => string = null;
 
         private angular_map(x: T) {
             return modulo(this.radial_map(x), this.period_fraction) /
@@ -57,7 +59,7 @@ module Chart {
 
         constructor (element: d3.Selection<any>) {
             super(element);
-            this.radial_scale = this.chartHeight / 2;
+            this.radial_scale = this.chartHeight * 0.45;
         }
 
         public get_label(d: T): string {
@@ -65,21 +67,25 @@ module Chart {
         }
 
         private get_polar(d: T): Polar {
-            return new Polar(Math.sqrt(this.radial_map(d) * 0.9 + 0.1) * this.radial_scale,
+            return new Polar(Math.sqrt(this.radial_map(d) * 0.8 + 0.15) * this.radial_scale,
                              this.angular_map(d));
         }
 
         private render_spiral_axis(
-                plot: d3.Selection<any>,
-                pts: T[],
-                tics_data?: T[]) {
+                plot: d3.Selection<any>) {
+            var pts: Coordinate[] = d3.range(1000).map(
+                (i) => new Polar(
+                    this.radial_scale * Math.sqrt(i / 1000 * 0.8 + 0.15),
+                    modulo(i / 1000, this.period_fraction) /
+                        this.period_fraction * 2 * Math.PI)
+            );
 
             var group = plot.append('g')
                 .attr('class', 'axis');
 
-            var line = d3.svg.line<T>()
-                .x((d, i) => this.get_polar(d).x)
-                .y((d, i) => this.get_polar(d).y)
+            var line = d3.svg.line<Coordinate>()
+                .x((d, i) => d.x)
+                .y((d, i) => d.y)
                 .interpolate('basis');
 
             var axis = group.append('path')
@@ -87,39 +93,61 @@ module Chart {
                 .attr('class', 'line')
                 .attr('d', line)
                 .style('fill', 'none')
-                .style('stroke', '#888')
+                .style('stroke', '#000')
                 .style('stroke-width', 0.5);
 
-            if (tics_data) {
-                var tics = group.selectAll('g.tic')
-                    .data(tics_data)
-                    .enter().append('g')
-                    .attr('class', 'tic');
+            // if (tics_data) {
+            //     var tics = group.selectAll('g.tic')
+            //         .data(tics_data)
+            //         .enter().append('g')
+            //         .attr('class', 'tic');
 
-                tics.append('line')
-                    .attr('x1', (d, i) => this.get_polar(d).inc_r(-3).x)
-                    .attr('y1', (d, i) => this.get_polar(d).inc_r(-3).y)
-                    .attr('x2', (d, i) => this.get_polar(d).inc_r(+3).x)
-                    .attr('y2', (d, i) => this.get_polar(d).inc_r(+3).y)
-                    .style('stroke', '#888')
-                    .style('stroke-width', 0.5);
+            //     tics.append('line')
+            //         .attr('x1', (d, i) => this.get_polar(d).inc_r(-3).x)
+            //         .attr('y1', (d, i) => this.get_polar(d).inc_r(-3).y)
+            //         .attr('x2', (d, i) => this.get_polar(d).inc_r(+3).x)
+            //         .attr('y2', (d, i) => this.get_polar(d).inc_r(+3).y)
+            //         .style('stroke', '#888')
+            //         .style('stroke-width', 0.5);
 
-                tics.append('text')
-                    .attr('x', (d, i) => this.get_polar(d).inc_r(+3).x)
-                    .attr('y', (d, i) => this.get_polar(d).inc_r(+3).y)
-                    .attr('font-size', '10')
-                    .attr('font-family', 'Vollkorn')
-                    .text((d, i) => this.get_label(d));
-            }
+            //     tics.append('text')
+            //         .attr('x', (d, i) => this.get_polar(d).inc_r(+3).x)
+            //         .attr('y', (d, i) => this.get_polar(d).inc_r(+3).y)
+            //         .attr('font-size', '10')
+            //         .attr('font-family', 'Vollkorn')
+            //         .text((d, i) => this.get_label(d));
+            // }
             return group;
         }
 
-        /** Render the SpiralBubbleChart
-         * @param data The dataset
-         * @param axis_points? Points to draw the spiral-axis.
-         * @param tics_points? Points at which to set a tic with label
-         */
-        public render(data: T[], axis_points?: T[], tics_points?: T[]) {
+        public add_axis(
+                selection: d3.Selection<any>,
+                angle: number[], label: string[]) {
+            var start = (a) => new Polar(0.3 * this.radial_scale, a);
+            var end = (a) => new Polar(1.0 * this.radial_scale, a);
+
+            var group = selection.append('g').attr('class', 'axes');
+
+            var axes = group.selectAll('g.axis')
+                .data(angle).enter().append('g').attr('class', 'axis');
+
+            axes.append('line')
+                .attr('x1', (d, i) => start(d).x).attr('y1', (d, i) => start(d).y)
+                .attr('x2', (d, i) => end(d).x).attr('y2', (d, i) => end(d).y)
+                .style('stroke', 'black')
+                .style('stroke-width', 0.5);
+
+            axes.append('text')
+                .attr('x', (d, i) => end(d).inc_r(15).x)
+                .attr('y', (d, i) => end(d).inc_r(15).y)
+                .attr('text-anchor', 'middle').attr('dy', 5)
+                .text((d, i) => label[i])
+                .style('font-size', 16);
+
+            return group;
+        }
+
+        public render(data: T[]): d3.Selection<any> {
             var svg = this.element.append('svg')
                         .attr('height', this.chartHeight)
                         .attr('width', this.chartWidth);
@@ -127,9 +155,7 @@ module Chart {
             var plot = svg.append('g')
                 .attr('transform', 'translate(400 300)');
 
-            if (axis_points) {
-                this.render_spiral_axis(plot, axis_points, tics_points);
-            }
+            this.render_spiral_axis(plot);
 
             var bubble_groups = plot.append('g').selectAll('g.bubble')
                 .data(data)
@@ -140,8 +166,12 @@ module Chart {
                 .attr('cx', (d, i) => this.get_polar(d).x)
                 .attr('cy', (d, i) => this.get_polar(d).y)
                 .attr('r', (d, i) => this.radius_map(d))
-                .style('fill', 'red')
-                .style('fill-opacity', 0.6);
+                .style('fill', this.color_map ? (d, i) => this.color_map(d) : (d, i) => 'red')
+                .style('fill-opacity', 0.1)
+                .style('stroke', 'black')
+                .style('stroke-width', 0.1);
+
+            return plot;
         }
     }
 }
@@ -157,6 +187,13 @@ function modulo(x: number, y: number): number {
 class TimedBubbleSpiral<T> extends Chart.BubbleSpiral<TimedRecord<T>> {
     private _period: d3.time.Interval;
     public time_scale: d3.time.Scale<number, number>;
+    public color_map = function (d: TimedRecord<T>) {
+        if (d.color) {
+            return d.color;
+        } else {
+            return 'red';
+        }
+    };
 
     constructor (element: d3.Selection<any>) {
         super(element);
@@ -180,17 +217,38 @@ class TimedBubbleSpiral<T> extends Chart.BubbleSpiral<TimedRecord<T>> {
     public get_label(d: TimedRecord<T>): string {
         return d.date.toDateString();
     }
+
+    public render(d: TimedRecord<T>[]): d3.Selection<any> {
+        var plot = super.render(d);
+        this.add_axis(plot,
+            d3.range(24).map((i) => i / 24 * 2 * Math.PI),
+            d3.range(24).map((i) => i.toString()));
+        return plot;
+    }
 }
 
 class TimedDataRow implements TimedRecord<IDataRow> {
     private _row: IDataRow;
 
+    static colors: string[] = ['red', 'green', 'blue', 'purple', 'gold', 'cyan',
+        'salmon', 'orange', 'DarkKhaki', 'violet', 'indigo', 'lime', 'olive', 'teal',
+        'peru', 'maroon', 'sienna'];
+    static color_map: { [name: string]: string } = {};
+
     constructor (r: IDataRow) {
         this._row = r;
+
+        if (!(r.primary in TimedDataRow.color_map)) {
+            var i = Object.keys(TimedDataRow.color_map).length;
+            var j = TimedDataRow.colors.length;
+            TimedDataRow.color_map[r.primary] = TimedDataRow.colors[i % j];
+    //        console.log(r.primary + ' -> ' + TimedDataRow.colors[i % j]);
+        }
     }
 
     get date(): Date { return this._row.moment.toDate(); }
     get record(): IDataRow { return this._row; }
+    get color(): string { return TimedDataRow.color_map[this._row.primary]; }
 }
 
 class Spiral {
@@ -205,12 +263,14 @@ class Spiral {
     public set data(d: IDataRow[]) {
         // function used to bind data to this object
         this._data = d.map((d) => new TimedDataRow(d));
-
+        console.log(TimedDataRow.color_map);
         var min_date = Math.min.apply(null, this._data.map((d) => d.date));
         var max_date = Math.max.apply(null, this._data.map((d) => d.date));
+        console.log(new Date(min_date));
         this.chart.time_scale = d3.time.scale().range([0, 1]).domain([min_date, max_date]);
-        this.chart.radius_map = (d: TimedDataRow) => 5;
-        this.chart.period_fraction = 1 / 5;
+        this.chart.radius_map = (d: TimedDataRow) => 8;
+        //this.chart.period_fraction = 1 / 5;
+        this.chart.period = d3.time.day;
     }
 
     public get data(): IDataRow[] {
