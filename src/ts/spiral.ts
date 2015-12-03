@@ -3,6 +3,7 @@
 interface TimedRecord<T> {
     date:   Date;
     record: T;
+    color?: string;
 }
 
 interface Coordinate {
@@ -47,6 +48,8 @@ module Chart {
         public period_fraction: number;
 
         public radius_map: (x: T) => number;
+
+        public color_map: (x: T) => string = null;
 
         private angular_map(x: T) {
             return modulo(this.radial_map(x), this.period_fraction) /
@@ -140,8 +143,8 @@ module Chart {
                 .attr('cx', (d, i) => this.get_polar(d).x)
                 .attr('cy', (d, i) => this.get_polar(d).y)
                 .attr('r', (d, i) => this.radius_map(d))
-                .style('fill', 'red')
-                .style('fill-opacity', 0.6);
+                .style('fill', this.color_map ? (d, i) => this.color_map(d) : (d, i) => 'red')
+                .style('fill-opacity', 0.1);
         }
     }
 }
@@ -157,6 +160,13 @@ function modulo(x: number, y: number): number {
 class TimedBubbleSpiral<T> extends Chart.BubbleSpiral<TimedRecord<T>> {
     private _period: d3.time.Interval;
     public time_scale: d3.time.Scale<number, number>;
+    public color_map = function (d: TimedRecord<T>) {
+        if (d.color) {
+            return d.color;
+        } else {
+            return 'red';
+        }
+    };
 
     constructor (element: d3.Selection<any>) {
         super(element);
@@ -185,12 +195,25 @@ class TimedBubbleSpiral<T> extends Chart.BubbleSpiral<TimedRecord<T>> {
 class TimedDataRow implements TimedRecord<IDataRow> {
     private _row: IDataRow;
 
+    static colors: string[] = ['red', 'green', 'blue', 'purple', 'gold', 'cyan',
+        'salmon', 'orange', 'DarkKhaki', 'violet', 'indigo', 'lime', 'olive', 'teal',
+        'peru', 'maroon', 'sienna'];
+    static color_map: { [name: string]: string } = {};
+
     constructor (r: IDataRow) {
         this._row = r;
+
+        if (!(r.primary in TimedDataRow.color_map)) {
+            var i = Object.keys(TimedDataRow.color_map).length;
+            var j = TimedDataRow.colors.length;
+            TimedDataRow.color_map[r.primary] = TimedDataRow.colors[i % j];
+    //        console.log(r.primary + ' -> ' + TimedDataRow.colors[i % j]);
+        }
     }
 
     get date(): Date { return this._row.moment.toDate(); }
     get record(): IDataRow { return this._row; }
+    get color(): string { return TimedDataRow.color_map[this._row.primary]; }
 }
 
 class Spiral {
@@ -205,12 +228,13 @@ class Spiral {
     public set data(d: IDataRow[]) {
         // function used to bind data to this object
         this._data = d.map((d) => new TimedDataRow(d));
-
+    //    console.log(TimedDataRow.color_map);
         var min_date = Math.min.apply(null, this._data.map((d) => d.date));
         var max_date = Math.max.apply(null, this._data.map((d) => d.date));
         this.chart.time_scale = d3.time.scale().range([0, 1]).domain([min_date, max_date]);
-        this.chart.radius_map = (d: TimedDataRow) => 5;
-        this.chart.period_fraction = 1 / 5;
+        this.chart.radius_map = (d: TimedDataRow) => 8;
+        //this.chart.period_fraction = 1 / 5;
+        this.chart.period = d3.time.day;
     }
 
     public get data(): IDataRow[] {
