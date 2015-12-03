@@ -41,9 +41,9 @@ function doit(data: any) {
     punchcard = new Punchcard();
     punchcard.binddata(data);
 
-    spiral = new Spiral();
-    spiral.binddata(data);
-
+    spiral = new Spiral('spiral');
+    spiral.data = data;
+    spiral.render();
 };
 
 
@@ -53,7 +53,7 @@ function doit(data: any) {
 let dataloader: DataLoader = new DataLoader();
 
 // configure the dataloader
-dataloader.limit = 500;
+dataloader.limit = 2000;
 
 // set the offset to a large value to get to the more recent records (the
 // results are sorted by increasing date); the more recent records are more
