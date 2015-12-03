@@ -1,12 +1,13 @@
 var gulp = require('gulp-help')(require('gulp'));
-var tslint = require("gulp-tslint");
-var eslint = require("gulp-eslint");
-var beautify = require("gulp-beautify");
-var sourcemaps = require("gulp-beautify");
-var ts = require("gulp-typescript");
+var tslint = require('gulp-tslint');
+var eslint = require('gulp-eslint');
+var beautify = require('gulp-beautify');
+var sourcemaps = require("gulp-sourcemaps");
+var ts = require('gulp-typescript');
 var concatCss = require('gulp-concat-css');
-var watch = require("gulp-watch");
-var browsersync = require("browser-sync").create();
+var watch = require('gulp-watch');
+var browsersync = require('browser-sync').create();
+var rimraf = require('rimraf');
 
 // tasks
 // lint javascript and typescript
@@ -92,6 +93,12 @@ gulp.task('browser-sync',
     gulp.watch(['build/**/*.js', 'build/**/*.css', 'build/**/*.html'])
         .on('change', browsersync.reload);
 });
+
+gulp.task('clean',
+    'Remove files generated in build process',
+    function(cb){
+        rimraf('./build', cb);
+    });
 
 gulp.task('dev-watch',
     'Watches files for development',
