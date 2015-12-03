@@ -34,20 +34,17 @@ nvm --version
 # specified in package.json:
 npm install
 
+# run npm install, bower install, tsd install through one command
+npm run deploy-dev
+
 # one of the things that should now be installed, is the build system 'gulp'. build the project with 
 gulp
 
-# check what other tasks are available with 
-gulp tasks
-
-# build the project
-gulp build
-
 # you can also serve the build directory with
-gulp serve-build
+gulp dev-watch
 
-# after running a gulp serve-build, open up a browser and navigate 
-# to http://localhost:8087/ to inspect the website. You've been served!
+# after running a gulp dev-watch, open up a browser and navigate 
+# to http://localhost:3000/ to inspect the website. You've been served!
 
 ```
 
