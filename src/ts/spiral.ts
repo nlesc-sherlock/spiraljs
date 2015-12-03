@@ -204,7 +204,6 @@ class Spiral {
 
     public set data(d: IDataRow[]) {
         // function used to bind data to this object
-        console.log(d);
         this._data = d.map((d) => new TimedDataRow(d));
 
         var min_date = Math.min.apply(null, this._data.map((d) => d.date));
