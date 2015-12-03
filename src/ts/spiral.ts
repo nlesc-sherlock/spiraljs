@@ -204,12 +204,14 @@ class Spiral {
 
     public set data(d: IDataRow[]) {
         // function used to bind data to this object
+        console.log(d);
         this._data = d.map((d) => new TimedDataRow(d));
 
         var min_date = Math.min.apply(null, this._data.map((d) => d.date));
         var max_date = Math.max.apply(null, this._data.map((d) => d.date));
         this.chart.time_scale = d3.time.scale().range([0, 1]).domain([min_date, max_date]);
-        this.chart.period = d3.time.year;
+        this.chart.radius_map = (d: TimedDataRow) => 5;
+        this.chart.period_fraction = 1 / 5;
     }
 
     public get data(): IDataRow[] {
