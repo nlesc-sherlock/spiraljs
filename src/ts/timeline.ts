@@ -57,6 +57,8 @@ class Timeline {
         this.drawAxisHorizontal();
         this.drawAxisVertical();
         this.drawHeatmap();
+        this.drawButtonLeft();
+        this.drawButtonRight();
         this.drawLegend();
         this.drawXLabel();
         this.drawYLabel();
@@ -189,6 +191,56 @@ class Timeline {
         };
 
     } // end method drawBackground()
+
+
+
+
+    private drawButtonLeft() {
+        // draw button on the left of the timeline
+
+        // select the chart elem, append an svg group, assign it 'button-left' class
+        var button = this.elements.chart.elem.append('g').attr('class', 'button-left');
+
+        let h:number = 20;
+        let w:number = 50;
+        let r:number = 3;
+
+        // append a rect to the button variable
+        button.append('rect')
+            .attr('x', 10)
+            .attr('y', -h - 5)
+            .attr('width', w)
+            .attr('height', h)
+            .attr('rx', r)
+            .attr('ry', r)
+            .attr('fill', '#bbb')
+            .on('click', function () {console.log('left'); });
+    }
+
+
+
+
+    private drawButtonRight() {
+        // draw button on the right of the timeline
+
+        // select the chart elem, append an svg group, assign it 'button-right' class
+        var button = this.elements.chart.elem.append('g').attr('class', 'button-right');
+
+        let h:number = 20;
+        let w:number = 50;
+        let r:number = 3;
+
+        // append a rect to the button variable
+        button.append('rect')
+            .attr('x', this.elements.chart.size.width - w - 10)
+            .attr('y', -h - 5)
+            .attr('width', w)
+            .attr('height', h)
+            .attr('rx', r)
+            .attr('ry', r)
+            .attr('fill', '#bbb')
+            .on('click', function () {console.log('right'); });
+    }
 
 
 
