@@ -198,12 +198,12 @@ class Timeline {
     private drawButtonLeft() {
         // draw button on the left of the timeline
 
-        // select the chart elem, append an svg group, assign it 'button-left' class
-        var button = this.elements.chart.elem.append('g').attr('class', 'button-left');
+        // select the chart elem, append an svg group, assign it 'button' class
+        var button = this.elements.chart.elem.append('g').attr('class', 'button');
 
         let h:number = 20;
         let w:number = 50;
-        let r:number = 3;
+        let r:number = 4;
 
         // append a rect to the button variable
         button.append('rect')
@@ -213,8 +213,8 @@ class Timeline {
             .attr('height', h)
             .attr('rx', r)
             .attr('ry', r)
-            .attr('fill', '#bbb')
             .on('click', function () {console.log('left'); });
+
     }
 
 
@@ -223,12 +223,12 @@ class Timeline {
     private drawButtonRight() {
         // draw button on the right of the timeline
 
-        // select the chart elem, append an svg group, assign it 'button-right' class
-        var button = this.elements.chart.elem.append('g').attr('class', 'button-right');
+        // select the chart elem, append an svg group, assign it 'button' class
+        var button = this.elements.chart.elem.append('g').attr('class', 'button');
 
         let h:number = 20;
         let w:number = 50;
-        let r:number = 3;
+        let r:number = 4;
 
         // append a rect to the button variable
         button.append('rect')
@@ -238,7 +238,6 @@ class Timeline {
             .attr('height', h)
             .attr('rx', r)
             .attr('ry', r)
-            .attr('fill', '#bbb')
             .on('click', function () {console.log('right'); });
     }
 
