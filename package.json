@@ -1,7 +1,7 @@
 {
-  "name": "tstut",
+  "name": "chicago",
   "version": "1.0.0",
-  "description": "setup from a tutorial about typescript and gulp",
+  "description": "This repository visualizes the City of Chicago police data set using web-based tools such as JavaScript, TypeScript, Gulp and Node.js",
   "main": "index.js",
   "scripts": {
     "deploy": "npm install --production && bower install",
@@ -14,7 +14,7 @@
     "tutorial",
     "typescript"
   ],
-  "author": "Jurriaan H. Spaaks",
+  "author": "Johan Hidding, Mateusz Kuzak, Jurriaan H. Spaaks",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",

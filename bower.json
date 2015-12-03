@@ -3,15 +3,16 @@
   "description": "chicago timeline visualisation",
   "main": "index.js",
   "authors": [
-    "Jurrian H. Spaaks",
+    "Jurriaan H. Spaaks",
     "Johan Hidding",
     "Mateusz Kuzak"
   ],
   "license": "Apache-2.0",
   "keywords": [
     "gulp",
-    "tutorial",
-    "typescript"
+    "typescript",
+    "police",
+    "chicago"
   ],
   "homepage": "https://github.com/nlesc-sherlock/chicago",
   "moduleType": [],
