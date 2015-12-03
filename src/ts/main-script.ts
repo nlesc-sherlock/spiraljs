@@ -1,12 +1,10 @@
-
+let map: Map;
+let histogram: Histogram;
+let timeline: Timeline;
+let punchcard: Punchcard;
+let spiral: Spiral;
 
 function doit(data: any) {
-
-    let map: Map;
-    let histogram: Histogram;
-    let timeline: Timeline;
-    let punchcard: Punchcard;
-    let spiral: Spiral;
 
 
     // make a new map
