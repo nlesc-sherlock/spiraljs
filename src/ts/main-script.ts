@@ -41,9 +41,9 @@ function doit(data: any) {
     punchcard = new Punchcard();
     punchcard.binddata(data);
 
-    spiral = new Spiral();
-    spiral.binddata(data);
-
+    spiral = new Spiral('spiral');
+    spiral.data = data;
+    spiral.render();
 };
 
 
