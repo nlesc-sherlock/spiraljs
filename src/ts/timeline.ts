@@ -96,11 +96,16 @@ class Timeline {
 
     private drawAxisHorizontal() {
         // draw the horizontal axis
-        // FIXME some weird shiznit is happening here.
-        this.dateScale = d3.time.scale.utc()
-            .domain([new Date(this.histogram.xDomainFrom.clone().utc().toString()),
-                     new Date( this.histogram.xDomainTo.clone().utc().toString())])
+
+        let myOffsetMinutes = (new Date()).getTimezoneOffset();
+        let theirOffsetMinutes = histogram.countData[0].dateFrom.utcOffset();
+        let offsetMinutes:number = myOffsetMinutes + theirOffsetMinutes;
+
+        this.dateScale = d3.time.scale()
+            .domain([this.histogram.xDomainFrom.clone().add(offsetMinutes, 'minutes').toDate(),
+                     this.histogram.xDomainTo.clone().add(offsetMinutes, 'minutes').toDate()])
             .range([0, this.elements.chart.size.width]);
+
 
         // create an axis object for the date
         var dateAxis = d3.svg.axis()
@@ -204,8 +209,16 @@ class Timeline {
         //    function(){console.log(that)}
         var that = this;
 
+        let myOffsetMinutes = (new Date()).getTimezoneOffset();
+
+        let calcLeftOfRect = function (d:any) {
+            let theirOffsetMinutes:number = d.dateFrom.utcOffset();
+            let offsetMinutes:number = myOffsetMinutes + theirOffsetMinutes;
+            return that.dateScale(d.dateFrom.clone().add(offsetMinutes, 'minutes').toDate());
+        };
+
         heatmap.selectAll('rect').data(this.histogram.countData).enter().append('rect')
-            .attr('x', function (d:any) {return that.dateScale(d.dateFrom); })
+            .attr('x', calcLeftOfRect)
             .attr('y', function (d:any) {return that.todScale(d.todFrom); })
             .attr('width', function () {return that.elements.chart.size.width / that.histogram.xDomainExtent; })
             .attr('height', function () {return that.elements.chart.size.height / that.histogram.yDomainExtent; })
