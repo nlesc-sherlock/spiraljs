@@ -38,6 +38,9 @@ npm install
 # We also need to install it globally however, using
 npm install --global gulp
 
+# we'll also need a global install of typescript
+npm install -g typescript
+
 # run npm install, bower install, tsd install through one command
 npm run deploy-dev
 
