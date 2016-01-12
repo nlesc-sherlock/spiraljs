@@ -39,7 +39,7 @@ npm install
 npm install --global gulp
 
 # we'll also need a global install of typescript
-npm install -g typescript
+npm install --global typescript
 
 # run npm install, bower install, tsd install through one command
 npm run deploy-dev
