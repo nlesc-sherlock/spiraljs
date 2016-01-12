@@ -34,13 +34,14 @@ nvm --version
 # specified in package.json:
 npm install
 
+# during the previous step, the build automation tool 'gulp' was installed locally.
+# We also need to install it globally however, using
+npm install --global gulp
+
 # run npm install, bower install, tsd install through one command
 npm run deploy-dev
 
-# one of the things that should now be installed, is the build system 'gulp'. build the project with 
-gulp
-
-# you can also serve the build directory with
+# build and serve the build directory with
 gulp dev-watch
 
 # after running a gulp dev-watch, open up a browser and navigate 
