@@ -39,6 +39,8 @@ class Timeline {
     private _elements     : IDomElements;
     private _histogram    : Histogram;
     private _todScale     : any;
+    private _buttonWidth  : number;
+    private _buttonHeight : number;
 
     constructor (size:ISize, padding:IPadding, histogram: Histogram) {
         // constructor method
@@ -46,6 +48,10 @@ class Timeline {
         // set the colors to use for the heatmap
         this.cLimLowColor  = [  0, 128, 255];
         this.cLimHighColor = [255,   0,   0];
+
+        // set the button dimensions:
+        this.buttonWidth = 50;
+        this.buttonHeight = 20;
 
         // tie histogram to the instance
         this.histogram = histogram;
@@ -57,8 +63,10 @@ class Timeline {
         this.drawAxisHorizontal();
         this.drawAxisVertical();
         this.drawHeatmap();
-        this.drawButtonLeft();
-        this.drawButtonRight();
+        this.drawButtonLeftArrowLeft();
+        this.drawButtonLeftArrowRight();
+        this.drawButtonRightArrowLeft();
+        this.drawButtonRightArrowRight();
         this.drawLegend();
         this.drawXLabel();
         this.drawYLabel();
@@ -195,52 +203,192 @@ class Timeline {
 
 
 
-    private drawButtonLeft() {
-        // draw button on the left of the timeline
+    private calcTenPercentDuration() {
+
+        let f: moment.Moment;
+        let l: moment.Moment;
+        let d: number;
+        let d10: number;
+
+        f = this.histogram.dateTimeFirst;
+        l = this.histogram.dateTimeLast;
+        d = l.diff(f, 'days');
+        d10 = Math.floor(Math.max(1, d * 0.10));
+
+        console.log(d10);
+    }
+
+
+
+
+    private drawButton(offsetX: number, offsetY: number, arrowDirection: string, s: string) {
+
+        // draw button
+        var button,
+            that;
 
         // select the chart elem, append an svg group, assign it 'button' class
-        var button = this.elements.chart.elem.append('g').attr('class', 'button');
+        button = this.elements.chart.elem.append('g')
+            .attr('class', 'button')
+            .attr('transform', 'translate(' + offsetX + ',' + offsetY + ')');
 
-        let h:number = 20;
-        let w:number = 50;
+
+        // capture the this object:
+        that = this;
+
+        let h:number = this.buttonHeight;
+        let w:number = this.buttonWidth;
         let r:number = 4;
+        let d:number;
+
+        if (arrowDirection === 'left') {
+            d = -1;
+        } else if (arrowDirection === 'right') {
+            d = 1;
+        } else {
+            console.error('Unrecognized arrow direction string.');
+        }
 
         // append a rect to the button variable
         button.append('rect')
-            .attr('x', 10)
-            .attr('y', -h - 5)
             .attr('width', w)
             .attr('height', h)
             .attr('rx', r)
-            .attr('ry', r)
-            .on('click', function () {console.log('left'); });
+            .attr('ry', r);
+
+        // add an arrow to the button
+        button.append('path')
+            .attr('d', 'M ' + (this.buttonWidth * 0.50 + -1 * d * this.buttonWidth * 0.125) + ' ' + this.buttonHeight * 0.25 + ' ' +
+                       'L ' + (this.buttonWidth * 0.50 + d * this.buttonWidth * 0.125) + ' ' + this.buttonHeight * 0.50 + ' ' +
+                       'L ' + (this.buttonWidth * 0.50 + -1 * d * this.buttonWidth * 0.125) + ' ' + this.buttonHeight * 0.75 + ' ' +
+                       'Z')
+                .style('stroke-width', 0)
+                .style('stroke', 'black')
+                .style('fill', '#333');
+
+        // add an onclick method to the button group
+        button
+            .on('click', function () {that.calcTenPercentDuration(); });
+
 
     }
 
 
 
 
-    private drawButtonRight() {
-        // draw button on the right of the timeline
+    private drawButtonLeftArrowLeft() {
+        // draw button on the left of the timeline with an arrow pointing left
 
-        // select the chart elem, append an svg group, assign it 'button' class
-        var button = this.elements.chart.elem.append('g').attr('class', 'button');
+        let offsetX: number;
+        let offsetY: number;
 
-        let h:number = 20;
-        let w:number = 50;
-        let r:number = 4;
+        offsetX = 0 - this.buttonWidth - 5;
+        offsetY = -1 * this.buttonHeight - 15;
 
-        // append a rect to the button variable
-        button.append('rect')
-            .attr('x', this.elements.chart.size.width - w - 10)
-            .attr('y', -h - 5)
-            .attr('width', w)
-            .attr('height', h)
-            .attr('rx', r)
-            .attr('ry', r)
-            .on('click', function () {console.log('right'); });
+        this.drawButton(offsetX, offsetY, 'left', 'left, left');
     }
 
+
+
+
+    private drawButtonLeftArrowRight() {
+        // draw button on the left of the timelin with an arrow pointing right
+
+        let offsetX: number;
+        let offsetY: number;
+
+        offsetX = 0 + 5;
+        offsetY = -1 * this.buttonHeight - 15;
+
+        this.drawButton(offsetX, offsetY, 'right', 'left, right');
+    }
+
+
+
+
+    private drawButtonRightArrowLeft() {
+        // draw button on the right of the timeline with an arrow pointing left
+
+        let offsetX: number;
+        let offsetY: number;
+
+        offsetX = this.elements.chart.size.width - this.buttonWidth - 5;
+        offsetY = -1 * this.buttonHeight - 15;
+
+        this.drawButton(offsetX, offsetY, 'left', 'right, left');
+    }
+
+
+
+
+    private drawButtonRightArrowRight() {
+        // draw button on the right of the timeline with an arrow pointing right
+
+        let offsetX: number;
+        let offsetY: number;
+
+        offsetX = this.elements.chart.size.width + 5;
+        offsetY = -1 * this.buttonHeight - 15;
+
+        this.drawButton(offsetX, offsetY, 'right', 'right, right');
+    }
+
+
+
+
+    // private drawButtonLeftArrowRight() {
+    //     // draw button on the left of the timeline
+    //     var button,
+    //         that;
+    //
+    //     // select the chart elem, append an svg group, assign it 'button' class
+    //     button = this.elements.chart.elem.append('g').attr('class', 'button');
+    //
+    //     // capture the this object:
+    //     that = this;
+    //
+    //     let h:number = 20;
+    //     let w:number = 50;
+    //     let r:number = 4;
+    //
+    //
+    //
+    //     // append a rect to the button variable
+    //     button.append('rect')
+    //         .attr('x', 10)
+    //         .attr('y', -h - 5)
+    //         .attr('width', w)
+    //         .attr('height', h)
+    //         .attr('rx', r)
+    //         .attr('ry', r)
+    //         .on('click', function () {console.log(that.histogram.dateTimeFirst); });
+    //
+    // }
+    //
+    //
+    //
+    //
+    // private drawButtonRight() {
+    //     // draw button on the right of the timeline
+    //
+    //     // select the chart elem, append an svg group, assign it 'button' class
+    //     var button = this.elements.chart.elem.append('g').attr('class', 'button');
+    //
+    //     let h:number = 20;
+    //     let w:number = 50;
+    //     let r:number = 4;
+    //
+    //     // append a rect to the button variable
+    //     button.append('rect')
+    //         .attr('x', this.elements.chart.size.width - w - 10)
+    //         .attr('y', -h - 5)
+    //         .attr('width', w)
+    //         .attr('height', h)
+    //         .attr('rx', r)
+    //         .attr('ry', r)
+    //         .on('click', function () {console.log('right'); });
+    // }
+    //
 
 
 
@@ -359,7 +507,7 @@ class Timeline {
                 .attr('height', size.height);
 
         var translation = {left: 0, down: 0};
-        var padding = {top: 30, right: 100, bottom: 100, left: 100};
+        var padding = {top: 60, right: 100, bottom: 100, left: 100};
 
         this.elements.svg = {
             elem: elem,
@@ -487,6 +635,22 @@ class Timeline {
 
     private set todScale(todScale:any) {
         this._todScale = todScale;
+    }
+
+    private get buttonWidth():number {
+        return this._buttonWidth;
+    }
+
+    private set buttonWidth(buttonWidth:number) {
+        this._buttonWidth = buttonWidth;
+    }
+
+    private get buttonHeight():number {
+        return this._buttonHeight;
+    }
+
+    private set buttonHeight(buttonHeight:number) {
+        this._buttonHeight = buttonHeight;
     }
 
 }

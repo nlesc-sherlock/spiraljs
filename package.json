@@ -10,9 +10,10 @@
     "test": "gulp test"
   },
   "keywords": [
-    "gulp",
-    "tutorial",
-    "typescript"
+    "typescript",
+    "chicago",
+    "police",
+    "crime"
   ],
   "author": "Johan Hidding, Mateusz Kuzak, Jurriaan H. Spaaks",
   "license": "Apache-2.0",
