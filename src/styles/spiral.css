@@ -1,6 +1,13 @@
 
 
 #spiral {
-
+	text-align: center;
 }
 
+#spiral-control {
+	text-align: center;
+}
+
+#spiral-slider {
+	width: 50%;
+}

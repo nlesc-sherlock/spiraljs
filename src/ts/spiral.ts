@@ -1,4 +1,7 @@
 ///<reference path='../../typings/d3/d3.d.ts'/>
+///<reference path='../../typings/bootstrap/bootstrap.d.ts'/>
+///<reference path='../../typings/bootstrap-slider/bootstrap-slider.d.ts'/>
+
 
 interface TimedRecord<T> {
     date:   Date;
@@ -254,6 +257,7 @@ class TimedDataRow implements TimedRecord<IDataRow> {
 class Spiral {
     private _data: TimedDataRow[];
     private chart: TimedBubbleSpiral<IDataRow>;
+    private slider: Slider;
 
     constructor (id_tag: string) {
         this.chart = new TimedBubbleSpiral<IDataRow>(d3.select('#' + id_tag));

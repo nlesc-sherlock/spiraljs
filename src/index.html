@@ -8,6 +8,9 @@
         <script src="../bower_components/leaflet/dist/leaflet.js"></script>
         <script src="../bower_components/moment/min/moment.min.js"></script>
         <script src="../bower_components/moment-timezone/moment-timezone.js"></script>
+        <!--<script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="../bower_components/bootstrap-slider/bootstrap-slider.js"></script>-->
 
         <link rel="stylesheet" href="styles/bundle.css">
         <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
@@ -16,8 +19,14 @@
     <body>
         <div id="timeline"></div>
         <div id="punchcard"></div>
+        <h3>Spiral chart</h3>
         <div id="spiral"></div>
-        <div id="leaflet"></div>
+        <div id="spiral-control">
+            <input id="spiral-slider" data-slider-id='spiralSlider' type="range" 
+                data-slider-min="1" data-slider-max="8.5"
+                data-slider-value="5.78161178249315"/>
+        </div>
+        <!--<div id="leaflet"></div>-->
         <div id="tabular"></div>
         <div id="showhelp"></div>
 

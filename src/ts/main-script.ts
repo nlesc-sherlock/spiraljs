@@ -8,16 +8,16 @@ function doit(data: any) {
 
 
     // make a new map
-    map = new Map('leaflet');
-    map.binddata(data);
-    map.circleMarkerOptions = {
-        fillColor: '#F80',
-        fillOpacity: 0.5,
-        stroke: true,
-        color: '#000'
-    };
-    map.circleMarkerRadius = 6;
-    map.showCrimeLocations();
+    // map = new Map('leaflet');
+    // map.binddata(data);
+    // map.circleMarkerOptions = {
+    //     fillColor: '#F80',
+    //     fillOpacity: 0.5,
+    //     stroke: true,
+    //     color: '#000'
+    // };
+    // map.circleMarkerRadius = 6;
+    // map.showCrimeLocations();
 
 
     // make the histogram and then add it to the timeline
