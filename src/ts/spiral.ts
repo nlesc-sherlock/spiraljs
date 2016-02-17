@@ -195,6 +195,11 @@ module Chart {
 
             return plot;
         }
+
+        public update(data: T[]): d3.Selection<any> {
+            this.element.select('svg').remove();
+            return this.render(data);
+        }
     }
 
     interface Margin {
@@ -294,6 +299,12 @@ class TimedBubbleSpiral<T> extends Chart.BubbleSpiral<TimedRecord<T>> {
         return this._period;
     }
 
+    set period_seconds(p: number) {
+        let zero = this.time_scale.invert(0);
+        let iv = d3.time.second.offset(zero, p);
+        this.period_fraction = this.time_scale(iv);
+    }
+
     public get_label(d: TimedRecord<T>): string {
         return d.date.toDateString();
     }
@@ -332,8 +343,8 @@ class TimedDataRow implements TimedRecord<IDataRow> {
 }
 
 class Spiral {
-    private _data: TimedDataRow[];
-    private chart: TimedBubbleSpiral<IDataRow>;
+    public _data: TimedDataRow[];
+    public chart: TimedBubbleSpiral<IDataRow>;
     private hist_chart: Chart.LineChart;
     private power_chart: Chart.LineChart;
 
@@ -354,12 +365,15 @@ class Spiral {
             .value(x => x.date.valueOf())
             .bins(2049);
 
-        // constructor function
-        $('#spiral-slider').bind('input', function(e) {
-            // console.log(e);
-            $('#spiral-value').html('Period: ' +
-                moment.duration(Math.pow(10, $('#spiral-slider').val()), 'seconds').humanize());
-        });
+        // // constructor function
+        // d3.select('#spiral-slider').on('input', function() {
+        //     console.log(this.value);
+        //     let s = Math.pow(10, this.value);
+        //     this.chart.period_seconds = s;
+        //     this.chart.render();
+        //     d3.select('#spiral-value').html('Period: ' +
+        //         moment.duration(s, 'seconds').humanize());
+        // });
     }
 
     public set data(d: IDataRow[]) {
@@ -383,14 +397,14 @@ class Spiral {
             / (1000 * 3600 * 24);
         let kspace = function(i: number): number {
             if (i < N / 2) {
-                return i * 2 * Math.PI / L;
+                return i / L;
             } else {
-                return (i - N) * 2 * Math.PI / L;
+                return (i - N) / L;
             }
         };
 
         this._power_data = FFT.fft(this._hist_data.map(a => new complex(a.y, 0)))
-            .map((y, x) => new Cartesian(kspace(x), y.norm2()));
+            .map((y, x) => new Cartesian(kspace(x), y.norm2() * Math.PI / N));
         console.log(this.histogram[0].dx);
     }
 

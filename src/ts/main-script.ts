@@ -42,6 +42,16 @@ function doit(data: any) {
     spiral = new Spiral('spiral');
     spiral.data = data;
     spiral.render();
+
+    // constructor function
+    d3.select('#spiral-slider').on('input', function() {
+        console.log(this.value);
+        let s = Math.pow(10, this.value);
+        spiral.chart.period_seconds = s;
+        spiral.chart.update(spiral._data);
+        d3.select('#spiral-value').html('Period: ' +
+            moment.duration(s, 'seconds').humanize());
+    });
 };
 
 
@@ -51,7 +61,7 @@ function doit(data: any) {
 let dataloader: DataLoader = new DataLoader();
 
 // configure the dataloader
-dataloader.limit = 50000;
+dataloader.limit = 20000;
 
 // set the offset to a large value to get to the more recent records (the
 // results are sorted by increasing date); the more recent records are more
