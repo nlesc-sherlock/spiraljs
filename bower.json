@@ -28,6 +28,7 @@
     "d3": "~3.5.10",
     "leaflet": "~0.7.7",
     "moment": "~2.10.6",
-    "moment-timezone": "~0.4.1"
+    "moment-timezone": "~0.4.1",
+    "jquery": "^2.2.0"
   }
 }
