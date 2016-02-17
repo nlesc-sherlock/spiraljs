@@ -9,5 +9,11 @@
 }
 
 #spiral-slider {
-	width: 50%;
+	width: 80%;
+}
+
+.line {
+	fill: none;
+	stroke: steelblue;
+	stroke-width: 1.5px;
 }

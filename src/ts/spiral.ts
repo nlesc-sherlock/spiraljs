@@ -1,5 +1,8 @@
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../../typings/jquery/jquery.d.ts" />
+/// <reference path="dsp.ts" />
+
+import complex = Complex.Complex;
 
 interface TimedRecord<T> {
     date:   Date;
@@ -44,110 +47,6 @@ module TimeScale {
      };
 }
 
-module Complex {
-    /**
-     * Complex number class
-     */
-    export class Complex {
-        constructor (public real: number, public imag: number) {}
-
-        // the complex conjugate: (a + ib) -> (a - ib)
-        get conjugate(): Complex {
-            return new Complex(this.real, -this.imag);
-        }
-
-        // the square function: (a + ib) -> a^2 - b^2
-        public square(): number {
-            return this.real * this.real - this.imag * this.imag;
-        }
-
-        // the length square: (a + ib) -> a^2 + b^2
-        public norm2(): number {
-            return Math.sqrt(this.real * this.real + this.imag * this.imag);
-        }
-
-        // inverse number: x -> y such that x*y == 1
-        public inverse(): Complex {
-            let s: number = this.norm2();
-            return new Complex(this.real / s, -this.imag / s);
-        }
-
-        // complex multiplication: (a + ib) * (c + id) -> (a*c - b*d + i(a*d + b*c))
-        public times(a: Complex): Complex {
-            return new Complex(
-                this.real * a.real - this.imag * a.imag,
-                this.imag * a.real + this.real * a.imag
-            );
-        }
-
-        // multiply by real number
-        public times_real(a: number): Complex {
-            return new Complex(this.real * a, this.imag * a);
-        }
-
-        // complex addition: (a + ib) + (c + id) -> (a+c + i(b+d))
-        public plus(a: Complex): Complex {
-            return new Complex(
-                this.real + a.real, this.imag + a.imag
-            );
-        }
-
-        // complex subtraction
-        public minus(a: Complex): Complex {
-            return new Complex(
-                this.real - a.real, this.imag - a.imag
-            );
-        }
-    }
-
-    export function exp(a: Complex): Complex {
-        let s: number = Math.exp(a.real);
-        return new Complex(s * Math.cos(a.imag), s * Math.sin(a.imag));
-    }
-
-    export function expi(a: number): Complex {
-        return new Complex(Math.cos(a), Math.sin(a));
-    }
-}
-
-module FFT {
-    import complex = Complex.Complex;
-
-    export function fft(s: complex[]): complex[] {
-        let N: number = s.length;
-
-        if (N === 1) { return [s[0]]; }
-
-        if (N % 2 !== 0) { throw new Error('FFT: Size of array must be power of 2.'); }
-
-        // let p: complex[] = fft(s.slice(0, 2));
-        let r = new Array<complex>(N / 2);
-        for (var j = 0; j < N / 2; ++j) {
-            r[j] = s[j * 2];
-        }
-        let p = fft(r);
-
-        for (var j = 0; j < N / 2; ++j) {
-            r[j] = s[j * 2 + 1];
-        }
-        let q = fft(r);
-
-        var y = new Array<complex>(N);
-        for (var k = 0; k < N / 2; ++k) {
-            let wk = Complex.expi(-2 * k * Math.PI / N);
-            let qk = wk.times(q[k]);
-            y[k]         = p[k].plus(qk);
-            y[k + N / 2] = p[k].minus(qk);
-        }
-
-        return y;
-    }
-
-    export function ifft(s: complex[]): complex[] {
-        let y = fft(s.map(z => z.conjugate));
-        return y.map(z => z.conjugate.times_real(1.0 / s.length));
-    }
-}
 
 module Chart {
     export abstract class Base<T> {
@@ -292,9 +191,67 @@ module Chart {
                 .style('fill', this.color_map ? (d, i) => this.color_map(d) : (d, i) => 'red')
                 .style('fill-opacity', 0.1)
                 .style('stroke', 'black')
-                .style('stroke-width', 0.1);
+                .style('stroke-width', 0.05);
 
             return plot;
+        }
+    }
+
+    interface Margin {
+        top: number;
+        right: number;
+        bottom: number;
+        left: number;
+    }
+
+    export class LineChart extends Base<Coordinate> {
+        public margin: Margin;
+
+        constructor (element: d3.Selection<any>) {
+            super(element);
+            this.margin = {top: 20, right: 20, bottom: 30, left: 50};
+        }
+
+        public get width(): number {
+            return this.chartWidth - this.margin.left - this.margin.right;
+        }
+        public get height(): number {
+            return this.chartHeight - this.margin.top - this.margin.bottom;
+        }
+
+        public render(data: Coordinate[]): d3.Selection<any> {
+            var x = d3.scale.linear().range([0, this.width]);
+            var y = d3.scale.linear().range([this.height, 0]);
+            var xAxis = d3.svg.axis().scale(x).orient('bottom');
+            var yAxis = d3.svg.axis().scale(y).orient('left');
+            var svg = this.element.append('svg')
+                .attr('width', this.chartWidth)
+                .attr('height', this.chartHeight)
+                .append('g')
+                .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+
+            x.domain(d3.extent(data, a => a.x));
+            y.domain(d3.extent(data, a => a.y));
+
+            var line = d3.svg.line<Coordinate>()
+                .x(a => x(a.x))
+                .y(a => y(a.y));
+
+            svg.append('g')
+                .attr('class', 'x axis')
+                .attr('transform', 'translate(0,' + this.height + ')')
+                .call(xAxis);
+
+            svg.append('g')
+                .attr('class', 'y axis')
+                .call(yAxis);
+
+            svg.append('path')
+                .datum(data)
+                .attr('class', 'line')
+                .attr('d', line);
+
+            return svg;
         }
     }
 }
@@ -377,9 +334,26 @@ class TimedDataRow implements TimedRecord<IDataRow> {
 class Spiral {
     private _data: TimedDataRow[];
     private chart: TimedBubbleSpiral<IDataRow>;
+    private hist_chart: Chart.LineChart;
+    private power_chart: Chart.LineChart;
+
+    private histogram: any;
+    private _hist_fn: d3.layout.Histogram<TimedDataRow>;
+    private _hist_data: Coordinate[];
+    private _power_data: Coordinate[];
 
     constructor (id_tag: string) {
         this.chart = new TimedBubbleSpiral<IDataRow>(d3.select('#' + id_tag));
+        this.hist_chart = new Chart.LineChart(d3.select('#spiral-hist'));
+        this.power_chart = new Chart.LineChart(d3.select('#spiral-power'));
+
+        this.hist_chart.chartHeight = 200;
+        this.power_chart.chartHeight = 200;
+
+        this._hist_fn = d3.layout.histogram<TimedDataRow>()
+            .value(x => x.date.valueOf())
+            .bins(2049);
+
         // constructor function
         $('#spiral-slider').bind('input', function(e) {
             // console.log(e);
@@ -396,9 +370,28 @@ class Spiral {
         var max_date = Math.max.apply(null, this._data.map((d) => d.date));
         console.log(new Date(min_date));
         this.chart.time_scale = d3.time.scale().range([0, 1]).domain([min_date, max_date]);
-        this.chart.radius_map = (d: TimedDataRow) => 8;
+        this.chart.radius_map = (d: TimedDataRow) => 5;
         //this.chart.period_fraction = 1 / 5;
         this.chart.period = d3.time.day;
+
+        this.histogram = this._hist_fn(this._data).slice(1);
+        this._hist_data = this.histogram.map(
+            a => new Cartesian((a.x + a.dx / 2) / (1000 * 3600 * 24), a.y));
+
+        let N = this._hist_data.length;
+        let L = (this.histogram[this.histogram.length - 1].x - this.histogram[0].x)
+            / (1000 * 3600 * 24);
+        let kspace = function(i: number): number {
+            if (i < N / 2) {
+                return i * 2 * Math.PI / L;
+            } else {
+                return (i - N) * 2 * Math.PI / L;
+            }
+        };
+
+        this._power_data = FFT.fft(this._hist_data.map(a => new complex(a.y, 0)))
+            .map((y, x) => new Cartesian(kspace(x), y.norm2()));
+        console.log(this.histogram[0].dx);
     }
 
     public get data(): IDataRow[] {
@@ -407,6 +400,8 @@ class Spiral {
 
     public render() {
         this.chart.render(this._data);
+        this.hist_chart.render(this._hist_data);
+        this.power_chart.render(this._power_data.slice(1, this._power_data.length / 2));
     }
 }
 
