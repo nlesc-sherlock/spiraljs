@@ -23,7 +23,7 @@ The build tools we use are written in JavaScript, and run on top of Node.js.
 The Chicago visualization web site itself is served by Browsersync, which
 also runs on top of Node.js. So we need Node.js first. The current Long Term
 Support version is 4.3.1; and the below instructions will install that. More
-detailed instructions, also for other Linux distributions, aver [available
+detailed instructions, also for other Linux distributions, are [available
 at the Node.js website](https://nodejs.org/en/download/package-manager/).
 
 ```sh
