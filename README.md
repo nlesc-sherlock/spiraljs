@@ -21,7 +21,11 @@ keep up-to-date Node.js itself. We will not use `nvm` here, since our platform
 
 The build tools we use are written in JavaScript, and run on top of Node.js.
 The Chicago visualization web site itself is served by Browsersync, which
-also runs on top of Node.js. So we need Node.js first.
+also runs on top of Node.js. So we need Node.js first. The current Long Term
+Support version is 4.3.1; and the below instructions will install that. You
+should [check](https://nodejs.org) that 4.x is still the current LTS version,
+and if necessary install a newer one using the [instructions on the Node.js
+site](https://nodejs.org/en/download/package-manager/).
 
 ```sh
 # install curl
