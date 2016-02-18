@@ -1,17 +1,4 @@
 
-
-#spiral {
-	text-align: center;
-}
-
-#spiral-control {
-	text-align: center;
-}
-
-#spiral-slider {
-	width: 80%;
-}
-
 .line {
 	fill: none;
 	stroke: steelblue;
