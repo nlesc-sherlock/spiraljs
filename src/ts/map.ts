@@ -26,7 +26,7 @@ class Map extends L.Map {
                 '<a href=\'http://creativecommons.org/licenses/by-sa/2.0/\'>CC-BY-SA</a>, ' +
                 'Imagery &copy; <a href=\'http://mapbox.com\'>Mapbox</a>',
             id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ'
+            accessToken: 'pk.eyJ1IjoianNwYWFrcyIsImEiOiJjaWtwYTBsbzExMGkxdXhrbTc4dDcxZ2VtIn0.Rce9VSZkErGEXl9_2HhUkw'
         };
         this._circleMarkerOptions = {
             color: '#f20'
