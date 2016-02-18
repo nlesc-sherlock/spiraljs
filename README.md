@@ -10,9 +10,9 @@ All of these need to be installed for the program to work.
 ## JavaScript runtime environment: Node.js
 
 The base of the development environment is Node.js. Node.js is an application
-platform for JavaScript. Think of it as Tomcat for JavaScript, or Apache + mod_php
-for JavaScript. Node.js consists of Google's V8 JavaScript engine, with a fairly
-simple web application framework on top.
+platform for JavaScript. Think of it as Tomcat or Apache+mod_php, but for
+JavaScript instead of Java or PHP. Node.js consists of Google's V8 JavaScript
+engine, with a fairly simple web application framework on top.
 
 Node.js comes with a package manager for installing add-on packages, which is
 called `npm`. Don't confuse `npm` with `nvm`, which is used to install and
