@@ -42,16 +42,6 @@ function doit(data: any) {
     spiral = new Spiral('spiral');
     spiral.data = data;
     spiral.render();
-
-    // constructor function
-    d3.select('#spiral-slider').on('input', function() {
-        let s = 1. / this.value;
-        spiral.chart.period_seconds = s * 3600 * 24;
-        spiral.chart.update(spiral._data);
-        d3.select('#spiral-value').html('Period: ' +
-            moment.duration(s, 'days').humanize() + '(' +
-            moment.duration(s, 'days').as('hours') + ' hours)');
-    });
 };
 
 
