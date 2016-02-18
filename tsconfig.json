@@ -9,11 +9,11 @@
         "out": "build/js/chicago.js"
     },
     "files": [
-        "src/ts/crossfilter.ts",
         "src/ts/dataloader.ts",
         "src/ts/histogram.ts",
         "src/ts/main-script.ts",
         "src/ts/map.ts",
+        "src/ts/one-dimensional-histogram.ts",
         "src/ts/punchcard.ts",
         "src/ts/spiral.ts",
         "src/ts/timeline.ts"
