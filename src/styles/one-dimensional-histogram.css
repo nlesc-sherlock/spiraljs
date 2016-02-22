@@ -2,15 +2,15 @@
 
 
 #one-dimensional-histogram-total-arrests-per-day {
-    width: 90%;
+    width: 100%;
     height: 200px;
-    padding-left:40px;
+    float: left;
 }
 
 
 #odh {
-    width: 90%;
+    width: 100%;
     height: 200px;
-    padding-left:40px;
+    float: left;
 }
 

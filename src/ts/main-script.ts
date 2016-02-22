@@ -1,6 +1,6 @@
 let map: Map;
 let histogram: Histogram;
-let timeline: Timeline;
+let heatmap: Heatmap;
 let punchcard: Punchcard;
 let oneDimensionalHistogram1: OneDimensionalHistogram;
 let oneDimensionalHistogram2: OneDimensionalHistogram;
@@ -19,9 +19,6 @@ function doit(data: any) {
     oneDimensionalHistogram2 = new OneDimensionalHistogram(cf, 'odh');
     oneDimensionalHistogram2.draw();
 
-
-
-
     // // make a new map
     // map = new Map('leaflet');
     // map.binddata(data);
@@ -36,19 +33,7 @@ function doit(data: any) {
 
     // make the histogram and then add it to the timeline
     histogram = new Histogram(data);
-
-    let size: ISize = {
-        width: window.innerWidth * 0.9,
-        height: window.innerHeight * 0.4
-    };
-
-    let padding: IPadding = {
-        top: 40,
-        right: 40,
-        bottom: 40,
-        left: 50
-    };
-    timeline = new Timeline(size, padding, histogram);
+    heatmap = new Heatmap('heatmap', histogram);
 
     spiral = new Spiral('spiral');
     spiral.data = data;

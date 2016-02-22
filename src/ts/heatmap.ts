@@ -1,64 +1,56 @@
 
 /// <reference path="../../typings/tsd.d.ts" />
 
-interface ITranslation {
-    down: number;
-    left: number;
-}
-
-interface ISize {
-    width : number;
-    height: number;
-}
-
-interface IPadding {
-    top   : number;
-    right : number;
-    bottom: number;
-    left  : number;
-}
-
-interface IDomElement {
-    elem       : any;
-    translation: ITranslation;
-    size       : ISize;
-    padding    : IPadding;
-}
-
-interface IDomElements {
-    svg  : IDomElement;
-    chart: IDomElement;
-}
-
 
 class Heatmap {
-    private _chartGroup   : any;
+
+    private _buttonHeight : number;
+    private _buttonWidth  : number;
     private _cLimHighColor: Array<number>;
     private _cLimLowColor : Array<number>;
-    private _dateScale    : any;
-    private _elements     : IDomElements;
+    private _dateScale    : d3.time.Scale<number, number>;
+    private _domElem      : HTMLElement;
+    private _domElemId    : string;
+    private _height       : number;
     private _histogram    : Histogram;
-    private _todScale     : any;
-    private _buttonWidth  : number;
-    private _buttonHeight : number;
+    private _paddingBottom: number;
+    private _paddingLeft  : number;
+    private _paddingRight : number;
+    private _paddingTop   : number;
+    private _svg          : d3.Selection<any>;
+    private _todScale     : d3.scale.Linear<number, number>;
+    private _width        : number;
 
-    constructor (size:ISize, padding:IPadding, histogram: Histogram) {
+    constructor (domElemId:string, histogram: Histogram) {
         // constructor method
+
+        this._domElemId = domElemId;
+        this._domElem = document.getElementById(this._domElemId);
 
         // set the colors to use for the heatmap
         this.cLimLowColor  = [  0, 128, 255];
         this.cLimHighColor = [255,   0,   0];
 
-        // set the button dimensions:
-        this.buttonWidth = 50;
-        this.buttonHeight = 20;
 
         // tie histogram to the instance
         this.histogram = histogram;
 
-        this.initializeElements();
+        // set the button dimensions:
+        this.buttonWidth = 50;
+        this.buttonHeight = 20;
 
-        this.drawSvgElem(size);
+        // set the padding to each side of the chart
+        this.paddingLeft = 100;
+        this.paddingRight = 120;
+        this.paddingTop = 60;
+        this.paddingBottom = 90;
+
+        // get the maxium width within the element
+        this.width = this.domElem.clientWidth;
+        this.height = this.domElem.clientHeight;
+
+        // now start the actual drawing of stuff
+        this.drawSvgElem();
         this.drawBackground();
         this.drawAxisHorizontal();
         this.drawAxisVertical();
@@ -76,7 +68,7 @@ class Heatmap {
 
 
 
-    private calcColor(cLimLow:number, cLimHigh:number, actualValue:number) {
+    private calcColor(cLimLow:number, cLimHigh:number, actualValue:number): string {
 
         let color: Array<number>;
         let iElem: number;
@@ -104,7 +96,7 @@ class Heatmap {
 
 
 
-    private drawAxisHorizontal() {
+    private drawAxisHorizontal():Heatmap {
         // draw the horizontal axis
 
         let myOffsetMinutes = (new Date()).getTimezoneOffset();
@@ -114,7 +106,7 @@ class Heatmap {
         this.dateScale = d3.time.scale()
             .domain([this.histogram.xDomainFrom.clone().add(offsetMinutes, 'minutes').toDate(),
                      this.histogram.xDomainTo.clone().add(offsetMinutes, 'minutes').toDate()])
-            .range([0, this.elements.chart.size.width]);
+            .range([0, this.width - this.paddingLeft - this.paddingRight]);
 
 
         // create an axis object for the date
@@ -124,22 +116,24 @@ class Heatmap {
             .ticks(5);
 
         // add the date axis group to the chart
-        this.elements.chart.elem
+        this.svg
             .append('g')
                 .attr('class', 'dateAxisGroup')
-                .attr('transform', 'translate(0,' + this.elements.chart.size.height + ')')
+                .attr('transform', 'translate(' + this.paddingLeft + ',' + (this.height - this.paddingBottom) + ')')
                 .call(dateAxis);
+
+        return this;
 
     }; // end method drawAxisHorizontal()
 
 
 
 
-    private drawAxisVertical() {
+    private drawAxisVertical(): Heatmap {
         // draw the horizontal axis
         this.todScale = d3.scale.linear()
             .domain([this.histogram.yDomainFrom, this.histogram.yDomainTo])
-            .range([0, this.elements.chart.size.height]);
+            .range([0, this.height - this.paddingTop - this.paddingBottom]);
 
         // create an axis object for the time of day
         var todAxis = d3.svg.axis()
@@ -147,56 +141,34 @@ class Heatmap {
             .scale(this.todScale);
 
         // add the time of day axis group to the chart
-        this.elements.chart.elem
+        this.svg
             .append('g')
                 .attr('class', 'todAxisGroup')
-                .attr('transform', 'translate(0,0)')
+                .attr('transform', 'translate(' + this.paddingLeft + ',' + this.paddingTop + ')')
                 .call(todAxis);
+
+        return this;
 
     }; // end method drawAxisVertical()
 
 
 
 
-    private drawBackground() {
+    private drawBackground(): Heatmap {
         // draw background
-        var translation = {
-            left: this.elements.svg.padding.left,
-            down: this.elements.svg.padding.top
-        };
-        var size = {
-            width : this.elements.svg.size.width -
-                    this.elements.svg.padding.left -
-                    this.elements.svg.padding.right,
-            height: this.elements.svg.size.height -
-                    this.elements.svg.padding.top -
-                    this.elements.svg.padding.bottom
-        };
-        var padding = {
-            top    : 10,
-            right  : 10,
-            bottom : 10,
-            left   : 10
-        };
-
-        var elem = this.elements.svg.elem
+        let elem = this.svg
             .append('g')
                 .attr('class', 'chart');
 
-        elem.attr('transform', 'translate(' + translation.left + ',' + translation.down + ')');
+        elem.attr('transform', 'translate(' + this.paddingLeft + ',' + this.paddingTop + ')');
 
         // set the width and height of the chart background
         elem.append('rect')
-            .attr('width', size.width)
-            .attr('height', size.height)
+            .attr('width', this.width - this.paddingLeft - this.paddingRight)
+            .attr('height', this.height - this.paddingTop - this.paddingBottom)
             .attr('class', 'background');
 
-        this.elements.chart = {
-            elem: elem,
-            translation: translation,
-            size: size,
-            padding: padding
-        };
+        return this;
 
     } // end method drawBackground()
 
@@ -221,16 +193,17 @@ class Heatmap {
 
 
 
-    private drawButton(offsetX: number, offsetY: number, arrowDirection: string, s: string) {
+    private drawButton(offsetX: number, offsetY: number, arrowDirection: string, s: string): Heatmap {
 
         // draw button
         var button,
             that;
 
         // select the chart elem, append an svg group, assign it 'button' class
-        button = this.elements.chart.elem.append('g')
-            .attr('class', 'button')
-            .attr('transform', 'translate(' + offsetX + ',' + offsetY + ')');
+        button = this.svg
+            .append('g')
+                .attr('class', 'button')
+                .attr('transform', 'translate(' + offsetX + ',' + offsetY + ')');
 
 
         // capture the this object:
@@ -270,142 +243,89 @@ class Heatmap {
         button
             .on('click', function () {that.calcTenPercentDuration(); });
 
-
+        return this;
     }
 
 
 
 
-    private drawButtonLeftArrowLeft() {
+    private drawButtonLeftArrowLeft(): Heatmap {
         // draw button on the left of the heatmap with an arrow pointing left
 
         let offsetX: number;
         let offsetY: number;
 
-        offsetX = 0 - this.buttonWidth - 5;
-        offsetY = -1 * this.buttonHeight - 15;
+        offsetX = this.paddingLeft - this.buttonWidth - 5;
+        offsetY = this.paddingTop / 2 - this.buttonHeight / 2;
 
         this.drawButton(offsetX, offsetY, 'left', 'left, left');
+
+        return this;
     }
 
 
 
 
-    private drawButtonLeftArrowRight() {
+    private drawButtonLeftArrowRight(): Heatmap {
         // draw button on the left of the timelin with an arrow pointing right
 
         let offsetX: number;
         let offsetY: number;
 
-        offsetX = 0 + 5;
-        offsetY = -1 * this.buttonHeight - 15;
+        offsetX = this.paddingLeft + 5;
+        offsetY = this.paddingTop / 2 - this.buttonHeight / 2;
 
         this.drawButton(offsetX, offsetY, 'right', 'left, right');
+
+        return this;
     }
 
 
 
 
-    private drawButtonRightArrowLeft() {
+    private drawButtonRightArrowLeft(): Heatmap {
         // draw button on the right of the heatmap with an arrow pointing left
 
         let offsetX: number;
         let offsetY: number;
 
-        offsetX = this.elements.chart.size.width - this.buttonWidth - 5;
-        offsetY = -1 * this.buttonHeight - 15;
+        offsetX = this.width - this.paddingRight - this.buttonWidth - 5;
+        offsetY = this.paddingTop / 2 - this.buttonHeight / 2;
 
         this.drawButton(offsetX, offsetY, 'left', 'right, left');
+
+        return this;
     }
 
 
 
 
-    private drawButtonRightArrowRight() {
+    private drawButtonRightArrowRight(): Heatmap {
         // draw button on the right of the heatmap with an arrow pointing right
 
         let offsetX: number;
         let offsetY: number;
 
-        offsetX = this.elements.chart.size.width + 5;
-        offsetY = -1 * this.buttonHeight - 15;
+        offsetX = this.width - this.paddingRight + 5;
+        offsetY = this.paddingTop / 2 - this.buttonHeight / 2;
 
         this.drawButton(offsetX, offsetY, 'right', 'right, right');
+
+        return this;
     }
 
 
 
 
-    // private drawButtonLeftArrowRight() {
-    //     // draw button on the left of the heatmap
-    //     var button,
-    //         that;
-    //
-    //     // select the chart elem, append an svg group, assign it 'button' class
-    //     button = this.elements.chart.elem.append('g').attr('class', 'button');
-    //
-    //     // capture the this object:
-    //     that = this;
-    //
-    //     let h:number = 20;
-    //     let w:number = 50;
-    //     let r:number = 4;
-    //
-    //
-    //
-    //     // append a rect to the button variable
-    //     button.append('rect')
-    //         .attr('x', 10)
-    //         .attr('y', -h - 5)
-    //         .attr('width', w)
-    //         .attr('height', h)
-    //         .attr('rx', r)
-    //         .attr('ry', r)
-    //         .on('click', function () {console.log(that.histogram.dateTimeFirst); });
-    //
-    // }
-    //
-    //
-    //
-    //
-    // private drawButtonRight() {
-    //     // draw button on the right of the heatmap
-    //
-    //     // select the chart elem, append an svg group, assign it 'button' class
-    //     var button = this.elements.chart.elem.append('g').attr('class', 'button');
-    //
-    //     let h:number = 20;
-    //     let w:number = 50;
-    //     let r:number = 4;
-    //
-    //     // append a rect to the button variable
-    //     button.append('rect')
-    //         .attr('x', this.elements.chart.size.width - w - 10)
-    //         .attr('y', -h - 5)
-    //         .attr('width', w)
-    //         .attr('height', h)
-    //         .attr('rx', r)
-    //         .attr('ry', r)
-    //         .on('click', function () {console.log('right'); });
-    // }
-    //
-
-
-
-    private drawHeatmap() {
+    private drawHeatmap(): Heatmap {
         // draw heatmap based on this.histogram data
 
         // create the heatmap by adding colored rectangles to the chart
-        var heatmap = this.elements.chart.elem
+        var heatmap = this.svg
             .append('g').attr('class', 'heatmap');
 
-        // capture the 'this' object
-        //    alternatively, you could use fat arrow notation
-        //    () => {console.log(this)}
-        //    instead of
-        //    var that = this;
-        //    and
-        //    function(){console.log(that)}
+        heatmap.attr('transform', 'translate(' + this.paddingLeft + ',' + this.paddingTop + ')');
+
         var that = this;
 
         let myOffsetMinutes = (new Date()).getTimezoneOffset();
@@ -419,8 +339,8 @@ class Heatmap {
         heatmap.selectAll('rect').data(this.histogram.countData).enter().append('rect')
             .attr('x', calcLeftOfRect)
             .attr('y', function (d:any) {return that.todScale(d.todFrom); })
-            .attr('width', function () {return that.elements.chart.size.width / that.histogram.xDomainExtent; })
-            .attr('height', function () {return that.elements.chart.size.height / that.histogram.yDomainExtent; })
+            .attr('width', function () {return (that.width - that.paddingLeft - that.paddingRight) / that.histogram.xDomainExtent; })
+            .attr('height', function () {return (that.height - that.paddingTop - that.paddingBottom) / that.histogram.yDomainExtent; })
             .attr('fill', function (d:any) {return that.calcColor(that.histogram.min, that.histogram.max, d.count); })
             .attr('fill-opacity', function (d:any) {return d.count ? 1.0 : 0.0; })
             .attr('class', 'histogram');
@@ -429,103 +349,92 @@ class Heatmap {
         heatmap.selectAll('rect.histogram')
             .on('click', function (d:any) {console.log(d); });
 
+        return this;
+
 
     } // end method drawHeatmap()
 
 
 
 
-    private drawLegend() {
+    private drawLegend(): Heatmap {
         // draw figure legend
 
-        // capture the 'this' object
-        //    alternatively, you could use fat arrow notation
-        //    () => {console.log(this)}
-        //    instead of
-        //    var that = this;
-        //    and
-        //    function(){console.log(that)}
         var that = this;
-        let left:number = this.elements.chart.size.width + 0.5 * this.elements.chart.padding.right;
-        let top:number = 0.6 * this.elements.chart.size.height;
-        this.elements.chart.elem
+
+        let left:number = this.width - this.paddingRight + 20;
+        let top:number = this.paddingTop + 0.3 * (this.height - this.paddingTop - this.paddingBottom);
+
+        let legend = this.svg
             .append('g')
                 .attr('class', 'legend')
                 .attr('transform', 'translate(' + (left) + ',' + top + ')');
 
-        this.elements.chart.elem.select('g.legend')
-                .append('rect')
-                    .attr('x', 0)
-                    .attr('y', 0)
-                    .attr('width', 20)
-                    .attr('height', 20)
-                    .attr('class', 'legend-min')
-                    .attr('fill', function (d:any) {
-                        return that.calcColor(that.histogram.min, that.histogram.max, that.histogram.min);
-        });
+        legend.append('rect')
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', 20)
+            .attr('height', 20)
+            .attr('class', 'legend-min')
+            .attr('fill', function (d:any) {
+                    return that.calcColor(that.histogram.min, that.histogram.max, that.histogram.min);
+                });
 
-        this.elements.chart.elem.select('g.legend')
-                .append('text')
-                    .attr('x', 30)
-                    .attr('y', 15)
-                    .attr('text-anchor', 'start')
-                    .attr('alignment-baseline', 'baseline')
-                    .attr('class', 'legend-min')
-                    .text('min: ' + this.histogram.min);
+        legend.append('text')
+            .attr('x', 30)
+            .attr('y', 15)
+            .attr('text-anchor', 'start')
+            .attr('alignment-baseline', 'baseline')
+            .attr('class', 'legend-min')
+            .text('min: ' + this.histogram.min);
 
-        this.elements.chart.elem.select('g.legend')
-                .append('rect')
-                    .attr('x', 0)
-                    .attr('y', 30)
-                    .attr('width', 20)
-                    .attr('height', 20)
-                    .attr('class', 'legend-max')
-                    .attr('fill', function (d:any) {
-                        return that.calcColor(that.histogram.min, that.histogram.max, that.histogram.max);
-                    });
+        legend.append('rect')
+            .attr('x', 0)
+            .attr('y', 30)
+            .attr('width', 20)
+            .attr('height', 20)
+            .attr('class', 'legend-max')
+            .attr('fill', function (d:any) {
+                return that.calcColor(that.histogram.min, that.histogram.max, that.histogram.max);
+            });
 
-        this.elements.chart.elem.select('g.legend')
-                .append('text')
-                    .attr('x', 30)
-                    .attr('y', 45)
-                    .attr('text-anchor', 'start')
-                    .attr('alignment-baseline', 'baseline')
-                    .attr('class', 'legend-max')
-                    .text('max: ' + this.histogram.max);
+        legend.append('text')
+            .attr('x', 30)
+            .attr('y', 45)
+            .attr('text-anchor', 'start')
+            .attr('alignment-baseline', 'baseline')
+            .attr('class', 'legend-max')
+            .text('max: ' + this.histogram.max);
+
+        return this;
 
     } // end method drawLegend()
 
 
 
 
-    private drawSvgElem(size:ISize) {
+    private drawSvgElem():Heatmap {
+
+        this.svg = d3.select(this.domElem).append('svg');
+
         // append an svg element to the heatmap div
-        var elem = d3.select('#heatmap')
-            .append('svg')
-                .attr('class', 'svg')
-                .attr('width', size.width)
-                .attr('height', size.height);
+        this.svg
+            .attr('class', 'svg')
+            .attr('width', this.width)
+            .attr('height', this.height);
 
-        var translation = {left: 0, down: 0};
-        var padding = {top: 60, right: 100, bottom: 100, left: 100};
-
-        this.elements.svg = {
-            elem: elem,
-            translation: translation,
-            size: size,
-            padding: padding
-        };
+        return this;
 
     } // end method appendSvgElem()
 
 
 
 
-    private drawTitle() {
+    private drawTitle():Heatmap {
         // draw figure title
-        let left:number = this.elements.chart.size.width / 2;
-        let top: number = -this.elements.svg.padding.top / 2;
-        this.elements.chart.elem
+        let left:number = this.paddingLeft + (this.width - this.paddingLeft - this.paddingRight) / 2;
+        let top: number = this.paddingTop / 2;
+        this.svg
             .append('g')
                 .attr('class', 'title')
                     .attr('transform', 'translate(' + left  + ', ' + top + ')')
@@ -533,62 +442,53 @@ class Heatmap {
                     .text('Number of records: ' + this.histogram.numberOfRecords)
                     .attr('text-anchor', 'middle');
 
+        return this;
+
     } // end method drawTitle()
 
 
 
 
-    private drawXLabel() {
+    private drawXLabel():Heatmap {
         // draw figure xlabel
-        let left:number = this.elements.chart.size.width / 2;
-        let top:number = this.elements.chart.size.height + this.elements.svg.padding.bottom / 2;
-        this.elements.chart.elem
+        let left:number = this.paddingLeft + (this.width - this.paddingLeft - this.paddingRight) / 2;
+        let top:number = this.height - this.paddingBottom / 2;
+        this.svg
             .append('g')
                 .attr('class', 'xlabel')
                 .attr('transform', 'translate(' + left  + ', ' + top + ')')
                 .append('text')
                     .text('date')
                     .attr('text-anchor', 'middle');
+
+        return this;
     } // end method drawXLabel()
 
 
 
 
-    private drawYLabel() {
+    private drawYLabel(): Heatmap {
         // draw figure ylabel
-        let left: number = this.elements.svg.padding.left / 2;
-        let top:number = this.elements.chart.size.height / 2;
-        this.elements.chart.elem
+        let left: number = this.paddingLeft / 2;
+        let top:number = this.paddingTop + (this.height - this.paddingTop - this.paddingBottom) / 2;
+        this.svg
             .append('g')
                 .attr('class', 'ylabel')
-                .attr('transform', 'translate(' + (-left) + ', ' + top  + ') rotate(-90)')
+                .attr('transform', 'translate(' + left + ', ' + top  + ') rotate(-90)')
                 .append('text')
                     .text('time of day')
                     .attr('text-anchor', 'middle');
+
+        return this;
     } // end method drawYLabel()
 
 
 
 
-    private initializeElements() {
-        this.elements = {
-            svg: null,
-            chart: null
-        };
-    } // end method initializeElements()
-
 
 
 
     // getters and setters
-    private get chartGroup():any {
-        return this._chartGroup;
-    }
-
-    private set chartGroup(chartGroup:any) {
-        this._chartGroup = chartGroup;
-    }
-
     public get cLimHighColor():Array<number> {
         return this._cLimHighColor;
     }
@@ -605,20 +505,12 @@ class Heatmap {
         this._cLimLowColor = cLimLowColor;
     }
 
-    private get dateScale():any {
+    private get dateScale():d3.time.Scale<number, number> {
         return this._dateScale;
     }
 
-    private set dateScale(dateScale:any) {
+    private set dateScale(dateScale:d3.time.Scale<number, number>) {
         this._dateScale = dateScale;
-    }
-
-    private get elements():IDomElements {
-        return this._elements;
-    }
-
-    private set elements(elements:IDomElements) {
-        this._elements = elements;
     }
 
     private get histogram():Histogram {
@@ -629,11 +521,11 @@ class Heatmap {
         this._histogram = histogram;
     }
 
-    private get todScale():any {
+    private get todScale():d3.scale.Linear<number, number> {
         return this._todScale;
     }
 
-    private set todScale(todScale:any) {
+    private set todScale(todScale:d3.scale.Linear<number, number>) {
         this._todScale = todScale;
     }
 
@@ -652,6 +544,79 @@ class Heatmap {
     private set buttonHeight(buttonHeight:number) {
         this._buttonHeight = buttonHeight;
     }
+
+    private get width():number {
+        return this._width;
+    }
+
+    private set width(width:number) {
+        this._width = width;
+    }
+
+    private get height():number {
+        return this._height;
+    }
+
+    private set height(height:number) {
+        this._height = height;
+    }
+
+    private get domElemId():string {
+        return this._domElemId;
+    }
+
+    private set domElemId(domElemId:string) {
+        this._domElemId = domElemId;
+    }
+
+    private get domElem():HTMLElement {
+        return this._domElem;
+    }
+
+    private set domElem(domElem:HTMLElement) {
+        this._domElem = domElem;
+    }
+
+    private get paddingLeft():number {
+        return this._paddingLeft;
+    }
+
+    private set paddingLeft(paddingLeft:number) {
+        this._paddingLeft = paddingLeft;
+    }
+
+    private get paddingRight():number {
+        return this._paddingRight;
+    }
+
+    private set paddingRight(paddingRight:number) {
+        this._paddingRight = paddingRight;
+    }
+
+    private get paddingTop():number {
+        return this._paddingTop;
+    }
+
+    private set paddingTop(paddingTop:number) {
+        this._paddingTop = paddingTop;
+    }
+
+    private get paddingBottom():number {
+        return this._paddingBottom;
+    }
+
+    private set paddingBottom(paddingBottom:number) {
+        this._paddingBottom = paddingBottom;
+    }
+
+    private get svg():d3.Selection<any> {
+        return this._svg;
+    }
+
+    private set svg(svg:d3.Selection<any>) {
+        this._svg = svg;
+    }
+
 
 }
 
