@@ -1,4 +1,10 @@
-///<reference path='../../typings/d3/d3.d.ts'/>
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../../typings/jquery/jquery.d.ts" />
+/// <reference path="chartbase.ts" />
+/// <reference path="linechart.ts" />
+/// <reference path="dsp.ts" />
+
+import complex = Complex.Complex;
 
 interface TimedRecord<T> {
     date:   Date;
@@ -6,39 +12,27 @@ interface TimedRecord<T> {
     color?: string;
 }
 
-interface Coordinate {
-    x: number;
-    y: number;
+
+module TimeScale {
+     interface Map<T> {
+         [key: string]: T;
+     }
+
+     let seconds_in: Map<number> = {
+         'second': 1,
+         'minute': 60,
+         'hour': 3600,
+         'day': 24 * 3600,
+         'week': 168 * 3600,
+         'fortnight': 336 * 3600,
+         'month': 365.249 / 12 * 3600,  // on average
+         'year': 365.249 * 3600
+     };
 }
 
-class Cartesian implements Coordinate {
-    constructor(public x: number, public y: number) {}
-}
-
-class Polar implements Coordinate {
-    constructor (public r: number, public phi: number) {}
-    get x() { return this.r * Math.cos(this.phi); }
-    get y() { return this.r * Math.sin(this.phi); }
-
-    public inc_r(dr: number): Polar {
-        this.r += dr;
-        return this;
-    }
-}
 
 module Chart {
-    export abstract class Base<T> {
-        public chartWidth = 800;
-        public chartHeight = 600;
-
-        constructor (public element: d3.Selection<any>) {}
-
-        public render(data: T[]): d3.Selection<any> {
-            return null;
-        }
-    }
-
-    export class BubbleSpiral<T> extends Base<T> {
+    class SpiralBase<T> extends Base<T> {
         public radial_map: (x: T) => number;
 
         public radial_scale: number;
@@ -50,9 +44,9 @@ module Chart {
 
         public color_map: (x: T) => string = null;
 
-        private angular_map(x: T) {
-            return modulo(this.radial_map(x), this.period_fraction) /
-                this.period_fraction * 2 * Math.PI;
+        private angular_map(x: number) {
+            return modulo(x, this.period_fraction) /
+                this.period_fraction * 2 * Math.PI - Math.PI / 2;
         }
 
         public line_tics;
@@ -66,16 +60,16 @@ module Chart {
             return '';
         }
 
-        private get_polar(d: T): Polar {
-            return new Polar(Math.sqrt(this.radial_map(d) * 0.8 + 0.15) * this.radial_scale,
+        public get_polar(d: number): Polar {
+            return new Polar((d * 0.8 + 0.15) * this.radial_scale,
                              this.angular_map(d));
         }
 
-        private render_spiral_axis(
+        public render_spiral_axis(
                 plot: d3.Selection<any>) {
             var pts: Coordinate[] = d3.range(1000).map(
                 (i) => new Polar(
-                    this.radial_scale * Math.sqrt(i / 1000 * 0.8 + 0.15),
+                    ((i / 1000) * 0.8 + 0.15) * this.radial_scale,
                     modulo(i / 1000, this.period_fraction) /
                         this.period_fraction * 2 * Math.PI)
             );
@@ -96,34 +90,13 @@ module Chart {
                 .style('stroke', '#000')
                 .style('stroke-width', 0.5);
 
-            // if (tics_data) {
-            //     var tics = group.selectAll('g.tic')
-            //         .data(tics_data)
-            //         .enter().append('g')
-            //         .attr('class', 'tic');
-
-            //     tics.append('line')
-            //         .attr('x1', (d, i) => this.get_polar(d).inc_r(-3).x)
-            //         .attr('y1', (d, i) => this.get_polar(d).inc_r(-3).y)
-            //         .attr('x2', (d, i) => this.get_polar(d).inc_r(+3).x)
-            //         .attr('y2', (d, i) => this.get_polar(d).inc_r(+3).y)
-            //         .style('stroke', '#888')
-            //         .style('stroke-width', 0.5);
-
-            //     tics.append('text')
-            //         .attr('x', (d, i) => this.get_polar(d).inc_r(+3).x)
-            //         .attr('y', (d, i) => this.get_polar(d).inc_r(+3).y)
-            //         .attr('font-size', '10')
-            //         .attr('font-family', 'Vollkorn')
-            //         .text((d, i) => this.get_label(d));
-            // }
             return group;
         }
 
         public add_axis(
                 selection: d3.Selection<any>,
                 angle: number[], label: string[]) {
-            var start = (a) => new Polar(0.3 * this.radial_scale, a);
+            var start = (a) => new Polar(0.2 * this.radial_scale, a);
             var end = (a) => new Polar(1.0 * this.radial_scale, a);
 
             var group = selection.append('g').attr('class', 'axes');
@@ -146,6 +119,80 @@ module Chart {
 
             return group;
         }
+    }
+
+    export class LineSpiral<T> extends SpiralBase<T> {
+        private hist_data: HistogramOutput[];
+        private hist_fn: d3.layout.Histogram<T>;
+        private n_points = 10000;
+        private hist_x = d3.scale.linear().range([0, 1]);
+        private hist_y = d3.scale.linear().range([0, 1]);
+
+        constructor (element: d3.Selection<any>) {
+            super(element);
+            // this.radial_map = d => 1;
+        }
+
+        public set data(data: T[]) {
+            this.hist_fn = d3.layout.histogram<T>()
+                .value(this.radial_map)
+                .bins(this.n_points + 1);
+
+            this.hist_data = this.hist_fn(data);
+            this.hist_x.domain(d3.extent(this.hist_data, a => a.x));
+            this.hist_y.domain(d3.extent(this.hist_data, a => a.y));
+        }
+
+        public render(): d3.Selection<any> {
+            var svg = this.element.append('svg')
+                        .attr('height', this.chartHeight)
+                        .attr('width', this.chartWidth);
+
+            var plot = svg.append('g')
+                .attr('transform', 'translate(400 300)');
+
+            // this.render_spiral_axis(plot);
+
+            let polar_data = this.hist_data.slice(1).map<[Polar, number]>(
+                a => [this.get_polar(a.x + a.dx / 2), a.y]);
+
+            var line = d3.svg.line<Polar>()
+                .x(a => a.x) // * this.radial_scale)
+                .y(a => a.y); // * this.radial_scale);
+
+            // console.log(polar_data);
+            // chop the graph in many pieces
+            let piece_size = this.n_points / 256;
+            for (var i = 0; i < 256; ++i) {
+                let piece = polar_data.slice(piece_size * i, piece_size * (i + 1));
+                let top_part = piece.map(
+                    a => a[0].inc_r(a[1] * (this.period_fraction * 3)));
+                let bottom_part = piece.map(
+                    a => a[0].inc_r(- a[1] * (this.period_fraction * 3)))
+                    .reverse();
+
+                plot.append('path')
+                    .datum(top_part.concat(bottom_part))
+                    .attr('class', 'blob')
+                    .attr('d', line)
+                    .style('fill', 'blue')
+                    .style('fill-opacity', 0.7);
+            }
+
+            return plot;
+        }
+
+        public update(data: T[]): d3.Selection<any> {
+            this.element.select('svg').remove();
+            this.data = data;
+            return this.render();
+        }
+    }
+
+    export class BubbleSpiral<T> extends SpiralBase<T> {
+        constructor (element: d3.Selection<any>) {
+            super(element);
+        }
 
         public render(data: T[]): d3.Selection<any> {
             var svg = this.element.append('svg')
@@ -163,15 +210,20 @@ module Chart {
                 .attr('class', 'bubble');
 
             bubble_groups.append('circle')
-                .attr('cx', (d, i) => this.get_polar(d).x)
-                .attr('cy', (d, i) => this.get_polar(d).y)
+                .attr('cx', (d, i) => this.get_polar(this.radial_map(d)).x)
+                .attr('cy', (d, i) => this.get_polar(this.radial_map(d)).y)
                 .attr('r', (d, i) => this.radius_map(d))
                 .style('fill', this.color_map ? (d, i) => this.color_map(d) : (d, i) => 'red')
                 .style('fill-opacity', 0.1)
                 .style('stroke', 'black')
-                .style('stroke-width', 0.1);
+                .style('stroke-width', 0.05);
 
             return plot;
+        }
+
+        public update(data: T[]): d3.Selection<any> {
+            this.element.select('svg').remove();
+            return this.render(data);
         }
     }
 }
@@ -184,7 +236,7 @@ function modulo(x: number, y: number): number {
     }
 }
 
-class TimedBubbleSpiral<T> extends Chart.BubbleSpiral<TimedRecord<T>> {
+class TimedBubbleSpiral<T> extends Chart.LineSpiral<TimedRecord<T>> {
     private _period: d3.time.Interval;
     public time_scale: d3.time.Scale<number, number>;
     public color_map = function (d: TimedRecord<T>) {
@@ -214,15 +266,21 @@ class TimedBubbleSpiral<T> extends Chart.BubbleSpiral<TimedRecord<T>> {
         return this._period;
     }
 
+    set period_seconds(p: number) {
+        let zero = this.time_scale.invert(0);
+        let iv = d3.time.second.offset(zero, p);
+        this.period_fraction = this.time_scale(iv);
+    }
+
     public get_label(d: TimedRecord<T>): string {
         return d.date.toDateString();
     }
 
-    public render(d: TimedRecord<T>[]): d3.Selection<any> {
-        var plot = super.render(d);
+    public render(): d3.Selection<any> {
+        var plot = super.render();
         this.add_axis(plot,
-            d3.range(24).map((i) => i / 24 * 2 * Math.PI),
-            d3.range(24).map((i) => i.toString()));
+            d3.range(16).map((i) => i / 8 * Math.PI - Math.PI / 2),
+            d3.range(16).map((i) => (i / 8).toString() + 'π'));
         return plot;
     }
 }
@@ -252,12 +310,42 @@ class TimedDataRow implements TimedRecord<IDataRow> {
 }
 
 class Spiral {
-    private _data: TimedDataRow[];
-    private chart: TimedBubbleSpiral<IDataRow>;
+    public _data: TimedDataRow[];
+    public chart: TimedBubbleSpiral<IDataRow>;
+    private hist_chart: Chart.LineChart;
+    private power_chart: Chart.LineChart;
+
+    private histogram: any;
+    private _hist_fn: d3.layout.Histogram<TimedDataRow>;
+    private _hist_data: Coordinate[];
+    private _power_data: Coordinate[];
 
     constructor (id_tag: string) {
         this.chart = new TimedBubbleSpiral<IDataRow>(d3.select('#' + id_tag));
+        this.hist_chart = new Chart.LineChart(d3.select('#spiral-hist'));
+        this.power_chart = new Chart.LineChart(d3.select('#spiral-power'));
+
+        this.hist_chart.chartHeight = 200;
+        this.power_chart.chartHeight = 200;
+
+        this._hist_fn = d3.layout.histogram<TimedDataRow>()
+            .value(x => x.date.valueOf())
+            .bins(2049);
+
         // constructor function
+        var that = this;
+        d3.select('#spiral-slider').on('input', function() {
+            let s = 1. / this.value;
+            that.chart.period_seconds = s * 3600 * 24;
+            that.chart.update(spiral._data);
+            d3.select('#spiral-value').html('Period: ' +
+                moment.duration(s, 'days').humanize() + '(' +
+                moment.duration(s, 'days').as('hours') + ' hours)');
+        });
+
+        d3.select('#spiral-slider')
+            .style('width', '730px')
+            .style('margin-left', '50px');
     }
 
     public set data(d: IDataRow[]) {
@@ -268,9 +356,31 @@ class Spiral {
         var max_date = Math.max.apply(null, this._data.map((d) => d.date));
         console.log(new Date(min_date));
         this.chart.time_scale = d3.time.scale().range([0, 1]).domain([min_date, max_date]);
-        this.chart.radius_map = (d: TimedDataRow) => 8;
+        this.chart.radius_map = (d: TimedDataRow) => 5;
         //this.chart.period_fraction = 1 / 5;
         this.chart.period = d3.time.day;
+
+        this.histogram = this._hist_fn(this._data).slice(1);
+        this._hist_data = this.histogram.map(
+            a => new Cartesian((a.x + a.dx / 2) / (1000 * 3600 * 24), a.y));
+
+        let N = this._hist_data.length;
+        let L = (this.histogram[this.histogram.length - 1].x - this.histogram[0].x)
+            / (1000 * 3600 * 24);
+        let kspace = function(i: number): number {
+            if (i <= N / 2) {
+                return i / L;
+            } else {
+                return (i - N) / L;
+            }
+        };
+
+        this._power_data = FFT.fft(this._hist_data.map(a => new complex(a.y, 0)))
+            .map((y, x) => new Cartesian(kspace(x), y.norm2() * Math.PI / N));
+        console.log(this.histogram[0].dx);
+
+        d3.select('#spiral-slider')
+            .attr('max', kspace(N / 2));
     }
 
     public get data(): IDataRow[] {
@@ -278,7 +388,10 @@ class Spiral {
     }
 
     public render() {
-        this.chart.render(this._data);
+        this.chart.data = this._data;
+        this.chart.render();
+        this.hist_chart.render(this._hist_data);
+        this.power_chart.render(this._power_data.slice(1, this._power_data.length / 2));
     }
 }
 
