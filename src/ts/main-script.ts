@@ -2,15 +2,23 @@ let map: Map;
 let histogram: Histogram;
 let timeline: Timeline;
 let punchcard: Punchcard;
-let oneDimensionalHistogram: OneDimensionalHistogram;
+let oneDimensionalHistogram1: OneDimensionalHistogram;
+let oneDimensionalHistogram2: OneDimensionalHistogram;
 let spiral: Spiral;
+
+
 
 function doit(data: any) {
 
 
-    oneDimensionalHistogram = new OneDimensionalHistogram('one-dimensional-histogram-total-arrests-per-day');
-    oneDimensionalHistogram.data = data;
-    oneDimensionalHistogram.draw();
+    let cf:any = crossfilter(data);
+
+    oneDimensionalHistogram1 = new OneDimensionalHistogram(cf, 'one-dimensional-histogram-total-arrests-per-day');
+    oneDimensionalHistogram1.draw();
+
+    oneDimensionalHistogram2 = new OneDimensionalHistogram(cf, 'odh');
+    oneDimensionalHistogram2.draw();
+
 
 
 
@@ -25,7 +33,6 @@ function doit(data: any) {
     // };
     // map.circleMarkerRadius = 6;
     // map.showCrimeLocations();
-
 
     // make the histogram and then add it to the timeline
     histogram = new Histogram(data);
