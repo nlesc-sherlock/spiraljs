@@ -31,11 +31,11 @@ class Histogram {
     private _yDomainSpacing            : number;
     private _yDomainTo                 : number;
 
-    constructor (data: any) {
+    constructor (data: IDataRow[]) {
 
         this.nMilliSecondsPerDay = 60 * 60 * 24 * 1000;
 
-        this.numberOfRecords = (data as any).length;
+        this.numberOfRecords = data.length;
 
         // get the minimum and maximum datetime stamps from the dataset:
         this.dateExtent = [];
@@ -104,13 +104,13 @@ class Histogram {
 
 
 
-    private tally(data: IDataRow) {
+    private tally(data: IDataRow[]) {
 
         let iDay:number;
         let iHour:number;
 
         // count occurences
-        for (let elem of data as any) {
+        for (let elem of data) {
 
             iDay = Math.floor(elem.moment.diff(this.xDomainFrom, 'days', true));
             iHour = Math.floor(elem.moment.diff(elem.moment.clone().startOf('day'), 'hours', true));
