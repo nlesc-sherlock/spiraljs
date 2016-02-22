@@ -31,7 +31,7 @@ interface IDomElements {
 }
 
 
-class Timeline {
+class Heatmap {
     private _chartGroup   : any;
     private _cLimHighColor: Array<number>;
     private _cLimLowColor : Array<number>;
@@ -277,7 +277,7 @@ class Timeline {
 
 
     private drawButtonLeftArrowLeft() {
-        // draw button on the left of the timeline with an arrow pointing left
+        // draw button on the left of the heatmap with an arrow pointing left
 
         let offsetX: number;
         let offsetY: number;
@@ -307,7 +307,7 @@ class Timeline {
 
 
     private drawButtonRightArrowLeft() {
-        // draw button on the right of the timeline with an arrow pointing left
+        // draw button on the right of the heatmap with an arrow pointing left
 
         let offsetX: number;
         let offsetY: number;
@@ -322,7 +322,7 @@ class Timeline {
 
 
     private drawButtonRightArrowRight() {
-        // draw button on the right of the timeline with an arrow pointing right
+        // draw button on the right of the heatmap with an arrow pointing right
 
         let offsetX: number;
         let offsetY: number;
@@ -337,7 +337,7 @@ class Timeline {
 
 
     // private drawButtonLeftArrowRight() {
-    //     // draw button on the left of the timeline
+    //     // draw button on the left of the heatmap
     //     var button,
     //         that;
     //
@@ -369,7 +369,7 @@ class Timeline {
     //
     //
     // private drawButtonRight() {
-    //     // draw button on the right of the timeline
+    //     // draw button on the right of the heatmap
     //
     //     // select the chart elem, append an svg group, assign it 'button' class
     //     var button = this.elements.chart.elem.append('g').attr('class', 'button');
@@ -499,8 +499,8 @@ class Timeline {
 
 
     private drawSvgElem(size:ISize) {
-        // append an svg element to the timeline div
-        var elem = d3.select('#timeline')
+        // append an svg element to the heatmap div
+        var elem = d3.select('#heatmap')
             .append('svg')
                 .attr('class', 'svg')
                 .attr('width', size.width)

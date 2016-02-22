@@ -16,6 +16,6 @@
         "src/ts/one-dimensional-histogram.ts",
         "src/ts/punchcard.ts",
         "src/ts/spiral.ts",
-        "src/ts/timeline.ts"
+        "src/ts/heatmap.ts"
     ]
 }
