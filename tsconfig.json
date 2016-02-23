@@ -6,7 +6,7 @@
         "noImplicitAny": false,
         "removeComments": true,
         "noLib": false,
-        "out": "build/js/chicago.js"
+        "outFile": "build/js/chicago.js"
     },
     "files": [
         "src/ts/dataloader.ts",
