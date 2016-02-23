@@ -13,52 +13,43 @@ class OneDimensionalHistogram {
     private _domElem: HTMLElement;
 
     constructor (cf: any, domElemId:string) {
+
         // constructor function
-        this._cf = cf;
-        this._domElemId = domElemId;
-        this._domElem = document.getElementById(this._domElemId);
+        this.cf = cf;
+        this.domElemId = domElemId;
+        this.domElem = document.getElementById(this.domElemId);
 
         // all the dimensions are collected into one object, dim, which is
         // initialized here:
-
-        this._dim = {};
+        this.dim = {};
 
         // define a dimension 'date':
-        this._dim.date = this._cf.dimension(function(fact:any){
-            return moment(fact.datestr);
+        this.dim.date = this.cf.dimension(function(fact:IDataRow){
+            return fact.moment;
         });
 
         // define a dimension 'dateFrom', that contains the start of the day on which an
         // arrest occurred:
-        this._dim.dateFrom = this._cf.dimension(function(fact:any){
-            return moment(fact.datestr).startOf('day');
+        this.dim.dateFrom = this.cf.dimension(function(fact:IDataRow){
+            return fact.momentStartOfDay;
         });
 
         // define a dimension 'timeOfDay':
-        this._dim.timeOfDay = this._cf.dimension(function(fact:any){
+        this.dim.timeOfDay = this.cf.dimension(function(fact:IDataRow){
                 // returns the float number of hours that passed since the
                 // beginning of the day
-
-                let m:any;
-                let milliSecondsPerHour:number;
-
-                m = moment(new Date(fact.datestr));
-                milliSecondsPerHour = 3600 * 1000;
-
-                return (m - m.clone().startOf('day')) / milliSecondsPerHour;
-
-            });
+                return fact.timeOfDay;
+        });
 
         // Define a dimension 'primary'; which is a nominal scale variable, but
         // can still be useful for selecting a given type of crime quickly
-        this._dim.primary = this._cf.dimension(function(fact:any){
+        this.dim.primary = this.cf.dimension(function(fact:any){
             return fact.primary;
         });
-
-
-
-
     }
+
+
+
 
     public draw() {
 
@@ -66,19 +57,22 @@ class OneDimensionalHistogram {
         // .datestr property of that one fact, then turn it into a moment.js
         // object to be able to ask for the datetime corresponding to the start
         // of the first day
-        var minDate = moment(this.dim.date.bottom(1)[0].datestr).startOf('day');
+        let minDate = moment(this.dim.date.bottom(1)[0].datestr).startOf('day');
         // do the same for the last datetime in the set
-        var maxDate = moment(this.dim.date.top(1)[0].datestr).endOf('day');
+        let maxDate = moment(this.dim.date.top(1)[0].datestr).endOf('day');
 
-        var dailyCountBarChart = dc.barChart('#' + this._domElemId);
+        let dailyCountBarChart = dc.barChart('#' + this.domElemId);
 
-        var dailyCountMeasure = this.dim.dateFrom.group().reduceCount();
+        let dailyCountMeasure = this.dim.dateFrom.group().reduceCount();
 
         dailyCountBarChart
             .dimension(this.dim.dateFrom)
             .group(dailyCountMeasure)
             .width(this.domElem.clientWidth)
             .height(this.domElem.clientHeight)
+            .centerBar(false)
+            .gap(0)
+            .elasticX(true)
             .elasticY(true)
             .x(d3.time.scale().domain([minDate.toDate(), maxDate.toDate()]))
             .yAxisLabel('Total number of arrests')
@@ -102,19 +96,31 @@ class OneDimensionalHistogram {
         return this._cf;
     }
 
+    public set dim(dim:any){
+        this._dim = dim;
+    }
 
     public get dim(){
         return this._dim;
     }
 
-
     private set domElem(domElem:HTMLElement) {
         this._domElem = domElem;
     }
 
-    private get domElem() {
+    private get domElem():HTMLElement {
         return this._domElem;
     }
 
+    private set domElemId(domElemId:string) {
+        this._domElemId = domElemId;
+    }
+
+    private get domElemId():string {
+        return this._domElemId;
+    }
 
 }
+
+
+

@@ -1,4 +1,4 @@
-let map: Map;
+// let map: Map;
 let histogram: Histogram;
 let heatmap: Heatmap;
 let punchcard: Punchcard;
@@ -8,10 +8,17 @@ let spiral: Spiral;
 
 
 
-function doit(data: any) {
+function doit(data: IDataRow[]) {
 
+    // convert the datestr property to a moment.js date
+    data.forEach(function(d:IDataRow){
+        d.moment = moment(d.datestr);
+        d.momentStartOfDay = d.moment.clone().startOf('day');
+        d.timeOfDay = d.moment.diff(d.momentStartOfDay, 'hour');
+    });
 
     let cf:any = crossfilter(data);
+
 
     oneDimensionalHistogram1 = new OneDimensionalHistogram(cf, 'one-dimensional-histogram-total-arrests-per-day');
     oneDimensionalHistogram1.draw();
@@ -19,16 +26,16 @@ function doit(data: any) {
     oneDimensionalHistogram2 = new OneDimensionalHistogram(cf, 'odh');
     oneDimensionalHistogram2.draw();
 
-    // // make a new map
+    // make a new map
     // map = new Map('leaflet');
     // map.binddata(data);
     // map.circleMarkerOptions = {
-    //     fillColor: '#F80',
-    //     fillOpacity: 0.5,
+    //     fillColor: '#8F0',
+    //     fillOpacity: 1.0,
     //     stroke: true,
     //     color: '#000'
     // };
-    // map.circleMarkerRadius = 6;
+    // map.circleMarkerRadius = 4;
     // map.showCrimeLocations();
 
     // make the histogram and then add it to the timeline
