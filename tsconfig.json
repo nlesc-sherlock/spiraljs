@@ -6,7 +6,9 @@
         "noImplicitAny": false,
         "removeComments": true,
         "noLib": false,
-        "outFile": "build/js/chicago.js"
+        "outFile": "build/js/chicago.js",
+        "inlineSourceMap": true,
+        "inlineSources": true
     },
     "files": [
         "src/ts/dataloader.ts",
