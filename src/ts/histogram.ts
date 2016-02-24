@@ -1,12 +1,14 @@
 
 interface IDataRow {
-    datestr    : string;
-    moment     : moment.Moment;
-    casenumber : string;
-    description: string;
-    primary    : string;
-    latitude   : number;
-    longitude  : number;
+    datestr          : string;
+    moment           : moment.Moment;
+    momentStartOfDay : moment.Moment;
+    casenumber       : string;
+    description      : string;
+    primary          : string;
+    latitude         : number;
+    longitude        : number;
+    timeOfDay        : number;
 }
 
 
