@@ -1,4 +1,6 @@
 /// <reference path="../../typings/leaflet/leaflet.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
+/// <reference path="../../typings/moment-timezone/moment-timezone.d.ts" />
 
 
 
