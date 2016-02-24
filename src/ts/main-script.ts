@@ -12,7 +12,8 @@ function doit(data: IDataRow[]) {
 
     // convert the datestr property to a moment.js date
     data.forEach(function(d:IDataRow){
-        d.moment = moment(d.datestr);
+        // d.moment calculation is already done in DataLoader.loaddata(), and
+        // there it's also using timezone information
         d.momentStartOfDay = d.moment.clone().startOf('day');
         d.timeOfDay = d.moment.diff(d.momentStartOfDay, 'hour');
     });
