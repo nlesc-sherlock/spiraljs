@@ -12,20 +12,32 @@ class DcDataTable {
 
     constructor (cf: any, domElemId:string) {
 
-        // constructor function
         this.cf = cf;
+
+        this.domElemId = domElemId;
+
+        this.domElem = document.getElementById(this.domElemId);
 
         // all the dimensions are collected into one object, dim, which is
         // initialized here:
         this.dim = {};
 
+    }
+
+
+    public defineDimensions() {
         // define a dimension 'date':
         this.dim.date = this.cf.dimension(function(fact:IDataRow){
             return fact.moment;
         });
+    }
 
 
-        dc.dataTable('#table1')
+
+
+    public draw() {
+
+        dc.dataTable('#' + this.domElemId)
             .dimension(this.dim.date)
             .group(function (d) {
                     return d.moment;
@@ -43,7 +55,6 @@ class DcDataTable {
                 })
             .order(d3.ascending)
             .size(Infinity);
-
     }
 
 
@@ -63,6 +74,22 @@ class DcDataTable {
 
     private get dim():any {
         return this._dim;
+    }
+
+    private set domElem(domElem:HTMLElement) {
+        this._domElem = domElem;
+    }
+
+    private get domElem():HTMLElement {
+        return this._domElem;
+    }
+
+    private set domElemId(domElemId:string) {
+        this._domElemId = domElemId;
+    }
+
+    private get domElemId():string {
+        return this._domElemId;
     }
 
 

@@ -7,21 +7,29 @@
 
 class OneDimensionalHistogram {
 
-    private _cf: any;
+    private _cf: CrossFilter.CrossFilter<IDataRow>;
     private _dim: any;
     private _domElemId: string;
     private _domElem: HTMLElement;
 
     constructor (cf: any, domElemId:string) {
 
-        // constructor function
         this.cf = cf;
+
         this.domElemId = domElemId;
+
         this.domElem = document.getElementById(this.domElemId);
 
         // all the dimensions are collected into one object, dim, which is
         // initialized here:
         this.dim = {};
+
+    }
+
+
+
+
+    public defineDimensions() {
 
         // define a dimension 'date':
         this.dim.date = this.cf.dimension(function(fact:IDataRow){
@@ -46,6 +54,7 @@ class OneDimensionalHistogram {
         this.dim.primary = this.cf.dimension(function(fact:any){
             return fact.primary;
         });
+
     }
 
 
@@ -70,6 +79,7 @@ class OneDimensionalHistogram {
             .group(dailyCountMeasure)
             .width(this.domElem.clientWidth)
             .height(this.domElem.clientHeight)
+            .margins({top: 10, right: 50, bottom: 30, left: 60})
             .centerBar(false)
             .gap(0)
             .elasticX(true)
