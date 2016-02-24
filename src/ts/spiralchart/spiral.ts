@@ -335,7 +335,7 @@ class Spiral {
         d3.select('#spiral-slider').on('input', function() {
             let s = 1. / this.value;
             that.chart.period_seconds = s * 3600 * 24;
-            that.chart.update(spiral._data);
+            that.chart.update(that._data);
             d3.select('#spiral-value').html('Period: ' +
                 moment.duration(s, 'days').humanize() + '(' +
                 moment.duration(s, 'days').as('hours') + ' hours)');

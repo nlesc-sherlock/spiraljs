@@ -75,7 +75,7 @@ class DataLoader {
             }
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
 
-                console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: done loading done');
+                console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: done loading');
 
                 that._data = JSON.parse(xmlHttp.responseText);
                 console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: JSON parsing done');

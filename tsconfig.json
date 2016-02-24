@@ -12,6 +12,7 @@
     },
     "files": [
         "src/ts/dataloader.ts",
+        "src/ts/dc-datatable.ts",
         "src/ts/heatmap/heatmap.ts",
         "src/ts/heatmap/histogram.ts",
         "src/ts/main-script.ts",

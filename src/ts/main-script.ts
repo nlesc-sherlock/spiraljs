@@ -1,13 +1,5 @@
 /// <reference path="../../typings/moment/moment.d.ts" />
 
-let map: Map;
-let histogram: Histogram;
-let heatmap: Heatmap;
-let punchcard: Punchcard;
-let oneDimensionalHistogram1: OneDimensionalHistogram;
-let oneDimensionalHistogram2: OneDimensionalHistogram;
-let spiral: Spiral;
-
 var start:moment.Moment;
 
 
@@ -18,6 +10,15 @@ console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: script 
 
 
 function doit(data: IDataRow[]) {
+
+    let histogram: Histogram;
+    let heatmap  : Heatmap;
+    let hist1    : OneDimensionalHistogram;
+    let hist2    : OneDimensionalHistogram;
+    let map      : Map;
+    let punchcard: Punchcard;
+    let spiral   : Spiral;
+    let table1   : DcDataTable;
 
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: doit() starts');
     // convert the datestr property to a moment.js date
@@ -32,13 +33,26 @@ function doit(data: IDataRow[]) {
     let cf:any = crossfilter(data);
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: crossfilter object done');
 
-    oneDimensionalHistogram1 = new OneDimensionalHistogram(cf, 'one-dimensional-histogram-total-arrests-per-day');
-    oneDimensionalHistogram1.draw();
+    hist1 = new OneDimensionalHistogram(cf, 'hist1-arrests-per-day');
+    hist1.draw();
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: oneDimensionalHistogram1 done');
 
-    oneDimensionalHistogram2 = new OneDimensionalHistogram(cf, 'odh');
-    oneDimensionalHistogram2.draw();
-    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: oneDimensionalHistogram2 done');
+    table1 = new DcDataTable(cf, 'table1');
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: table done');
+
+    // make the histogram and then add it to the timeline
+    histogram = new Histogram(data);
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: histogram done');
+
+    heatmap = new Heatmap('heatmap', histogram);
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: heatmap done');
+
+
+    spiral = new Spiral('spiral');
+    spiral.data = data;
+    spiral.render();
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: spiral done');
+
 
     // make a new map
     map = new Map('leaflet', {
@@ -56,18 +70,6 @@ function doit(data: IDataRow[]) {
     map.circleMarkerRadius = 4;
     map.showCrimeLocations();
 
-    // make the histogram and then add it to the timeline
-    histogram = new Histogram(data);
-    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: histogram done');
-
-    heatmap = new Heatmap('heatmap', histogram);
-    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: heatmap done');
-
-    spiral = new Spiral('spiral');
-    spiral.data = data;
-    spiral.render();
-    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: spiral done');
-
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: doit() done');
 
 };
@@ -78,12 +80,12 @@ function doit(data: IDataRow[]) {
 let dataloader: DataLoader = new DataLoader();
 
 // configure the dataloader
-dataloader.limit = 50000;
+dataloader.limit = 10000;
 
 // set the offset to a large value to get to the more recent records (the
 // results are sorted by increasing date); the more recent records are more
 // likely to have valid coordinates.
-dataloader.offset = 10000;
+dataloader.offset = 100000;
 
 // load the data
 dataloader.loadData(doit);

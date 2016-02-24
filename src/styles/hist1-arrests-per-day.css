@@ -1,14 +1,14 @@
 
 
 
-#one-dimensional-histogram-total-arrests-per-day {
+#hist1-arrests-per-day {
     width: 100%;
     height: 200px;
     float: left;
 }
 
 
-#odh {
+#hist2-arrests-per-day {
     width: 100%;
     height: 200px;
     float: left;
