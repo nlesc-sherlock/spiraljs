@@ -12,12 +12,16 @@
     },
     "files": [
         "src/ts/dataloader.ts",
-        "src/ts/histogram.ts",
+        "src/ts/heatmap/heatmap.ts",
+        "src/ts/heatmap/histogram.ts",
         "src/ts/main-script.ts",
         "src/ts/map.ts",
         "src/ts/one-dimensional-histogram.ts",
         "src/ts/punchcard.ts",
-        "src/ts/spiral.ts",
-        "src/ts/heatmap.ts"
+        "src/ts/spiralchart/chartbase.ts",
+        "src/ts/spiralchart/dsp.ts",
+        "src/ts/spiralchart/linechart.ts",
+        "src/ts/spiralchart/spiral.ts"
     ]
 }
+

@@ -1,5 +1,5 @@
 
-/// <reference path="../../typings/d3/d3.d.ts" />
+/// <reference path="../../../typings/d3/d3.d.ts" />
 
 
 class Heatmap {
@@ -100,7 +100,7 @@ class Heatmap {
         // draw the horizontal axis
 
         let myOffsetMinutes = (new Date()).getTimezoneOffset();
-        let theirOffsetMinutes = histogram.countData[0].dateFrom.utcOffset();
+        let theirOffsetMinutes = this.histogram.countData[0].dateFrom.utcOffset();
         let offsetMinutes:number = myOffsetMinutes + theirOffsetMinutes;
 
         this.dateScale = d3.time.scale()
