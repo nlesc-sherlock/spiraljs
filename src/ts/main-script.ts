@@ -1,13 +1,20 @@
 /// <reference path="../../typings/moment/moment.d.ts" />
 
-// let map: Map;
+let map: Map;
 let histogram: Histogram;
 let heatmap: Heatmap;
 let punchcard: Punchcard;
 let oneDimensionalHistogram1: OneDimensionalHistogram;
 let oneDimensionalHistogram2: OneDimensionalHistogram;
 let spiral: Spiral;
-let start:moment.Moment;
+
+var start:moment.Moment;
+
+
+// record the start of the visualization for performance analysis
+start = moment();
+console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: script starts');
+
 
 
 function doit(data: IDataRow[]) {
@@ -34,20 +41,18 @@ function doit(data: IDataRow[]) {
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: oneDimensionalHistogram2 done');
 
     // make a new map
-    // map = new Map('leaflet');
-    // map.binddata(data);
-    // map.circleMarkerOptions = {
-    //     fillColor: '#8F0',
-    //     fillOpacity: 1.0,
-    //     stroke: true,
-    //     color: '#000'
-    // };
-    // map.circleMarkerRadius = 4;
-    // map.showCrimeLocations();
+    map = new Map('leaflet');
+    map.data = data;
+    map.circleMarkerOptions = {
+        fillColor: '#8F0',
+        fillOpacity: 1.0,
+        stroke: true,
+        color: '#000'
+    };
+    map.circleMarkerRadius = 4;
+    map.showCrimeLocations();
 
     // make the histogram and then add it to the timeline
-
-
     histogram = new Histogram(data);
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: histogram done');
 
@@ -63,9 +68,6 @@ function doit(data: IDataRow[]) {
 
 };
 
-// record the start of the visualization for performance analysis
-start = moment();
-console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: script starts');
 
 
 // make a new dataloader

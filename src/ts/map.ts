@@ -39,18 +39,6 @@ class Map extends L.Map {
 
 
 
-    public binddata(data:IDataRow[]) {
-        this._data = data;
-        this._bbox = this.calcBoundingBox();
-        this.setView([(this._bbox.getNorth() + this._bbox.getSouth()) / 2,
-                      (this._bbox.getEast() + this._bbox.getWest()) / 2]);
-
-        this.fitBounds(this._bbox);
-
-    }
-
-
-
 
     public calcBoundingBox():L.LatLngBounds {
 
@@ -102,7 +90,19 @@ class Map extends L.Map {
     }
 
 
+    public get data(): IDataRow[] {
+        return this._data;
+    }
 
+
+    public set data(data:IDataRow[]) {
+        this._data = data;
+        this._bbox = this.calcBoundingBox();
+        this.setView([(this._bbox.getNorth() + this._bbox.getSouth()) / 2,
+                      (this._bbox.getEast() + this._bbox.getWest()) / 2]);
+
+        this.fitBounds(this._bbox);
+    }
 
 }
 
