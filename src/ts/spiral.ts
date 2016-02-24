@@ -349,10 +349,10 @@ class Spiral {
     public set data(d: IDataRow[]) {
         // function used to bind data to this object
         this._data = d.map((d) => new TimedDataRow(d));
-        console.log(TimedDataRow.color_map);
+//        console.log(TimedDataRow.color_map);
         var min_date = Math.min.apply(null, this._data.map((d) => d.date));
         var max_date = Math.max.apply(null, this._data.map((d) => d.date));
-        console.log(new Date(min_date));
+//        console.log(new Date(min_date));
         this.chart.time_scale = d3.time.scale().range([0, 1]).domain([min_date, max_date]);
         this.chart.radius_map = (d: TimedDataRow) => 5;
         //this.chart.period_fraction = 1 / 5;
@@ -375,7 +375,7 @@ class Spiral {
 
         this._power_data = FFT.fft(this._hist_data.map(a => new complex(a.y, 0)))
             .map((y, x) => new Cartesian(kspace(x), y.norm2() * Math.PI / N));
-        console.log(this.histogram[0].dx);
+//        console.log(this.histogram[0].dx);
 
         d3.select('#spiral-slider')
             .attr('max', kspace(N / 2));

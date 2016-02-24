@@ -60,6 +60,8 @@ class DataLoader {
 
     public loadData(callback:any) {
 
+        console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: started loading data');
+
         // capture the 'this' object from the current context
         let that = this;
 
@@ -73,14 +75,20 @@ class DataLoader {
             }
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
 
+                console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: done loading done');
+
                 that._data = JSON.parse(xmlHttp.responseText);
+                console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: JSON parsing done');
+
                 for (let elem of that._data) {
                     elem.moment = moment.tz(elem.datestr, 'YYYY-MM-DDTHH:mm:ss', 'America/Chicago');
                 }
-                console.log('Done loading.');
+                console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: done converting to moment.tz');
 
                 // remove records that are invalid for whatever reason
                 that.clean();
+                console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: data cleaning done');
+
                 // execute the callback
                 callback(that._data);
             }
@@ -106,7 +114,6 @@ class DataLoader {
 
         let invalid:number[] = [];
 
-        console.log(this._data.length);
         for (iElem = 0; iElem < nElems; iElem += 1) {
             let elem =  this._data[iElem];
             try {
