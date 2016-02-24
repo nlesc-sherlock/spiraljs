@@ -41,7 +41,11 @@ function doit(data: IDataRow[]) {
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: oneDimensionalHistogram2 done');
 
     // make a new map
-    map = new Map('leaflet');
+    map = new Map('leaflet', {
+        dragging: true,
+        scrollWheelZoom: false,
+        boxZoom: true,
+    });
     map.data = data;
     map.circleMarkerOptions = {
         fillColor: '#8F0',
@@ -72,7 +76,6 @@ function doit(data: IDataRow[]) {
 
 // make a new dataloader
 let dataloader: DataLoader = new DataLoader();
-
 
 // configure the dataloader
 dataloader.limit = 50000;
