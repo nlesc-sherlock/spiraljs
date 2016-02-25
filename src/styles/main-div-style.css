@@ -4,9 +4,9 @@
     border: thin;
     border-style: solid;
     border-color: #5f6a70;
-    border-radius: 10px;
+    border-radius: 0px;
     margin: 10px;
-    padding: 10px;
+    padding: 0px;
     float: left;
     box-shadow: 5px 5px 5px #99b3bf;
 }
