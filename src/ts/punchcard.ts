@@ -33,10 +33,10 @@ class Punchcard {
 
 
     public defineDimensions() {
-        this.dim.date = this.cf.dimension(function(d:IDataRow){
+        this.dim.date = this.cf.dimension(function(d:IDataRow):moment.Moment{
             return d.momentStartOfDay;
         });
-        this.dim.timeOfDay = this.cf.dimension(function(d:IDataRow){
+        this.dim.timeOfDay = this.cf.dimension(function(d:IDataRow):number{
             return d.timeOfDay;
         });
     }
@@ -52,26 +52,38 @@ class Punchcard {
         minDate = this.dim.date.bottom(1)[0].momentStartOfDay;
         maxDate = this.dim.date.top(1)[0].momentStartOfDay;
 
-        let measure = this.dim.date.group().reduceCount();
+        // FIXME the group-by reduce functions don't work
+        let byTimeOfDay = this.dim.date.group().reduce(
+            // increase
+            function(p, v) {
+                return 0;
+            },
+            function(p, v) {
+            // decrease
+                return 0;
+            },
+            // init
+            function(p, v) {
+                return 0;
+            }
+        );
 
+        // FIXME the keyAccessor and valueAccessor don't work
         dc.bubbleChart('#' + this.domElemId)
-            .width(990)
-            .height(500)
-            .margins({top: 10, right: 50, bottom: 30, left: 60})
+            .width(this.domElem.clientWidth)
+            .height(this.domElem.clientHeight)
+            .margins({top: 80, right: 80, bottom: 80, left: 80})
             .dimension(this.dim.date)
-            .group(measure)
+            .group(byTimeOfDay)
+            .keyAccessor(function(p, v) {return p.value.momentStartOfDay; })
+            .valueAccessor(function(p, v) {return p.value.timeOfDay; })
+            .radiusValueAccessor(function(p) {return 1.00; })
             .x(d3.time.scale().domain([minDate.toDate(), maxDate.toDate()]))
-            .y(d3.scale.linear().domain([0, 24]))
-            .r(d3.scale.linear().domain([0, 1000]))
-            .maxBubbleRelativeSize(0.1)
-            .elasticX(true)
-            .elasticY(true)
-            .elasticRadius(true)
-            .yAxisLabel('Total number of arrests')
-            .renderHorizontalGridLines(true)
-            .renderVerticalGridLines(true);
-    }
+            .y(d3.scale.linear().domain([-0.5, 23.5]))
+            .r(d3.scale.linear().domain([0, 24.0 / 0.5]));
 
+        dc.renderAll();
+    }
 
 
 

@@ -11,6 +11,7 @@ class OneDimensionalHistogram {
     private _dim: any;
     private _domElemId: string;
     private _domElem: HTMLElement;
+    private margins:any;
 
     constructor (cf: any, domElemId:string) {
 
@@ -23,6 +24,8 @@ class OneDimensionalHistogram {
         // all the dimensions are collected into one object, dim, which is
         // initialized here:
         this.dim = {};
+
+        this.margins = {top: 80, right: 80, bottom: 80, left: 80};
 
     }
 
@@ -74,20 +77,23 @@ class OneDimensionalHistogram {
 
         let dailyCountMeasure = this.dim.dateFrom.group().reduceCount();
 
+
         dailyCountBarChart
             .dimension(this.dim.dateFrom)
             .group(dailyCountMeasure)
             .width(this.domElem.clientWidth)
             .height(this.domElem.clientHeight)
-            .margins({top: 10, right: 50, bottom: 30, left: 60})
+            .margins(this.margins)
             .centerBar(false)
             .gap(0)
             .elasticX(true)
             .elasticY(true)
             .x(d3.time.scale().domain([minDate.toDate(), maxDate.toDate()]))
+            .xAxisLabel('Date')
             .yAxisLabel('Total number of arrests')
             .renderHorizontalGridLines(true)
             .renderVerticalGridLines(true);
+
 
         dailyCountBarChart.xUnits(function(){
             return maxDate.diff(minDate, 'days', true);
