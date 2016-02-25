@@ -1,7 +1,9 @@
 
+#spiral-control {
+}
+
 #spiral-control .line {
     fill: none;
     stroke: steelblue;
     stroke-width: 1.5px;
-    float: left;
 }
