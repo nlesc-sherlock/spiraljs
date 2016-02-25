@@ -29,6 +29,7 @@ function doit(data: IDataRow[]) {
         // there it's also using timezone information
         d.momentStartOfDay = d.moment.clone().startOf('day');
         d.timeOfDay = d.moment.diff(d.momentStartOfDay, 'hour');
+        d.dayOfWeek = d.moment.day();
     });
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: adding properties to data done');
 
