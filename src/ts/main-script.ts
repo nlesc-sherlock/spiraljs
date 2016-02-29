@@ -98,12 +98,12 @@ function doit(data: IDataRow[]) {
 let dataloader: DataLoader = new DataLoader();
 
 // configure the dataloader
-dataloader.limit = 10000;
+dataloader.limit = 8000;
 
 // set the offset to a large value to get to the more recent records (the
 // results are sorted by increasing date); the more recent records are more
 // likely to have valid coordinates.
-dataloader.offset = 100000;
+dataloader.offset = 109500;
 
 // load the data
 dataloader.loadData(doit);

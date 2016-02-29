@@ -69,9 +69,15 @@ class OneDimensionalHistogram {
         // .datestr property of that one fact, then turn it into a moment.js
         // object to be able to ask for the datetime corresponding to the start
         // of the first day
-        let minDate = moment(this.dim.date.bottom(1)[0].datestr).startOf('day');
+        let minDate = this.dim.date.bottom(1)[0].moment
+            .clone()
+            .startOf('day')
+            .utc();
         // do the same for the last datetime in the set
-        let maxDate = moment(this.dim.date.top(1)[0].datestr).endOf('day');
+        let maxDate = this.dim.date.top(1)[0].moment
+            .clone()
+            .endOf('day')
+            .utc();
 
         let dailyCountBarChart = dc.barChart('#' + this.domElemId);
 
@@ -85,15 +91,14 @@ class OneDimensionalHistogram {
             .height(this.domElem.clientHeight)
             .margins(this.margins)
             .centerBar(false)
-            .gap(0)
-            .elasticX(true)
+            .elasticX(false)
             .elasticY(true)
-            .x(d3.time.scale().domain([minDate.toDate(), maxDate.toDate()]))
-            .xAxisLabel('Date')
+            .gap(5)
+            .x(d3.time.scale.utc().domain([minDate, maxDate]))
+            .xAxisLabel('Date UTC')
             .yAxisLabel('Total number of arrests')
             .renderHorizontalGridLines(true)
             .renderVerticalGridLines(true);
-
 
         dailyCountBarChart.xUnits(function(){
             return maxDate.diff(minDate, 'days', true);
