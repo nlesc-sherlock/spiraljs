@@ -5,7 +5,7 @@
 
 
 
-class Punchcard {
+class DcPunchcard {
 
     private _cf       : CrossFilter.CrossFilter<IDataRow>;
     private _dim      : any;

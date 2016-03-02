@@ -10,3 +10,8 @@
     float: left;
     box-shadow: 5px 5px 5px #99b3bf;
 }
+
+
+.hidden {
+    display: none;
+}

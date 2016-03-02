@@ -11,14 +11,15 @@ console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: script 
 
 function doit(data: IDataRow[]) {
 
-    let heatmap  : Heatmap;
-    let hist1    : OneDimensionalHistogram;
-    let hist2    : OneDimensionalHistogram;
-    let histogram: Histogram;
-    let map      : Map;
-    let punchcard: Punchcard;
-    let spiral   : Spiral;
-    let table1   : DcDataTable;
+    let heatmap           : Heatmap;
+    let hist1             : OneDimensionalHistogram;
+    let hist2             : OneDimensionalHistogram;
+    let histogram         : Histogram;
+    let map               : Map;
+    let d3PunchcardOrdinal: D3PunchcardOrdinal;
+    let dcPunchcard       : DcPunchcard;
+    let spiral            : Spiral;
+    let table1            : DcDataTable;
 
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: doit() starts');
 
@@ -50,12 +51,17 @@ function doit(data: IDataRow[]) {
     table1.draw();
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: table done');
 
-
     // draw the punchcard using the crossfilter object and dc.js dc.bubbleChart()
-    punchcard = new Punchcard(cf, 'punchcard');
-    punchcard.defineDimensions();
-    punchcard.draw();
-    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: punchcard done');
+    dcPunchcard = new DcPunchcard(cf, 'dc-punchcard');
+    dcPunchcard.defineDimensions();
+    dcPunchcard.draw();
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: dcPunchcard done');
+
+    // draw the punchcard using the crossfilter object and D3
+    d3PunchcardOrdinal = new D3PunchcardOrdinal(cf, 'd3-punchcard-ordinal');
+    d3PunchcardOrdinal.defineDimensions();
+    d3PunchcardOrdinal.draw();
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: d3PunchcardOrdinal done');
 
 
     // make the histogram and then add it to the timeline
@@ -88,7 +94,16 @@ function doit(data: IDataRow[]) {
     map.circleMarkerRadius = 4;
     map.showCrimeLocations();
 
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: leaflet map done');
+
+
+    // hide a few divs:
+    document.getElementById('dc-punchcard').setAttribute('class', 'main-div-style hidden');
+
+
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: doit() done');
+
+
 
 };
 
@@ -98,7 +113,7 @@ function doit(data: IDataRow[]) {
 let dataloader: DataLoader = new DataLoader();
 
 // configure the dataloader
-dataloader.limit = 8000;
+dataloader.limit = 50000;
 
 // set the offset to a large value to get to the more recent records (the
 // results are sorted by increasing date); the more recent records are more
