@@ -1,6 +1,6 @@
 /// <reference path="../../../typings/crossfilter/crossfilter.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
-// /// <reference path="../../typings/moment/moment.d.ts" />
+/// <reference path="../../../typings/moment/moment.d.ts" />
 
 
 
@@ -45,9 +45,9 @@ class D3PunchcardOrdinal {
         this.ylabel = 'Local time of day';
         this.title = '';
 
-        this.svg = d3.select(this.domElem).append('svg')
-            .attr('width', this.domElem.clientWidth)
-            .attr('height', this.domElem.clientHeight);
+        // beware: JavaScript magic happens here
+        let that:D3PunchcardOrdinal = this;
+        window.onresize = function(){that.onResize(); };
 
     }
 
@@ -69,6 +69,7 @@ class D3PunchcardOrdinal {
 
     public draw():D3PunchcardOrdinal {
         //
+        this.drawSvg();
         this.drawChartBody();
         this.drawHorizontalAxis();
         this.drawHorizontalAxisLabel();
@@ -83,10 +84,20 @@ class D3PunchcardOrdinal {
 
 
 
+    private drawSvg():D3PunchcardOrdinal {
+
+        this.svg = d3.select(this.domElem).append('svg')
+            .attr('width', this.domElem.clientWidth)
+            .attr('height', this.domElem.clientHeight);
+
+        return this;
+    }
+
+
+
+
     private drawChartBody():D3PunchcardOrdinal {
         //
-
-
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft;
@@ -280,6 +291,23 @@ class D3PunchcardOrdinal {
 
         return this;
 
+    }
+
+
+
+
+    public onResize() {
+
+        // get the div element that we want to redraw
+        let div = this.domElem;
+
+        // delete the contents of the div
+        while (div.firstChild) {
+            div.removeChild(div.firstChild);
+        }
+
+        // draw the figure again, given that the window just changed size
+        this.draw();
     }
 
 
