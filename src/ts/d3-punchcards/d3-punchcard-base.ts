@@ -7,6 +7,7 @@
 class D3PunchcardBase {
 
     private _cf          : CrossFilter.CrossFilter<IDataRow>;
+    private _colormap    : ColorMap;
     private _dim         : any;
     private _domElem     : HTMLElement;
     private _domElemId   : string;
@@ -38,8 +39,13 @@ class D3PunchcardBase {
         this.marginTop = 60;
         this.marginBottom = 100;
 
+        this.updateMinHeight();
+        this.updateMinWidth();
+
         this.ylabel = 'Local time of day';
         this.title = '';
+
+        this.colormap = new ColorMap();
 
         // beware: JavaScript magic happens here
         let that:D3PunchcardBase = this;
@@ -64,16 +70,6 @@ class D3PunchcardBase {
 
 
     public draw():D3PunchcardBase {
-    //     //
-    //     this.drawSvg();
-    //     this.drawChartBody();
-    //     this.drawHorizontalAxis();
-    //     this.drawHorizontalAxisLabel();
-    //     this.drawVerticalAxis();
-    //     this.drawVerticalAxisLabel();
-    //     this.drawTitle();
-    //     this.drawSymbols();
-    //
 
         // placeholder method to be overridden in classes that inherit from this class
         return this;
@@ -83,6 +79,9 @@ class D3PunchcardBase {
 
 
     protected drawSvg():D3PunchcardBase {
+
+        this.updateMinHeight();
+        this.updateMinWidth();
 
         this.svg = d3.select(this.domElem).append('svg')
             .attr('width', this.domElem.clientWidth)
@@ -199,12 +198,40 @@ class D3PunchcardBase {
 
 
 
+    public updateMinHeight():D3PunchcardBase {
+
+        this.domElem.style.minHeight = (this.marginTop + this.marginBottom + 100).toString() + 'px';
+
+        return this;
+    }
+
+
+
+
+    public updateMinWidth():D3PunchcardBase {
+
+        this.domElem.style.minWidth = (this.marginLeft + this.marginRight + 100).toString() + 'px';
+
+        return this;
+    }
+
+
+
+
     private set cf(cf:any) {
         this._cf = cf;
     }
 
     private get cf():any {
         return this._cf;
+    }
+
+    protected set colormap(colormap:ColorMap) {
+        this._colormap = colormap;
+    }
+
+    protected get colormap():ColorMap {
+        return this._colormap;
     }
 
     protected set dim(dim:any) {
@@ -241,6 +268,7 @@ class D3PunchcardBase {
 
     protected set marginLeft(marginLeft:number) {
         this._marginLeft = marginLeft;
+        this.domElem.style.minWidth = (this.marginLeft + this.marginRight + 100).toString + 'px';
     }
 
     protected get marginLeft():number {

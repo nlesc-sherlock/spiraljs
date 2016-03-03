@@ -16,7 +16,7 @@ function doit(data: IDataRow[]) {
     let hist2             : OneDimensionalHistogram;
     let histogram         : Histogram;
     let map               : Map;
-    let d3PunchcardOrdinal: D3PunchcardOrdinal;
+    let d3PunchcardDateUTC: D3PunchcardDateUTC;
     let dcPunchcard       : DcPunchcard;
     let spiral            : Spiral;
     let table1            : DcDataTable;
@@ -56,12 +56,15 @@ function doit(data: IDataRow[]) {
     dcPunchcard.defineDimensions();
     dcPunchcard.draw();
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: dcPunchcard done');
+    // hide the div for now
+    document.getElementById('dc-punchcard').setAttribute('class', 'main-div-style hidden');
+
 
     // draw the punchcard using the crossfilter object and D3
-    d3PunchcardOrdinal = new D3PunchcardOrdinal(cf, 'd3-punchcard-ordinal');
-    d3PunchcardOrdinal.defineDimensions();
-    d3PunchcardOrdinal.draw();
-    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: d3PunchcardOrdinal done');
+    d3PunchcardDateUTC = new D3PunchcardDateUTC(cf, 'd3-punchcard-date-utc');
+    d3PunchcardDateUTC.defineDimensions();
+    d3PunchcardDateUTC.draw();
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: d3PunchcardDateUTC done');
 
 
     // make the histogram and then add it to the timeline
@@ -96,16 +99,10 @@ function doit(data: IDataRow[]) {
 
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: leaflet map done');
 
-
-    // hide a few divs:
-    document.getElementById('dc-punchcard').setAttribute('class', 'main-div-style hidden');
-
-
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: doit() done');
 
-
-
 };
+
 
 
 
@@ -113,7 +110,7 @@ function doit(data: IDataRow[]) {
 let dataloader: DataLoader = new DataLoader();
 
 // configure the dataloader
-dataloader.limit = 50000;
+dataloader.limit = 10000;
 
 // set the offset to a large value to get to the more recent records (the
 // results are sorted by increasing date); the more recent records are more
@@ -122,4 +119,6 @@ dataloader.offset = 109500;
 
 // load the data
 dataloader.loadData(doit);
+
+
 

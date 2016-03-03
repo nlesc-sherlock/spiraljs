@@ -5,7 +5,7 @@
 
 
 
-class D3PunchcardOrdinal extends D3PunchcardBase {
+class D3PunchcardDateUTC extends D3PunchcardBase {
 
     private _dateScale   : any;
     private _dateFrom    : Date;
@@ -25,13 +25,12 @@ class D3PunchcardOrdinal extends D3PunchcardBase {
         this.ylabel = 'Local time of day';
         this.title = 'D3PunchcardBase title';
 
-
     }
 
 
 
     // overrides stub method in parent class
-    public draw():D3PunchcardOrdinal {
+    public draw():D3PunchcardDateUTC {
 
         this.drawSvg();
         this.drawChartBody();
@@ -49,7 +48,7 @@ class D3PunchcardOrdinal extends D3PunchcardBase {
 
 
 
-    private drawHorizontalAxis():D3PunchcardOrdinal {
+    private drawHorizontalAxis():D3PunchcardDateUTC {
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let dx:number = this.marginLeft;
@@ -90,7 +89,7 @@ class D3PunchcardOrdinal extends D3PunchcardBase {
 
 
 
-    private drawHorizontalAxisLabel():D3PunchcardOrdinal {
+    private drawHorizontalAxisLabel():D3PunchcardDateUTC {
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
@@ -110,10 +109,10 @@ class D3PunchcardOrdinal extends D3PunchcardBase {
 
 
 
-    private drawSymbols():D3PunchcardOrdinal {
+    private drawSymbols():D3PunchcardDateUTC {
 
         // capture the this object
-        let that:D3PunchcardOrdinal = this;
+        let that:D3PunchcardDateUTC = this;
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
@@ -145,11 +144,7 @@ class D3PunchcardOrdinal extends D3PunchcardBase {
                     .attr('width', symbolWidth)
                     .attr('height', symbolHeight)
                     .attr('fill', function(d){
-                        if (d.value > 50) {
-                            return '#F00';
-                        } else {
-                            return '#080';
-                        }
+                        return that.colormap.getColorRGB(d.value);
                     });
 
 
