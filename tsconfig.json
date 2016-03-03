@@ -14,6 +14,7 @@
         "src/ts/dataloader.ts",
         "src/ts/dc-datatable.ts",
         "src/ts/dc-punchcard.ts",
+        "src/ts/d3-punchcards/d3-punchcard-base.ts",
         "src/ts/d3-punchcards/d3-punchcard-ordinal.ts",
         "src/ts/heatmap/heatmap.ts",
         "src/ts/heatmap/histogram.ts",
