@@ -17,6 +17,7 @@ function doit(data: IDataRow[]) {
     let histogram         : Histogram;
     let map               : Map;
     let d3PunchcardDateUTC: D3PunchcardDateUTC;
+    let d3PunchcardWeekday: D3PunchcardWeekday;
     let dcPunchcard       : DcPunchcard;
     let spiral            : Spiral;
     let table1            : DcDataTable;
@@ -60,11 +61,18 @@ function doit(data: IDataRow[]) {
     document.getElementById('dc-punchcard').setAttribute('class', 'main-div-style hidden');
 
 
-    // draw the punchcard using the crossfilter object and D3
+    // draw the punchcard-date using the crossfilter object and D3
     d3PunchcardDateUTC = new D3PunchcardDateUTC(cf, 'd3-punchcard-date-utc');
     d3PunchcardDateUTC.defineDimensions();
     d3PunchcardDateUTC.draw();
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: d3PunchcardDateUTC done');
+
+
+    // draw the punchcard-weekday using the crossfilter object and D3
+    d3PunchcardWeekday = new D3PunchcardWeekday(cf, 'd3-punchcard-weekday');
+    d3PunchcardWeekday.defineDimensions();
+    d3PunchcardWeekday.draw();
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: d3PunchcardWeekday done');
 
 
     // make the histogram and then add it to the timeline
@@ -110,7 +118,7 @@ function doit(data: IDataRow[]) {
 let dataloader: DataLoader = new DataLoader();
 
 // configure the dataloader
-dataloader.limit = 10000;
+dataloader.limit = 50000;
 
 // set the offset to a large value to get to the more recent records (the
 // results are sorted by increasing date); the more recent records are more

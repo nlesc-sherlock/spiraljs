@@ -56,19 +56,6 @@ class D3PunchcardBase {
 
 
 
-    public defineDimensions():D3PunchcardBase {
-
-        this.dim.byHour = this.cf.dimension(function(d:IDataRow):moment.Moment{
-            let r = d.momentStartOfDay.clone().add(d.timeOfDay, 'hour');
-            return r;
-        });
-
-        return this;
-    }
-
-
-
-
     public draw():D3PunchcardBase {
 
         // placeholder method to be overridden in classes that inherit from this class
@@ -218,11 +205,11 @@ class D3PunchcardBase {
 
 
 
-    private set cf(cf:any) {
+    protected set cf(cf:any) {
         this._cf = cf;
     }
 
-    private get cf():any {
+    protected get cf():any {
         return this._cf;
     }
 
@@ -250,11 +237,11 @@ class D3PunchcardBase {
         return this._domElem;
     }
 
-    private set domElemId(domElemId:string) {
+    protected set domElemId(domElemId:string) {
         this._domElemId = domElemId;
     }
 
-    private get domElemId():string {
+    protected get domElemId():string {
         return this._domElemId;
     }
 

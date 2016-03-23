@@ -5,7 +5,7 @@
 
 
 
-class D3PunchcardDateUTC extends D3PunchcardBase {
+class D3PunchcardDate extends D3PunchcardBase {
 
     private _dateScale   : any;
     private _dateFrom    : Date;
@@ -23,14 +23,35 @@ class D3PunchcardDateUTC extends D3PunchcardBase {
         this.marginBottom = 100;
         this.xlabel = 'Date (UTC)';
         this.ylabel = 'Local time of day';
-        this.title = 'D3PunchcardBase title';
+        this.title = 'D3PunchcardDate title';
 
     }
 
 
 
+    // define the crossfilter dimensions as used by this class
+    public defineDimensions():D3PunchcardDate {
+
+        // based on example from
+        // http://stackoverflow.com/questions/16766986/is-it-possible-to-group-by-multiple-dimensions-in-crossfilter
+
+        this.dim.dateAndHourOfDay = this.cf.dimension(function (d) {
+            //stringify() and later, parse() to get keyed objects
+            return JSON.stringify({
+                date: d.moment.clone().startOf('day').format('YYYYMMDDTHH:mm:ss'),
+                hourOfDay: d.moment.hour()
+            });
+        });
+
+        return this;
+
+    }
+
+
+
+
     // overrides stub method in parent class
-    public draw():D3PunchcardDateUTC {
+    public draw():D3PunchcardDate {
 
         this.drawSvg();
         this.drawChartBody();
@@ -48,20 +69,20 @@ class D3PunchcardDateUTC extends D3PunchcardBase {
 
 
 
-    private drawHorizontalAxis():D3PunchcardDateUTC {
+    private drawHorizontalAxis():D3PunchcardDate {
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let dx:number = this.marginLeft;
         let dy:number = this.domElem.clientHeight - this.marginBottom;
 
-        this.dateFrom = this.dim.byHour
+        this.dateFrom = this.dim.dateAndHourOfDay
             .bottom(1)[0]
             .moment
             .clone()
             .startOf('day')
             .utc();
 
-        this.dateTo = this.dim.byHour
+        this.dateTo = this.dim.dateAndHourOfDay
             .top(1)[0]
             .moment
             .clone()
@@ -89,7 +110,7 @@ class D3PunchcardDateUTC extends D3PunchcardBase {
 
 
 
-    private drawHorizontalAxisLabel():D3PunchcardDateUTC {
+    private drawHorizontalAxisLabel():D3PunchcardDate {
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
@@ -109,10 +130,10 @@ class D3PunchcardDateUTC extends D3PunchcardBase {
 
 
 
-    private drawSymbols():D3PunchcardDateUTC {
+    private drawSymbols():D3PunchcardDate {
 
         // capture the this object
-        let that:D3PunchcardDateUTC = this;
+        let that:D3PunchcardDate = this;
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
@@ -121,7 +142,35 @@ class D3PunchcardDateUTC extends D3PunchcardBase {
         let symbolMargin = 1.0; // pixels
         let symbolWidth :number = this.dateScale(moment(this.dateFrom).add(1, 'day').toDate()) - symbolMargin;
         let symbolHeight:number = -1 * this.todScale(23.0) - symbolMargin;
-        let theData:any = this.dim.byHour.group().order(d3.ascending).reduceCount().top(Infinity);
+//        let data:any = this.dim.byHour.group().order(d3.ascending).reduceCount().top(Infinity);
+
+        // based on example from
+        // http://stackoverflow.com/questions/16766986/is-it-possible-to-group-by-multiple-dimensions-in-crossfilter
+        // forEach method could be very expensive on write.
+        let group = this.dim.dateAndHourOfDay.group();
+        group.all().forEach(function(d) {
+            //parse the json string created above
+            d.key = JSON.parse(d.key);
+        });
+        let data:any = group.all();
+
+
+        this.colormap = new ColorMap('default');
+        // determine the min and max in the count in order to set the color
+        // limits on the colormap later
+        let lowest = Number.POSITIVE_INFINITY;
+        let highest = Number.NEGATIVE_INFINITY;
+        for (let elem of data) {
+            if (elem.value < lowest) {
+                lowest = elem.value;
+            }
+            if (elem.value > highest) {
+                highest = elem.value;
+            }
+        }
+        this.colormap.cLimLow = lowest;
+        this.colormap.cLimHigh = highest;
+
 
 
         this.svg
@@ -129,7 +178,7 @@ class D3PunchcardDateUTC extends D3PunchcardBase {
             .attr('class', 'symbol')
             .attr('transform', 'translate(' + dx + ',' + dy + ')')
             .selectAll('rect.symbol')
-                .data(theData)
+                .data(data)
                 .enter()
                 .append('rect')
                     .attr('class', 'symbol')

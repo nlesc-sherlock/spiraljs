@@ -16,20 +16,20 @@ class ColorMap {
 
     static defaultColorTable:ColorTable = [
         {
-            at: -Infinity,
-            color: [255, 255, 255]
+            at: Number.NEGATIVE_INFINITY,
+            color: [255, 255, 255, 255]
         },
         {
             at: 0.0,
-            color: [255, 0, 0]
+            color: [8, 106, 227, 0]
         },
         {
-            at: 50,
-            color: [0, 128, 0]
+            at: 1.0,
+            color: [227, 8, 88, 0]
         },
         {
-            at: 100,
-            color: [0, 0, 255]
+            at: Number.POSITIVE_INFINITY,
+            color: [255, 255, 255, 255]
         }
     ];
 
@@ -61,8 +61,8 @@ class ColorMap {
 
         // adjust the color limits
         let nColors = this.colortable.length;
-        this.cLimLow = this.colortable[0].at;
-        this.cLimHigh = this.colortable[nColors - 1].at;
+        this.cLimLow = this.colortable[1].at;
+        this.cLimHigh = this.colortable[nColors - 2].at;
 
     }
 
@@ -93,17 +93,42 @@ class ColorMap {
             case 'gray': {
                 colortable = [
                     {
-                        at: -Infinity,
-                        color: [0, 0, 0]
+                        at: Number.NEGATIVE_INFINITY,
+                        color: [0, 0, 0, 255]
                     },
                     {
                         at: 0.0,
-                        color: [0, 0, 0]
+                        color: [0, 0, 0, 0]
                     },
                     {
                         at: 1.0,
-                        color: [255, 255, 255]
+                        color: [255, 255, 255, 0]
                     },
+                    {
+                        at: Number.POSITIVE_INFINITY,
+                        color: [255, 255, 255, 255]
+                    }
+                ];
+                break;
+            }
+            case 'summer': {
+                colortable = [
+                    {
+                        at: Number.NEGATIVE_INFINITY,
+                        color: [0, 0, 0, 255]
+                    },
+                    {
+                        at: 0.0,
+                        color: [8, 160, 120, 0]
+                    },
+                    {
+                        at: 1.0,
+                        color: [252, 252, 42, 0]
+                    },
+                    {
+                        at: Number.POSITIVE_INFINITY,
+                        color: [255, 255, 255, 255]
+                    }
                 ];
                 break;
             }
@@ -121,25 +146,35 @@ class ColorMap {
 
     public getColor(at:number):[number, number, number] {
 
+        let atUnity = (at - this.cLimLow) / (this.cLimHigh - this.cLimLow);
+        let nColors = this.colortable.length;
 
-        // FIXME currently just uses two indexes from the default colortable
+        let prev;
+        let next;
 
-        let iColorPrev:number = 1;
-        let iColorNext:number = 2;
+        for (let iColor = 0; iColor < nColors; iColor++) {
+            let cond1 = this.colortable[iColor].at <= atUnity;
+            let cond2 = atUnity < this.colortable[iColor + 1].at;
+            if (cond1 && cond2) {
+                prev = this.colortable[iColor];
+                next = this.colortable[iColor + 1];
+                break;
+            }
+        }
 
-        let prevColor: [number, number, number] = this.colortable[iColorPrev].color;
-        let prevAt:number = this.colortable[iColorPrev].at;
-
-        let nextColor: [number, number, number] = this.colortable[iColorNext].color;
-        let nextAt: number = this.colortable[iColorNext].at;
-
-        let atRelative:number = (at - prevAt) / (nextAt - prevAt);
-
-        let theColor: [number, number, number] = [
-            Math.floor(prevColor[0] + (nextColor[0] - prevColor[0]) * atRelative),
-            Math.floor(prevColor[1] + (nextColor[1] - prevColor[1]) * atRelative),
-            Math.floor(prevColor[2] + (nextColor[2] - prevColor[2]) * atRelative)
+        let atRelative:number = (atUnity - prev.at) / (next.at - prev.at);
+        let theColor: [number, number, number, number] = [
+            Math.floor(prev.color[0] + (next.color[0] - prev.color[0]) * atRelative),
+            Math.floor(prev.color[1] + (next.color[1] - prev.color[1]) * atRelative),
+            Math.floor(prev.color[2] + (next.color[2] - prev.color[2]) * atRelative),
+            255
         ];
+
+        for (let channel of theColor) {
+            if (channel < 0 || channel > 255) {
+                throw new Error('Calculated color out of bounds.');
+            }
+        }
 
         return theColor;
     }
@@ -153,27 +188,31 @@ class ColorMap {
         return 'rgb(' + color[0] + ',' + color[1] + ',' + color[2] + ')';
 }
 
-    protected set cLimLow(cLimLow:number) {
+    public set cLimLow(cLimLow:number) {
         this._cLimLow = cLimLow;
     }
 
-    protected get cLimLow() {
+    public get cLimLow() {
         return this._cLimLow;
     }
 
-    protected set cLimHigh(cLimHigh:number) {
+    public set cLimHigh(cLimHigh:number) {
         this._cLimHigh = cLimHigh;
     }
 
-    protected get cLimHigh() {
+    public get cLimHigh() {
         return this._cLimHigh;
     }
 
-    private set colortable(colortable:ColorTable) {
+    public set colortable(colortable:ColorTable) {
+
+        // TODO check if the colortable has colors at Infinity, at 0.0, at 1.0
+        // check that the colors are rgba
+        // check that infinity has 255 as alpha value on both sides
         this._colortable = colortable;
     }
 
-    private get colortable():ColorTable{
+    public get colortable():ColorTable{
         return this._colortable;
     }
 
