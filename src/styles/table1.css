@@ -11,11 +11,11 @@
     border-top-right-radius: 0px;
 }
 
-.dc-table-group {
+#table1 .dc-table-group {
     display: none;
 }
 
-td {
+#table1 td {
     padding-left: 10px;
     padding-right: 10px;
 }
