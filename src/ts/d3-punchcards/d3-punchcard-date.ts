@@ -8,8 +8,8 @@
 class D3PunchcardDate extends D3PunchcardBase {
 
     private _dateScale   : any;
-    private _dateFrom    : Date;
-    private _dateTo      : Date;
+    private _dateFrom    : moment.Moment;
+    private _dateTo      : moment.Moment;
     private _xlabel      : string;
 
 
@@ -21,7 +21,7 @@ class D3PunchcardDate extends D3PunchcardBase {
         this.marginRight = 80;
         this.marginTop = 60;
         this.marginBottom = 100;
-        this.xlabel = 'Date (UTC)';
+        this.xlabel = 'Date (Local time)';
         this.ylabel = 'Local time of day';
         this.title = 'D3PunchcardDate title';
 
@@ -38,7 +38,7 @@ class D3PunchcardDate extends D3PunchcardBase {
         this.dim.dateAndHourOfDay = this.cf.dimension(function (d) {
             //stringify() and later, parse() to get keyed objects
             return JSON.stringify({
-                date: d.moment.clone().startOf('day').format('YYYYMMDDTHH:mm:ss'),
+                date: d.moment.clone().startOf('day').format('YYYYMMDDTHH:mm:ssZ'),
                 hourOfDay: d.moment.hour()
             });
         });
@@ -79,19 +79,17 @@ class D3PunchcardDate extends D3PunchcardBase {
             .bottom(1)[0]
             .moment
             .clone()
-            .startOf('day')
-            .utc();
+            .startOf('day');
 
         this.dateTo = this.dim.dateAndHourOfDay
             .top(1)[0]
             .moment
             .clone()
-            .endOf('day')
-            .utc();
+            .endOf('day');
 
-        this.dateScale = d3.time.scale.utc()
+        this.dateScale = d3.time.scale()
             .range([0, w])
-            .domain([this.dateFrom, this.dateTo]);
+            .domain([this.dateFrom.toDate(), this.dateTo.toDate()]);
 
         let dateAxis = d3.svg.axis()
             .orient('bottom')
@@ -140,8 +138,8 @@ class D3PunchcardDate extends D3PunchcardBase {
         let dx:number = this.marginLeft;
         let dy:number = this.marginTop + h;
         let symbolMargin = 1.0; // pixels
-        let symbolWidth :number = this.dateScale(moment(this.dateFrom).add(1, 'day').toDate()) - symbolMargin;
-        let symbolHeight:number = -1 * this.todScale(23.0) - symbolMargin;
+        let symbolWidth :number = w / this.dateTo.diff(this.dateFrom, 'days') - symbolMargin;
+        let symbolHeight:number = h / 24.0 - symbolMargin;
 //        let data:any = this.dim.byHour.group().order(d3.ascending).reduceCount().top(Infinity);
 
         // based on example from
@@ -183,12 +181,10 @@ class D3PunchcardDate extends D3PunchcardBase {
                 .append('rect')
                     .attr('class', 'symbol')
                     .attr('x', function(d){
-                        return that.dateScale(d.key.clone().startOf('day').utc());
+                        return that.dateScale(moment(d.key.date, 'YYYYMMDDTHH:mm:ssZ'));
                     })
                     .attr('y', function(d){
-                        let m1 = d.key.clone().startOf('day');
-                        let m2 = d.key.clone();
-                        return that.todScale(m2.diff(m1, 'hour', false));
+                        return that.todScale(d.key.hour);
                     })
                     .attr('width', symbolWidth)
                     .attr('height', symbolHeight)
@@ -217,19 +213,19 @@ class D3PunchcardDate extends D3PunchcardBase {
         return this._dateScale;
     }
 
-    private set dateFrom(dateFrom:Date) {
+    private set dateFrom(dateFrom:moment.Moment) {
         this._dateFrom = dateFrom;
     }
 
-    private get dateFrom():Date {
+    private get dateFrom():moment.Moment {
         return this._dateFrom;
     }
 
-    private set dateTo(dateTo:Date) {
+    private set dateTo(dateTo:moment.Moment) {
         this._dateTo = dateTo;
     }
 
-    private get dateTo():Date {
+    private get dateTo():moment.Moment {
         return this._dateTo;
     }
 
