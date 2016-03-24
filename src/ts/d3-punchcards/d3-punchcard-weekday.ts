@@ -8,9 +8,8 @@
 class D3PunchcardWeekday extends D3PunchcardBase {
 
     private _dayOfWeekScale: any;
-    private _xTo           : number;
     private _xFrom         : number;
-    private _xlabel        : string;
+    private _xTo           : number;
 
 
     constructor (cf: any, domElemId: string) {
@@ -55,10 +54,10 @@ class D3PunchcardWeekday extends D3PunchcardBase {
         super.drawSvg();
         super.drawChartBody();
         this.drawHorizontalAxis();
-        this.drawHorizontalAxisLabel();
+        super.drawHorizontalAxisLabel();
         super.drawVerticalAxis();
         super.drawVerticalAxisLabel();
-        this.drawTitle();
+        super.drawTitle();
         this.drawSymbols();
 
         return this;
@@ -95,26 +94,6 @@ class D3PunchcardWeekday extends D3PunchcardBase {
 
         return this;
 
-    }
-
-
-
-
-    private drawHorizontalAxisLabel():D3PunchcardWeekday {
-
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
-        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
-        let dx:number = this.marginLeft + 0.5 * w;
-        let dy:number = this.marginTop + h + 0.5 * this.marginBottom;
-
-        this.svg.append('g')
-            .attr('class', 'horizontal-axis-label')
-            .attr('transform', 'translate(' + dx + ',' + dy + ')')
-            .append('text')
-            .text(this.xlabel)
-            .attr('class', 'horizontal-axis-label');
-
-        return this;
     }
 
 
@@ -188,14 +167,6 @@ class D3PunchcardWeekday extends D3PunchcardBase {
 
 
 
-
-    private set xlabel(xlabel:string) {
-        this._xlabel = xlabel;
-    }
-
-    private get xlabel():string {
-        return this._xlabel;
-    }
 
     private set dayOfWeekScale(dayOfWeekScale:any) {
         this._dayOfWeekScale = dayOfWeekScale;

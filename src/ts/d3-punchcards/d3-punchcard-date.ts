@@ -10,7 +10,6 @@ class D3PunchcardDate extends D3PunchcardBase {
     private _dateScale   : any;
     private _dateFrom    : moment.Moment;
     private _dateTo      : moment.Moment;
-    private _xlabel      : string;
 
 
     constructor (cf: any, domElemId: string) {
@@ -22,10 +21,10 @@ class D3PunchcardDate extends D3PunchcardBase {
         this.marginTop = 60;
         this.marginBottom = 100;
         this.xlabel = 'Date (Local time)';
-        this.ylabel = 'Local time of day';
         this.title = 'D3PunchcardDate title';
 
     }
+
 
 
 
@@ -44,7 +43,6 @@ class D3PunchcardDate extends D3PunchcardBase {
         });
 
         return this;
-
     }
 
 
@@ -53,13 +51,13 @@ class D3PunchcardDate extends D3PunchcardBase {
     // overrides stub method in parent class
     public draw():D3PunchcardDate {
 
-        this.drawSvg();
-        this.drawChartBody();
+        super.drawSvg();
+        super.drawChartBody();
         this.drawHorizontalAxis();
-        this.drawHorizontalAxisLabel();
-        this.drawVerticalAxis();
-        this.drawVerticalAxisLabel();
-        this.drawTitle();
+        super.drawHorizontalAxisLabel();
+        super.drawVerticalAxis();
+        super.drawVerticalAxisLabel();
+        super.drawTitle();
         this.drawSymbols();
 
         return this;
@@ -108,26 +106,6 @@ class D3PunchcardDate extends D3PunchcardBase {
 
 
 
-    private drawHorizontalAxisLabel():D3PunchcardDate {
-
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
-        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
-        let dx:number = this.marginLeft + 0.5 * w;
-        let dy:number = this.marginTop + h + 0.5 * this.marginBottom;
-
-        this.svg.append('g')
-            .attr('class', 'horizontal-axis-label')
-            .attr('transform', 'translate(' + dx + ',' + dy + ')')
-            .append('text')
-            .text(this.xlabel)
-            .attr('class', 'horizontal-axis-label');
-
-        return this;
-    }
-
-
-
-
     private drawSymbols():D3PunchcardDate {
 
         // capture the this object
@@ -137,10 +115,9 @@ class D3PunchcardDate extends D3PunchcardBase {
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft;
         let dy:number = this.marginTop + h;
-        let symbolMargin = 1.0; // pixels
-        let symbolWidth :number = w / this.dateTo.diff(this.dateFrom, 'days') - symbolMargin;
-        let symbolHeight:number = h / 24.0 - symbolMargin;
-//        let data:any = this.dim.byHour.group().order(d3.ascending).reduceCount().top(Infinity);
+        let symbolMargin = {left:1, right: 1, top: 1, bottom: 1}; // pixels
+        let symbolWidth :number = w / this.dateTo.diff(this.dateFrom, 'days') - symbolMargin.left - symbolMargin.right;
+        let symbolHeight:number = h / 24.0 - symbolMargin.top - symbolMargin.bottom;
 
         // based on example from
         // http://stackoverflow.com/questions/16766986/is-it-possible-to-group-by-multiple-dimensions-in-crossfilter
@@ -170,40 +147,34 @@ class D3PunchcardDate extends D3PunchcardBase {
         this.colormap.cLimHigh = highest;
 
 
-
-        this.svg
-            .append('g')
-            .attr('class', 'symbol')
-            .attr('transform', 'translate(' + dx + ',' + dy + ')')
-            .selectAll('rect.symbol')
-                .data(data)
-                .enter()
-                .append('rect')
-                    .attr('class', 'symbol')
-                    .attr('x', function(d){
-                        return that.dateScale(moment(d.key.date, 'YYYYMMDDTHH:mm:ssZ'));
-                    })
-                    .attr('y', function(d){
-                        return that.todScale(d.key.hour);
-                    })
-                    .attr('width', symbolWidth)
-                    .attr('height', symbolHeight)
-                    .attr('fill', function(d){
-                        return that.colormap.getColorRGB(d.value);
-                    });
-
+        // // draw the rects
+        // this.svg
+        //     .append('g')
+        //     .attr('class', 'symbol')
+        //     .attr('transform', 'translate(' + dx + ',' + dy + ')')
+        //     .selectAll('rect.symbol')
+        //         .data(data)
+        //         .enter()
+        //         .append('rect')
+        //             .attr('class', 'symbol')
+        //             .attr('x', function(d){
+        //                 return that.dateScale(moment(d.key.date, 'YYYYMMDDTHH:mm:ssZ'));
+        //             })
+        //             .attr('y', function(d){
+        //                 return that.todScale(d.key.hour);
+        //             })
+        //             .attr('width', symbolWidth)
+        //             .attr('height', symbolHeight)
+        //             .attr('fill', function(d){
+        //                 return that.colormap.getColorRGB(d.value);
+        //             });
 
         return this;
 
     }
 
-    private set xlabel(xlabel:string) {
-        this._xlabel = xlabel;
-    }
 
-    private get xlabel():string {
-        return this._xlabel;
-    }
+
 
     private set dateScale(dateScale:any) {
         this._dateScale = dateScale;

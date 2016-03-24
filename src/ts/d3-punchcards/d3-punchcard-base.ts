@@ -17,6 +17,7 @@ class D3PunchcardBase {
     private _marginTop   : number;
     private _marginBottom: number;
     private _title       : string;
+    private _xlabel      : string;
     private _ylabel      : string;
     private _todScale    : any;
 
@@ -24,23 +25,25 @@ class D3PunchcardBase {
 
     constructor (cf: any, domElemId: string) {
 
+
+        // the crossfilter object
         this.cf = cf;
 
+        // the name of the DOM element
         this.domElemId = domElemId;
 
+        // the DOM element by ID
         this.domElem = document.getElementById(this.domElemId);
 
         // all the dimensions are collected into one object, dim, which is
         // initialized here:
         this.dim = {};
 
+        // the margins around the graph body
         this.marginLeft = 120;
         this.marginRight = 80;
         this.marginTop = 60;
         this.marginBottom = 100;
-
-        this.updateMinHeight();
-        this.updateMinWidth();
 
         this.ylabel = 'Local time of day';
         this.title = '';
@@ -49,7 +52,8 @@ class D3PunchcardBase {
 
         // beware: JavaScript magic happens here
         let that:D3PunchcardBase = this;
-        window.onresize = function(){that.onResize(); };
+        //window.onresize = function(){that.onResize(); };
+        window.addEventListener('resize', that.onResize);
 
     }
 
@@ -99,6 +103,25 @@ class D3PunchcardBase {
         return this;
     }
 
+
+
+
+    protected drawHorizontalAxisLabel():D3PunchcardBase {
+
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
+        let dx:number = this.marginLeft + 0.5 * w;
+        let dy:number = this.marginTop + h + 0.5 * this.marginBottom;
+
+        this.svg.append('g')
+            .attr('class', 'horizontal-axis-label')
+            .attr('transform', 'translate(' + dx + ',' + dy + ')')
+            .append('text')
+            .text(this.xlabel)
+            .attr('class', 'horizontal-axis-label');
+
+        return this;
+    }
 
 
 
@@ -168,7 +191,7 @@ class D3PunchcardBase {
 
 
 
-    public onResize() {
+    protected onResize() {
 
         // get the div element that we want to redraw
         let div = this.domElem;
@@ -185,9 +208,20 @@ class D3PunchcardBase {
 
 
 
-    public updateMinHeight():D3PunchcardBase {
+    private updateMinHeight():D3PunchcardBase {
 
-        this.domElem.style.minHeight = (this.marginTop + this.marginBottom + 100).toString() + 'px';
+        let top:number = this.marginTop;
+        let bottom:number = this.marginBottom;
+
+        if (typeof top === 'undefined') {
+            top = 0;
+        }
+
+        if (typeof bottom === 'undefined') {
+            bottom = 0;
+        }
+
+        this.domElem.style.minHeight = (top + bottom + 100).toString() + 'px';
 
         return this;
     }
@@ -195,9 +229,20 @@ class D3PunchcardBase {
 
 
 
-    public updateMinWidth():D3PunchcardBase {
+    private updateMinWidth():D3PunchcardBase {
 
-        this.domElem.style.minWidth = (this.marginLeft + this.marginRight + 100).toString() + 'px';
+        let left:number = this.marginLeft;
+        let right:number = this.marginRight;
+
+        if (typeof left === 'undefined') {
+            left = 0;
+        }
+
+        if (typeof right === 'undefined') {
+            right = 0;
+        }
+
+        this.domElem.style.minWidth = (left + right + 100).toString() + 'px';
 
         return this;
     }
@@ -255,7 +300,7 @@ class D3PunchcardBase {
 
     protected set marginLeft(marginLeft:number) {
         this._marginLeft = marginLeft;
-        this.domElem.style.minWidth = (this.marginLeft + this.marginRight + 100).toString + 'px';
+        this.updateMinWidth();
     }
 
     protected get marginLeft():number {
@@ -264,6 +309,7 @@ class D3PunchcardBase {
 
     protected set marginRight(marginRight:number) {
         this._marginRight = marginRight;
+        this.updateMinWidth();
     }
 
     protected get marginRight():number {
@@ -272,6 +318,7 @@ class D3PunchcardBase {
 
     protected set marginTop(marginTop:number) {
         this._marginTop = marginTop;
+        this.updateMinHeight();
     }
 
     protected get marginTop():number {
@@ -280,6 +327,7 @@ class D3PunchcardBase {
 
     protected set marginBottom(marginBottom:number) {
         this._marginBottom = marginBottom;
+        this.updateMinHeight();
     }
 
     protected get marginBottom():number {
@@ -292,6 +340,14 @@ class D3PunchcardBase {
 
     protected get title():string {
         return this._title;
+    }
+
+    protected set xlabel(xlabel:string) {
+        this._xlabel = xlabel;
+    }
+
+    protected get xlabel():string {
+        return this._xlabel;
     }
 
     protected set ylabel(ylabel:string) {
