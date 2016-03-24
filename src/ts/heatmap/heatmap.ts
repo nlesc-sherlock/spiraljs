@@ -517,6 +517,47 @@ class Heatmap {
 
 
 
+
+    private updateMinHeight():Heatmap {
+
+        let top:number = this.paddingTop;
+        let bottom:number = this.paddingBottom;
+
+        if (typeof top === 'undefined' || top < 0) {
+            top = 0;
+        }
+
+        if (typeof bottom === 'undefined' || bottom < 0) {
+            bottom = 0;
+        }
+
+        this.domElem.style.minHeight = (top + bottom + 100).toString() + 'px';
+
+        return this;
+    }
+
+
+
+
+    private updateMinWidth():Heatmap {
+
+        let left:number = this.paddingLeft;
+        let right:number = this.paddingRight;
+
+        if (typeof left === 'undefined' || left < 0) {
+            left = 0;
+        }
+
+        if (typeof right === 'undefined' || right < 0) {
+            right = 0;
+        }
+
+        this.domElem.style.minWidth = (left + right + 100).toString() + 'px';
+
+        return this;
+    }
+
+
     // getters and setters
     public get cLimHighColor():Array<number> {
         return this._cLimHighColor;
@@ -596,6 +637,7 @@ class Heatmap {
 
     private set paddingLeft(paddingLeft:number) {
         this._paddingLeft = paddingLeft;
+        this.updateMinWidth();
     }
 
     private get paddingRight():number {
@@ -604,6 +646,7 @@ class Heatmap {
 
     private set paddingRight(paddingRight:number) {
         this._paddingRight = paddingRight;
+        this.updateMinWidth();
     }
 
     private get paddingTop():number {
@@ -612,6 +655,7 @@ class Heatmap {
 
     private set paddingTop(paddingTop:number) {
         this._paddingTop = paddingTop;
+        this.updateMinHeight();
     }
 
     private get paddingBottom():number {
@@ -620,6 +664,7 @@ class Heatmap {
 
     private set paddingBottom(paddingBottom:number) {
         this._paddingBottom = paddingBottom;
+        this.updateMinHeight();
     }
 
     private get svg():d3.Selection<any> {
