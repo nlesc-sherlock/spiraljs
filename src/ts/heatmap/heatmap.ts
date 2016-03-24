@@ -11,7 +11,6 @@ class Heatmap {
     private _dateScale    : d3.time.Scale<number, number>;
     private _domElem      : HTMLElement;
     private _domElemId    : string;
-    private _height       : number;
     private _histogram    : Histogram;
     private _paddingBottom: number;
     private _paddingLeft  : number;
@@ -19,7 +18,6 @@ class Heatmap {
     private _paddingTop   : number;
     private _svg          : d3.Selection<any>;
     private _todScale     : d3.scale.Linear<number, number>;
-    private _width        : number;
 
     constructor (domElemId:string, histogram: Histogram) {
         // constructor method
@@ -45,24 +43,15 @@ class Heatmap {
         this.paddingTop = 60;
         this.paddingBottom = 90;
 
-        // get the maxium width within the element
-        this.width = this.domElem.clientWidth;
-        this.height = this.domElem.clientHeight;
-
         // now start the actual drawing of stuff
-        this.drawSvgElem();
-        this.drawBackground();
-        this.drawAxisHorizontal();
-        this.drawAxisVertical();
-        this.drawHeatmap();
-        this.drawButtonLeftArrowLeft();
-        this.drawButtonLeftArrowRight();
-        this.drawButtonRightArrowLeft();
-        this.drawButtonRightArrowRight();
-        this.drawLegend();
-        this.drawXLabel();
-        this.drawYLabel();
-        this.drawTitle();
+        this.draw();
+
+        // beware: JavaScript magic happens here
+        let that:Heatmap = this;
+        window.addEventListener('resize', function() {
+            that.onResize();
+        });
+
     }
 
 
@@ -96,6 +85,29 @@ class Heatmap {
 
 
 
+    // overrides stub method in parent class
+    public draw():Heatmap {
+
+        this.drawSvgElem();
+        this.drawBackground();
+        this.drawAxisHorizontal();
+        this.drawAxisVertical();
+        this.drawHeatmap();
+        this.drawButtonLeftArrowLeft();
+        this.drawButtonLeftArrowRight();
+        this.drawButtonRightArrowLeft();
+        this.drawButtonRightArrowRight();
+        this.drawLegend();
+        this.drawXLabel();
+        this.drawYLabel();
+        this.drawTitle();
+
+        return this;
+    }
+
+
+
+
     private drawAxisHorizontal():Heatmap {
         // draw the horizontal axis
 
@@ -106,7 +118,7 @@ class Heatmap {
         this.dateScale = d3.time.scale()
             .domain([this.histogram.xDomainFrom.clone().add(offsetMinutes, 'minutes').toDate(),
                      this.histogram.xDomainTo.clone().add(offsetMinutes, 'minutes').toDate()])
-            .range([0, this.width - this.paddingLeft - this.paddingRight]);
+            .range([0, this.domElem.clientWidth - this.paddingLeft - this.paddingRight]);
 
 
         // create an axis object for the date
@@ -119,7 +131,7 @@ class Heatmap {
         this.svg
             .append('g')
                 .attr('class', 'dateAxisGroup')
-                .attr('transform', 'translate(' + this.paddingLeft + ',' + (this.height - this.paddingBottom) + ')')
+                .attr('transform', 'translate(' + this.paddingLeft + ',' + (this.domElem.clientHeight - this.paddingBottom) + ')')
                 .call(dateAxis);
 
         return this;
@@ -133,7 +145,7 @@ class Heatmap {
         // draw the horizontal axis
         this.todScale = d3.scale.linear()
             .domain([this.histogram.yDomainFrom, this.histogram.yDomainTo])
-            .range([0, this.height - this.paddingTop - this.paddingBottom]);
+            .range([0, this.domElem.clientHeight - this.paddingTop - this.paddingBottom]);
 
         // create an axis object for the time of day
         var todAxis = d3.svg.axis()
@@ -164,8 +176,8 @@ class Heatmap {
 
         // set the width and height of the chart background
         elem.append('rect')
-            .attr('width', this.width - this.paddingLeft - this.paddingRight)
-            .attr('height', this.height - this.paddingTop - this.paddingBottom)
+            .attr('width', this.domElem.clientWidth - this.paddingLeft - this.paddingRight)
+            .attr('height', this.domElem.clientHeight - this.paddingTop - this.paddingBottom)
             .attr('class', 'background');
 
         return this;
@@ -289,7 +301,7 @@ class Heatmap {
         let offsetX: number;
         let offsetY: number;
 
-        offsetX = this.width - this.paddingRight - this.buttonWidth - 5;
+        offsetX = this.domElem.clientWidth - this.paddingRight - this.buttonWidth - 5;
         offsetY = this.paddingTop / 2 - this.buttonHeight / 2;
 
         this.drawButton(offsetX, offsetY, 'left', 'right, left');
@@ -306,7 +318,7 @@ class Heatmap {
         let offsetX: number;
         let offsetY: number;
 
-        offsetX = this.width - this.paddingRight + 5;
+        offsetX = this.domElem.clientWidth - this.paddingRight + 5;
         offsetY = this.paddingTop / 2 - this.buttonHeight / 2;
 
         this.drawButton(offsetX, offsetY, 'right', 'right, right');
@@ -339,8 +351,10 @@ class Heatmap {
         heatmap.selectAll('rect').data(this.histogram.countData).enter().append('rect')
             .attr('x', calcLeftOfRect)
             .attr('y', function (d:any) {return that.todScale(d.todFrom); })
-            .attr('width', function () {return (that.width - that.paddingLeft - that.paddingRight) / that.histogram.xDomainExtent; })
-            .attr('height', function () {return (that.height - that.paddingTop - that.paddingBottom) / that.histogram.yDomainExtent; })
+            .attr('width', function () {return (that.domElem.clientWidth - that.paddingLeft - that.paddingRight) /
+                    that.histogram.xDomainExtent; })
+            .attr('height', function () {return (that.domElem.clientHeight - that.paddingTop - that.paddingBottom) /
+                    that.histogram.yDomainExtent; })
             .attr('fill', function (d:any) {return that.calcColor(that.histogram.min, that.histogram.max, d.count); })
             .attr('fill-opacity', function (d:any) {return d.count ? 1.0 : 0.0; })
             .attr('class', 'histogram');
@@ -362,8 +376,8 @@ class Heatmap {
 
         var that = this;
 
-        let left:number = this.width - this.paddingRight + 20;
-        let top:number = this.paddingTop + 0.3 * (this.height - this.paddingTop - this.paddingBottom);
+        let left:number = this.domElem.clientWidth - this.paddingRight + 20;
+        let top:number = this.paddingTop + 0.3 * (this.domElem.clientHeight - this.paddingTop - this.paddingBottom);
 
         let legend = this.svg
             .append('g')
@@ -420,8 +434,8 @@ class Heatmap {
         // append an svg element to the heatmap div
         this.svg
             .attr('class', 'svg')
-            .attr('width', this.width)
-            .attr('height', this.height);
+            .attr('width', this.domElem.clientWidth)
+            .attr('height', this.domElem.clientHeight);
 
         return this;
 
@@ -432,7 +446,7 @@ class Heatmap {
 
     private drawTitle():Heatmap {
         // draw figure title
-        let left:number = this.paddingLeft + (this.width - this.paddingLeft - this.paddingRight) / 2;
+        let left:number = this.paddingLeft + (this.domElem.clientWidth - this.paddingLeft - this.paddingRight) / 2;
         let top: number = this.paddingTop / 2;
         this.svg
             .append('g')
@@ -451,8 +465,8 @@ class Heatmap {
 
     private drawXLabel():Heatmap {
         // draw figure xlabel
-        let left:number = this.paddingLeft + (this.width - this.paddingLeft - this.paddingRight) / 2;
-        let top:number = this.height - this.paddingBottom / 2;
+        let left:number = this.paddingLeft + (this.domElem.clientWidth - this.paddingLeft - this.paddingRight) / 2;
+        let top:number = this.domElem.clientHeight - this.paddingBottom / 2;
         this.svg
             .append('g')
                 .attr('class', 'xlabel')
@@ -470,7 +484,7 @@ class Heatmap {
     private drawYLabel(): Heatmap {
         // draw figure ylabel
         let left: number = this.paddingLeft / 2;
-        let top:number = this.paddingTop + (this.height - this.paddingTop - this.paddingBottom) / 2;
+        let top:number = this.paddingTop + (this.domElem.clientHeight - this.paddingTop - this.paddingBottom) / 2;
         this.svg
             .append('g')
                 .attr('class', 'ylabel')
@@ -484,6 +498,21 @@ class Heatmap {
 
 
 
+
+
+    private onResize() {
+
+        // get the div element that we want to redraw
+        let div = this.domElem;
+
+        // delete the contents of the div
+        while (div.firstChild) {
+            div.removeChild(div.firstChild);
+        }
+
+        // draw the figure again, given that the window just changed size
+        this.draw();
+    }
 
 
 
@@ -543,22 +572,6 @@ class Heatmap {
 
     private set buttonHeight(buttonHeight:number) {
         this._buttonHeight = buttonHeight;
-    }
-
-    private get width():number {
-        return this._width;
-    }
-
-    private set width(width:number) {
-        this._width = width;
-    }
-
-    private get height():number {
-        return this._height;
-    }
-
-    private set height(height:number) {
-        this._height = height;
     }
 
     private get domElemId():string {
