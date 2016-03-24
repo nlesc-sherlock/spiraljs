@@ -15,11 +15,13 @@
 
 #d3-punchcard-weekday rect.chartbody {
     fill: #d8d8d8;
+    shape-rendering: crispEdges;
 }
 
 #d3-punchcard-weekday rect.symbol {
     stroke: none;
     stroke-width: 0px;
+    shape-rendering: crispEdges;
 }
 
 #d3-punchcard-weekday text.horizontal-axis-label {
