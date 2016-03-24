@@ -52,8 +52,11 @@ class D3PunchcardBase {
 
         // beware: JavaScript magic happens here
         let that:D3PunchcardBase = this;
-        //window.onresize = function(){that.onResize(); };
-        window.addEventListener('resize', that.onResize);
+        window.addEventListener('resize', function() {
+            that.onResize();
+        });
+
+
 
     }
 
