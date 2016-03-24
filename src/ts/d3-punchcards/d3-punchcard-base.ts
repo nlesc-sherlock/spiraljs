@@ -55,9 +55,6 @@ class D3PunchcardBase {
         window.addEventListener('resize', function() {
             that.onResize();
         });
-
-
-
     }
 
 
@@ -141,7 +138,10 @@ class D3PunchcardBase {
 
         let todAxis = d3.svg.axis()
             .orient('left')
-            .scale(this.todScale);
+            .scale(this.todScale)
+            .tickValues([0, 3, 6, 9, 12, 15, 18, 21, 24])
+            .innerTickSize(5)
+            .outerTickSize(0);
 
         this.svg.append('g')
             .attr('class', 'vertical-axis')
@@ -187,6 +187,28 @@ class D3PunchcardBase {
             .append('text')
             .text(this.title)
             .attr('class', 'title');
+
+        return this;
+    }
+
+
+
+
+    protected drawBox():D3PunchcardBase {
+        //
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
+        let dx:number = this.marginLeft;
+        let dy:number = this.marginTop;
+
+
+        this.svg.append('g')
+            .attr('class', 'chartbody-box')
+            .attr('transform', 'translate(' + dx + ',' + dy + ')' )
+            .append('rect')
+                .attr('width', w)
+                .attr('height', h)
+                .attr('class', 'chartbody-box');
 
         return this;
     }

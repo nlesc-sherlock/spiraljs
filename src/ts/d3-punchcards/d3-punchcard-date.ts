@@ -37,7 +37,7 @@ class D3PunchcardDate extends D3PunchcardBase {
         this.dim.dateAndHourOfDay = this.cf.dimension(function (d) {
             //stringify() and later, parse() to get keyed objects
             return JSON.stringify({
-                date: d.moment.clone().startOf('day').format('YYYYMMDDTHH:mm:ssZ'),
+                date: d.moment.clone().utc().startOf('day').format('YYYYMMDDTHH:mm:ss'),
                 hourOfDay: d.moment.hour()
             });
         });
@@ -59,6 +59,7 @@ class D3PunchcardDate extends D3PunchcardBase {
         super.drawVerticalAxisLabel();
         super.drawTitle();
         this.drawSymbols();
+        super.drawBox();
 
         return this;
     }
@@ -77,17 +78,20 @@ class D3PunchcardDate extends D3PunchcardBase {
             .bottom(1)[0]
             .moment
             .clone()
+            .utc()
             .startOf('day');
 
         this.dateTo = this.dim.dateAndHourOfDay
             .top(1)[0]
             .moment
             .clone()
+            .utc()
             .endOf('day');
 
-        this.dateScale = d3.time.scale()
+        this.dateScale = d3.time.scale.utc()
             .range([0, w])
-            .domain([this.dateFrom.toDate(), this.dateTo.toDate()]);
+            .domain([this.dateFrom.utc().toDate(),
+                     this.dateTo.utc().toDate()]);
 
         let dateAxis = d3.svg.axis()
             .orient('bottom')
@@ -115,8 +119,8 @@ class D3PunchcardDate extends D3PunchcardBase {
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft;
         let dy:number = this.marginTop + h;
-        let symbolMargin = {left:1, right: 1, top: 1, bottom: 1}; // pixels
-        let symbolWidth :number = w / this.dateTo.diff(this.dateFrom, 'days') - symbolMargin.left - symbolMargin.right;
+        let symbolMargin = {left:0, right: 0, top: 0, bottom: 0}; // pixels
+        let symbolWidth :number = w / this.dateTo.diff(this.dateFrom, 'days', true) - symbolMargin.left - symbolMargin.right;
         let symbolHeight:number = h / 24.0 - symbolMargin.top - symbolMargin.bottom;
 
         // based on example from
@@ -147,27 +151,27 @@ class D3PunchcardDate extends D3PunchcardBase {
         this.colormap.cLimHigh = highest;
 
 
-        // // draw the rects
-        // this.svg
-        //     .append('g')
-        //     .attr('class', 'symbol')
-        //     .attr('transform', 'translate(' + dx + ',' + dy + ')')
-        //     .selectAll('rect.symbol')
-        //         .data(data)
-        //         .enter()
-        //         .append('rect')
-        //             .attr('class', 'symbol')
-        //             .attr('x', function(d){
-        //                 return that.dateScale(moment(d.key.date, 'YYYYMMDDTHH:mm:ssZ'));
-        //             })
-        //             .attr('y', function(d){
-        //                 return that.todScale(d.key.hour);
-        //             })
-        //             .attr('width', symbolWidth)
-        //             .attr('height', symbolHeight)
-        //             .attr('fill', function(d){
-        //                 return that.colormap.getColorRGB(d.value);
-        //             });
+        // draw the rects
+        this.svg
+            .append('g')
+            .attr('class', 'symbol')
+            .attr('transform', 'translate(' + dx + ',' + dy + ')')
+            .selectAll('rect.symbol')
+                .data(data)
+                .enter()
+                .append('rect')
+                    .attr('class', 'symbol')
+                    .attr('x', function(d){
+                        return that.dateScale(moment.utc(d.key.date, 'YYYYMMDDTHH:mm:ss').toDate());
+                        })
+                    .attr('y', function(d){
+                        return that.todScale(d.key.hourOfDay);
+                    })
+                    .attr('width', symbolWidth)
+                    .attr('height', symbolHeight)
+                    .attr('fill', function(d){
+                        return that.colormap.getColorRGB(d.value);
+                    });
 
         return this;
 

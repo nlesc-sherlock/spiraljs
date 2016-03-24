@@ -18,6 +18,12 @@
     shape-rendering: crispEdges;
 }
 
+#d3-punchcard-date-utc rect.chartbody-box {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
 #d3-punchcard-date-utc rect.symbol {
     stroke: none;
     stroke-width: 0px;

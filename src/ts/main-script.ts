@@ -58,8 +58,13 @@ function doit(data: IDataRow[]) {
     dcPunchcard.draw();
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: dcPunchcard done');
     // hide the div for now
-    document.getElementById('dc-punchcard').setAttribute('class', 'main-div-style hidden');
+//    document.getElementById('dc-punchcard').setAttribute('class', 'main-div-style hidden');
 
+    // draw the punchcard-weekday using the crossfilter object and D3
+    d3PunchcardWeekday = new D3PunchcardWeekday(cf, 'd3-punchcard-weekday');
+    d3PunchcardWeekday.defineDimensions();
+    d3PunchcardWeekday.draw();
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: d3PunchcardWeekday done');
 
     // draw the punchcard-date using the crossfilter object and D3
     d3PunchcardDate = new D3PunchcardDate(cf, 'd3-punchcard-date-utc');
@@ -68,11 +73,6 @@ function doit(data: IDataRow[]) {
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: d3PunchcardDateUTC done');
 
 
-    // draw the punchcard-weekday using the crossfilter object and D3
-    d3PunchcardWeekday = new D3PunchcardWeekday(cf, 'd3-punchcard-weekday');
-    d3PunchcardWeekday.defineDimensions();
-    d3PunchcardWeekday.draw();
-    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: d3PunchcardWeekday done');
 
 
     // make the histogram and then add it to the timeline
@@ -118,12 +118,12 @@ function doit(data: IDataRow[]) {
 let dataloader: DataLoader = new DataLoader();
 
 // configure the dataloader
-dataloader.limit = 5000;
+dataloader.limit = 700;
 
 // set the offset to a large value to get to the more recent records (the
 // results are sorted by increasing date); the more recent records are more
 // likely to have valid coordinates.
-dataloader.offset = 109500;
+dataloader.offset = 109850;
 
 // load the data
 dataloader.loadData(doit);

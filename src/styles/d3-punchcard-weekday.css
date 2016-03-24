@@ -8,13 +8,19 @@
 }
 
 #d3-punchcard-weekday path.domain {
-  fill: none;
-  stroke: black;
-  shape-rendering: crispEdges;
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
 }
 
 #d3-punchcard-weekday rect.chartbody {
     fill: #d8d8d8;
+    shape-rendering: crispEdges;
+}
+
+#d3-punchcard-weekday rect.chartbody-box {
+    fill: none;
+    stroke: black;
     shape-rendering: crispEdges;
 }
 
@@ -39,3 +45,8 @@
     text-anchor: middle;
 }
 
+#d3-punchcard-weekday .tick line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}

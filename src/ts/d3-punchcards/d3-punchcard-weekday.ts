@@ -59,6 +59,7 @@ class D3PunchcardWeekday extends D3PunchcardBase {
         super.drawVerticalAxisLabel();
         super.drawTitle();
         this.drawSymbols();
+        super.drawBox();
 
         return this;
     }
@@ -85,7 +86,10 @@ class D3PunchcardWeekday extends D3PunchcardBase {
 
         let xAxis = d3.svg.axis()
             .orient('bottom')
-            .scale(this.dayOfWeekScale);
+            .scale(this.dayOfWeekScale)
+            .tickValues(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
+            .innerTickSize(5)
+            .outerTickSize(0);
 
         this.svg.append('g')
             .attr('class', 'horizontal-axis')
@@ -108,7 +112,7 @@ class D3PunchcardWeekday extends D3PunchcardBase {
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft;
         let dy:number = this.marginTop + h;
-        let symbolMargin = {left:1, right: 1, top: 1, bottom: 1}; // pixels
+        let symbolMargin = {left:0, right: 0, top: 0, bottom: 0}; // pixels
         let symbolWidth :number = w / 7 - symbolMargin.left - symbolMargin.right;
         let symbolHeight:number = h / 24 - symbolMargin.top - symbolMargin.bottom;
 
