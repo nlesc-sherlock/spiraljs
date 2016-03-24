@@ -216,11 +216,11 @@ class D3PunchcardBase {
         let top:number = this.marginTop;
         let bottom:number = this.marginBottom;
 
-        if (typeof top === 'undefined') {
+        if (typeof top === 'undefined' || top < 0) {
             top = 0;
         }
 
-        if (typeof bottom === 'undefined') {
+        if (typeof bottom === 'undefined' || bottom < 0) {
             bottom = 0;
         }
 
@@ -237,11 +237,11 @@ class D3PunchcardBase {
         let left:number = this.marginLeft;
         let right:number = this.marginRight;
 
-        if (typeof left === 'undefined') {
+        if (typeof left === 'undefined' || left < 0) {
             left = 0;
         }
 
-        if (typeof right === 'undefined') {
+        if (typeof right === 'undefined' || right < 0) {
             right = 0;
         }
 
