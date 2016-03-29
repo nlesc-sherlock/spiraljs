@@ -16,10 +16,10 @@ class D3PunchcardDate extends D3PunchcardBase {
 
         super(cf, domElemId);
 
-        this.marginLeft = 120;
-        this.marginRight = 80;
+        this.marginLeft = 70;
+        this.marginRight = 70;
         this.marginTop = 60;
-        this.marginBottom = 100;
+        this.marginBottom = 130;
         this.xlabel = 'Date';
         this.title = 'D3PunchcardDate title';
     }
@@ -84,12 +84,22 @@ class D3PunchcardDate extends D3PunchcardBase {
 
         let dateAxis = d3.svg.axis()
             .orient('bottom')
-            .scale(this.dateScale);
+            .scale(this.dateScale)
+            .ticks(7)
+            .tickFormat(d3.time.format('%b %-d, %Y'));
 
         this.svg.append('g')
             .attr('class', 'horizontal-axis')
             .attr('transform', 'translate(' + dx + ',' + dy + ')' )
             .call(dateAxis);
+
+        this.svg.select('.horizontal-axis')
+            .selectAll('text')
+                .attr('y', 0)
+                .attr('x', -10)
+                .attr('dy', '.4em')
+                .attr('transform', 'rotate(-90)')
+                .style('text-anchor', 'end');
 
         return this;
 

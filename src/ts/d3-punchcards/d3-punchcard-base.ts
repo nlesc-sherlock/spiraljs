@@ -108,7 +108,7 @@ class D3PunchcardBase {
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft + 0.5 * w;
-        let dy:number = this.marginTop + h + 0.5 * this.marginBottom;
+        let dy:number = this.marginTop + h + 0.8 * this.marginBottom;
 
         this.svg.append('g')
             .attr('class', 'horizontal-axis-label')
@@ -155,7 +155,7 @@ class D3PunchcardBase {
     protected drawVerticalAxisLabel():D3PunchcardBase {
         //
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
-        let dx:number = 0.5 * this.marginLeft;
+        let dx:number = 0.3 * this.marginLeft;
         let dy:number = this.marginTop + 0.5 * h;
 
         this.svg.append('g')

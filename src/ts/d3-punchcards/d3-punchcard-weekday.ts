@@ -16,10 +16,10 @@ class D3PunchcardWeekday extends D3PunchcardBase {
 
         super(cf, domElemId);
 
-        this.marginLeft = 120;
-        this.marginRight = 80;
-        this.marginTop = 60;
-        this.marginBottom = 100;
+        this.marginLeft = 70;
+        this.marginRight = 70;
+        this.marginTop = 50;
+        this.marginBottom = 50;
         this.xlabel = 'Day of week';
         this.title = 'D3PunchcardWeekday title';
 
