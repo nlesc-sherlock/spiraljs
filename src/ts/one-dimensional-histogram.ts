@@ -69,7 +69,7 @@ class OneDimensionalHistogram {
             .centerBar(false)
             .elasticX(false)
             .elasticY(true)
-            .gap(5)
+            .gap(0)
             .x(d3.time.scale().domain([minDate.toDate(), maxDate.toDate()]))
             .xAxisLabel('Date')
             .yAxisLabel('Total number of arrests')
