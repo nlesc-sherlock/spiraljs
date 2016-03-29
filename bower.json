@@ -3,6 +3,7 @@
   "description": "chicago timeline visualisation",
   "main": "index.js",
   "authors": [
+    "Lourens Veen",
     "Jurriaan H. Spaaks",
     "Johan Hidding",
     "Mateusz Kuzak"
