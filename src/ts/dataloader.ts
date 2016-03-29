@@ -1,6 +1,4 @@
 /// <reference path="../../typings/leaflet/leaflet.d.ts" />
-/// <reference path="../../typings/moment/moment.d.ts" />
-/// <reference path="../../typings/moment-timezone/moment-timezone.d.ts" />
 
 
 
@@ -42,8 +40,6 @@ class DataLoader {
 
     public loadData(callback:any) {
 
-        console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: started loading data');
-
         // capture the 'this' object from the current context
         let that = this;
 
@@ -57,14 +53,10 @@ class DataLoader {
             }
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
 
-                console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: done loading');
-
                 that._data = JSON.parse(xmlHttp.responseText);
-                console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: JSON parsing done');
 
                 // remove records that are invalid for whatever reason
                 that.clean();
-                console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: data cleaning done');
 
                 // execute the callback
                 callback(that._data);

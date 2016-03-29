@@ -33,10 +33,11 @@ class D3PunchcardDate extends D3PunchcardBase {
         // based on example from
         // http://stackoverflow.com/questions/16766986/is-it-possible-to-group-by-multiple-dimensions-in-crossfilter
         this.dim.dateAndHourOfDay = this.cf.dimension(function (d) {
+            let m:moment.Moment = moment(d.datestr);
             //stringify() and later, parse() to get keyed objects
             return JSON.stringify({
-                datestr: d.datestr.slice(0, 10),
-                hourOfDay: d.datestr.slice(11, 13)
+                datestr: m.format('YYYY-MM-DD'),
+                hourOfDay: m.hour()
             });
         });
         return this;
@@ -109,7 +110,7 @@ class D3PunchcardDate extends D3PunchcardBase {
         let symbolMargin = {left:0, right: 0, top: 0, bottom: 0}; // pixels
         let wDays:number = moment(this.dateTo).diff(moment(this.dateFrom), 'days', true);
 
-        let symbolWidth :number = w / Math.ceil(wDays) - symbolMargin.left - symbolMargin.right;
+        let symbolWidth :number = w / wDays - symbolMargin.left - symbolMargin.right;
         let symbolHeight:number = h / 24.0 - symbolMargin.top - symbolMargin.bottom;
 
         // based on example from
