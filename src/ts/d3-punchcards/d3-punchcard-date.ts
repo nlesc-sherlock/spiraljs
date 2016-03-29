@@ -19,7 +19,7 @@ class D3PunchcardDate extends D3PunchcardBase {
         this.marginLeft = 70;
         this.marginRight = 70;
         this.marginTop = 60;
-        this.marginBottom = 130;
+        this.marginBottom = 150;
         this.xlabel = 'Date';
         this.title = 'D3PunchcardDate title';
     }
@@ -77,6 +77,20 @@ class D3PunchcardDate extends D3PunchcardBase {
         let lastResultDate = new Date(this.dim.dateAndHourOfDay.top(1)[0].datestr);
         this.dateTo = new Date(lastResultDate.getFullYear(), lastResultDate.getMonth(), lastResultDate.getDate(), 23, 59, 59, 999);
 
+        let tickFormat;
+        let ticks;
+        let nHoursDiff: number = moment(this.dateTo).diff(moment(this.dateFrom), 'hour', true);
+        if (nHoursDiff > 5 * 24) {
+            tickFormat = d3.time.format('%b %-d, %Y');
+            ticks = 7;
+        } else if (nHoursDiff > 2 * 24) {
+            tickFormat = d3.time.format('%b %-d, %Y');
+            ticks = d3.time.days;
+        } else {
+            tickFormat = d3.time.format('%b %-d, %Y %H:%M');
+            ticks = 4;
+        };
+
         this.dateScale = d3.time.scale()
             .range([0, w])
             .domain([this.dateFrom,
@@ -85,20 +99,20 @@ class D3PunchcardDate extends D3PunchcardBase {
         let dateAxis = d3.svg.axis()
             .orient('bottom')
             .scale(this.dateScale)
-            .ticks(7)
-            .tickFormat(d3.time.format('%b %-d, %Y'));
+            .ticks(ticks)
+            .tickFormat(tickFormat);
 
         this.svg.append('g')
             .attr('class', 'horizontal-axis')
             .attr('transform', 'translate(' + dx + ',' + dy + ')' )
             .call(dateAxis);
 
+        // doing style stuff in JavaScript is considered bad practice...:
         this.svg.select('.horizontal-axis')
             .selectAll('text')
-                .attr('y', 0)
                 .attr('x', -10)
-                .attr('dy', '.4em')
-                .attr('transform', 'rotate(-90)')
+                .attr('y', 0)
+                .attr('dy', '.35em')
                 .style('text-anchor', 'end');
 
         return this;
