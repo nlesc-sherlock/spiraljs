@@ -47,24 +47,6 @@ function doit(data: IDataRow[]) {
     // spiral.render();
     // console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: spiral done');
 
-    // make a new map
-    map = new Map('leaflet', {
-        dragging: true,
-        scrollWheelZoom: false,
-        boxZoom: true,
-    });
-    map.data = data;
-    map.circleMarkerOptions = {
-        fillColor: '#8F0',
-        fillOpacity: 1.0,
-        stroke: true,
-        color: '#000'
-    };
-    map.circleMarkerRadius = 4;
-    map.showCrimeLocations();
-
-    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: leaflet map done');
-
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: doit() done');
 
 };
@@ -76,12 +58,12 @@ function doit(data: IDataRow[]) {
 let dataloader: DataLoader = new DataLoader();
 
 // configure the dataloader
-dataloader.limit = 50;
+dataloader.limit = 10000;
 
 // set the offset to a large value to get to the more recent records (the
 // results are sorted by increasing date); the more recent records are more
 // likely to have valid coordinates.
-dataloader.offset = 103450;
+dataloader.offset = 1260000;
 
 // load the data
 dataloader.loadData(doit);

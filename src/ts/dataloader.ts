@@ -55,9 +55,6 @@ class DataLoader {
 
                 that._data = JSON.parse(xmlHttp.responseText);
 
-                // remove records that are invalid for whatever reason
-                that.clean();
-
                 // execute the callback
                 callback(that._data);
             }
@@ -69,50 +66,6 @@ class DataLoader {
         // not sure what this is...end the connection?
         xmlHttp.send(null);
 
-    }
-
-
-
-
-    public clean() {
-        let iElem : number;
-        let nElems: number;
-
-        iElem = 0;
-        nElems = this._data.length;
-
-        let invalid:number[] = [];
-
-        for (iElem = 0; iElem < nElems; iElem += 1) {
-            let elem =  this._data[iElem];
-            try {
-                if (typeof elem.latitude === 'undefined') {
-                    throw new Error('No latitude in this record.');
-                }
-                if (isNaN(elem.latitude)) {
-                    throw new Error('Latitude for this record is NaN.');
-                }
-                if (typeof elem.longitude === 'undefined' ) {
-                    throw new Error('No longitude in this record.');
-                }
-                if (isNaN(elem.longitude)) {
-                    throw new Error('Longitude for this record is NaN.');
-                }
-
-                // try if this works, just to see if we may get into trouble later:
-                let pos = L.latLng(elem.latitude, elem.longitude);
-
-            } catch (err) {
-
-                this._data[iElem].latitude = 0.0;
-                this._data[iElem].longitude = 0.0;
-                invalid.push(iElem);
-            }
-        }
-
-        for (let iInvalid of invalid.reverse()) {
-            this._data.splice(iInvalid, 1);
-        }
     }
 
 
