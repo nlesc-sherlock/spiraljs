@@ -146,6 +146,12 @@ class ColorMap {
 
     public getColor(at:number):[number, number, number] {
 
+        // if there is only one value in the range, lower the lower limit and raise the upper limit
+        if (this.cLimLow === this.cLimHigh) {
+            this.cLimLow -= 0.5;
+            this.cLimHigh += 0.5;
+        }
+
         let atUnity = (at - this.cLimLow) / (this.cLimHigh - this.cLimLow);
         let nColors = this.colortable.length;
 
