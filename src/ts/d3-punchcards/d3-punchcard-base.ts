@@ -45,7 +45,7 @@ class D3PunchcardBase {
         this.marginTop = 60;
         this.marginBottom = 100;
 
-        this.ylabel = 'Local time of day';
+        this.ylabel = 'Time of day';
         this.title = '';
 
         this.colormap = new ColorMap();
@@ -70,9 +70,6 @@ class D3PunchcardBase {
 
 
     protected drawSvg():D3PunchcardBase {
-
-        this.updateMinHeight();
-        this.updateMinWidth();
 
         this.svg = d3.select(this.domElem).append('svg')
             .attr('width', this.domElem.clientWidth)

@@ -36,9 +36,10 @@ class D3PunchcardWeekday extends D3PunchcardBase {
 
         this.dim.weekdayAndHourOfDay = this.cf.dimension(function (d) {
             //stringify() and later, parse() to get keyed objects
+            let m:moment.Moment = moment(d.datestr);
             return JSON.stringify({
-                weekday: d.moment.format('ddd'),
-                hourOfDay: d.moment.hour()
+                weekday: m.format('ddd'),
+                hourOfDay: m.hour()
             });
         });
 
