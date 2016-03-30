@@ -1,7 +1,7 @@
 
 /* the top level div */
 #punchcard-date-circle {
-    height: 300px;
+    height: 600px;
 }
 
 /* the svg element */
@@ -32,7 +32,7 @@
 
 /* the symbols that are the main content of the plot */
 #punchcard-date-circle circle.symbol {
-    stroke: black;
+    stroke: #000000;
     stroke-width: 1px;
 }
 

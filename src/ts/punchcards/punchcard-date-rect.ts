@@ -80,15 +80,13 @@ class PunchcardDateRect extends PunchcardBase {
         let tickFormat;
         let ticks;
         let nHoursDiff: number = moment(this.dateTo).diff(moment(this.dateFrom), 'hour', true);
+
         if (nHoursDiff > 5 * 24) {
             tickFormat = d3.time.format('%a %b %-d, %Y');
             ticks = 7;
-        } else if (nHoursDiff > 2 * 24) {
+        } else {
             tickFormat = d3.time.format('%a %b %-d, %Y');
             ticks = d3.time.days;
-        } else {
-            tickFormat = d3.time.format('%a %b %-d, %Y %H:%M');
-            ticks = 4;
         };
 
         this.dateScale = d3.time.scale()

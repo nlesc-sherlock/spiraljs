@@ -35,7 +35,7 @@ class PunchcardWeekdayCircle extends PunchcardWeekdayRect {
         let symbolWidth :number = w / 7 - symbolMargin.left - symbolMargin.right;
         let symbolHeight:number = h / 24 - symbolMargin.top - symbolMargin.bottom;
 
-        let r:number = Math.min(symbolWidth, symbolHeight) / 2;
+        let r:number = Math.min(symbolWidth, symbolHeight) / 2 - 2;
 
         // based on example from
         // http://stackoverflow.com/questions/16766986/is-it-possible-to-group-by-multiple-dimensions-in-crossfilter
@@ -81,7 +81,7 @@ class PunchcardWeekdayCircle extends PunchcardWeekdayRect {
                         return that.todScale(d.key['hourOfDay']) + symbolHeight / 2 + symbolMargin.top;
                     })
                     .attr('r', function(d){
-                        return r * (d.value - that.colormap.cLimLow) / (that.colormap.cLimHigh - that.colormap.cLimLow) + 1;
+                        return Math.max(r * (d.value - that.colormap.cLimLow) / (that.colormap.cLimHigh - that.colormap.cLimLow), 1);
                     })
                     .attr('fill', function(d){
                         return that.colormap.getColorRGB(d.value);

@@ -38,6 +38,7 @@ class PunchcardDateCircle extends PunchcardDateRect {
 
         let symbolWidth :number = w / wDays - symbolMargin.left - symbolMargin.right;
         let symbolHeight:number = h / 24.0 - symbolMargin.top - symbolMargin.bottom;
+        let r:number = Math.min(symbolWidth, symbolHeight) / 2 - 2;
 
         // based on example from
         // http://stackoverflow.com/questions/16766986/is-it-possible-to-group-by-multiple-dimensions-in-crossfilter
@@ -71,19 +72,20 @@ class PunchcardDateCircle extends PunchcardDateRect {
             .append('g')
             .attr('class', 'symbol')
             .attr('transform', 'translate(' + dx + ',' + dy + ')')
-            .selectAll('rect.symbol')
+            .selectAll('circle.symbol')
                 .data(data)
                 .enter()
-                .append('rect')
+                .append('circle')
                     .attr('class', 'symbol')
-                    .attr('x', function(d){
+                    .attr('cx', function(d){
                         return that.dateScale(new Date(d.key.datestr));
                         })
-                    .attr('y', function(d){
-                        return that.todScale(parseInt(d.key.hourOfDay, 10));
+                    .attr('cy', function(d){
+                        return that.todScale(parseInt(d.key.hourOfDay, 10)) + symbolMargin.top + symbolHeight / 2;
                     })
-                    .attr('width', symbolWidth)
-                    .attr('height', symbolHeight)
+                    .attr('r', function(d) {
+                        return Math.max(r * (d.value - that.colormap.cLimLow) / (that.colormap.cLimHigh - that.colormap.cLimLow), 1);
+                    })
                     .attr('fill', function(d){
                         return that.colormap.getColorRGB(d.value);
                     });
