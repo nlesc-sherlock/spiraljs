@@ -40,10 +40,10 @@ class PunchcardBase {
         this.dim = {};
 
         // the margins around the graph body
-        this.marginLeft = 120;
-        this.marginRight = 80;
-        this.marginTop = 60;
-        this.marginBottom = 100;
+        this.marginLeft = 70;
+        this.marginRight = 70;
+        this.marginTop = 50;
+        this.marginBottom = 110;
 
         this.ylabel = 'Time of day';
         this.title = '';
@@ -220,6 +220,12 @@ class PunchcardBase {
 
         controlsDiv.innerHTML =
             '<button type="button" class="btn btn-default btn-sm">' +
+            '    <span class="glyphicon glyphicon-chevron-up"></span>' +
+            '</button>' +
+            '<button type="button" class="btn btn-default btn-sm">' +
+            '    <span class="glyphicon glyphicon-chevron-down"></span>' +
+            '</button>' +
+            '<button type="button" class="btn btn-default btn-sm">' +
             '    <span class="glyphicon glyphicon-remove"></span>' +
             '</button>';
 
@@ -227,7 +233,15 @@ class PunchcardBase {
 
         // beware: JavaScript magic happens here
         let that:PunchcardBase = this;
-        controlsDiv.addEventListener('click', function() {
+        controlsDiv.getElementsByClassName('glyphicon-chevron-up')[0].addEventListener('click', function() {
+            that.moveUp();
+        });
+
+        controlsDiv.getElementsByClassName('glyphicon-chevron-down')[0].addEventListener('click', function() {
+            that.moveDown();
+        });
+
+        controlsDiv.getElementsByClassName('glyphicon-remove')[0].addEventListener('click', function() {
             that.hide();
         });
 
@@ -237,10 +251,34 @@ class PunchcardBase {
 
 
 
-    public hide():PunchcardBase {
+    protected hide():PunchcardBase {
 
         this.domElem.classList.add('hidden');
         return this;
+    }
+
+
+
+
+    protected moveDown():void {
+
+        let myElem = this.domElem;
+        let otherElem = this.domElem.nextElementSibling;
+
+        myElem.parentNode.insertBefore(otherElem, myElem);
+
+    }
+
+
+
+
+    protected moveUp():void {
+
+        let myElem = this.domElem;
+        let otherElem = this.domElem.previousElementSibling;
+
+        myElem.parentNode.insertBefore(myElem, otherElem);
+
     }
 
 

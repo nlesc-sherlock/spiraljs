@@ -12,10 +12,6 @@ class PunchcardDateCircle extends PunchcardDateRect {
 
         super(cf, domElemId);
 
-        this.marginLeft = 70;
-        this.marginRight = 70;
-        this.marginTop = 40;
-        this.marginBottom = 110;
         this.xlabel = '';
         this.title = 'PunchcardDateCircle title';
         this.colormap = new ColorMap('blues');

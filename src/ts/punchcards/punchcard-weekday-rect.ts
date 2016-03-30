@@ -15,9 +15,6 @@ class PunchcardWeekdayRect extends PunchcardBase {
 
         super(cf, domElemId);
 
-        this.marginLeft = 70;
-        this.marginRight = 70;
-        this.marginTop = 40;
         this.marginBottom = 50;
         this.xlabel = 'Day of week';
         this.title = 'PunchcardWeekdayRect title';

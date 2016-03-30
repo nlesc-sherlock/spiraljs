@@ -16,10 +16,6 @@ class PunchcardDateRect extends PunchcardBase {
 
         super(cf, domElemId);
 
-        this.marginLeft = 70;
-        this.marginRight = 70;
-        this.marginTop = 40;
-        this.marginBottom = 110;
         this.xlabel = '';
         this.title = 'PunchcardDateRect title';
         this.colormap = new ColorMap('default');
