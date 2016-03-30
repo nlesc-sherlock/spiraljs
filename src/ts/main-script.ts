@@ -12,12 +12,13 @@ console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: script 
 
 function doit(data: IDataRow[]) {
 
-    let hist1             : OneDimensionalHistogram;
-    let hist2             : OneDimensionalHistogram;
-    let map               : Map;
-    let d3PunchcardDate   : D3PunchcardDate;
-    let d3PunchcardWeekday: D3PunchcardWeekday;
-    let spiral            : Spiral;
+    let hist1                   : OneDimensionalHistogram;
+    let hist2                   : OneDimensionalHistogram;
+    let map                     : Map;
+    let d3PunchcardDate         : D3PunchcardDate;
+    let d3PunchcardWeekday      : D3PunchcardWeekday;
+    let d3PunchcardWeekdayCircle: D3PunchcardWeekdayCircle;
+    let spiral                  : Spiral;
 
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: doit() starts');
 
@@ -41,6 +42,12 @@ function doit(data: IDataRow[]) {
     d3PunchcardDate.defineDimensions();
     d3PunchcardDate.draw();
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: d3PunchcardDate done');
+
+    // draw the punchcard-date using the crossfilter object and D3
+    d3PunchcardWeekdayCircle = new D3PunchcardWeekdayCircle(cf, 'd3-punchcard-weekday-circle');
+    d3PunchcardWeekdayCircle.defineDimensions();
+    d3PunchcardWeekdayCircle.draw();
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: d3PunchcardWeekdayCircle done');
 
     // spiral = new Spiral('spiral');
     // spiral.data = data;

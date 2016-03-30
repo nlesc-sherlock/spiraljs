@@ -5,12 +5,7 @@
 
 
 
-class D3PunchcardWeekday extends D3PunchcardBase {
-
-    private _dayOfWeekScale: any;
-    private _xFrom         : number;
-    private _xTo           : number;
-
+class D3PunchcardWeekdayCircle extends D3PunchcardWeekday {
 
     constructor (cf: any, domElemId: string) {
 
@@ -21,93 +16,16 @@ class D3PunchcardWeekday extends D3PunchcardBase {
         this.marginTop = 50;
         this.marginBottom = 50;
         this.xlabel = 'Day of week';
-        this.title = 'D3PunchcardWeekday title';
-
+        this.title = 'D3PunchcardWeekdayCircle title';
     }
 
 
 
 
-    // define the crossfilter dimensions as used by this class
-    public defineDimensions():D3PunchcardWeekday {
-
-        // based on example from
-        // http://stackoverflow.com/questions/16766986/is-it-possible-to-group-by-multiple-dimensions-in-crossfilter
-
-        this.dim.weekdayAndHourOfDay = this.cf.dimension(function (d) {
-            //stringify() and later, parse() to get keyed objects
-            let m:moment.Moment = moment(d.datestr);
-            return JSON.stringify({
-                weekday: m.format('ddd'),
-                hourOfDay: m.hour()
-            });
-        });
-
-        return this;
-    }
-
-
-
-
-    // overrides stub method in parent class
-    public draw():D3PunchcardWeekday {
-
-        super.drawSvg();
-        super.drawChartBody();
-        this.drawHorizontalAxis();
-        super.drawHorizontalAxisLabel();
-        super.drawVerticalAxis();
-        super.drawVerticalAxisLabel();
-        super.drawTitle();
-        this.drawSymbols();
-        super.drawBox();
-
-        return this;
-    }
-
-
-
-
-
-    private drawHorizontalAxis():D3PunchcardWeekday {
-
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
-        let dx:number = this.marginLeft;
-        let dy:number = this.domElem.clientHeight - this.marginBottom;
-
-        let range:Array<number> = [];
-        let ndays:number = 7.0;
-        for (let r of [0, 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.0]) {
-            range.push(w * r / ndays);
-        }
-
-        this.dayOfWeekScale = d3.scale.ordinal()
-            .range(range)
-            .domain(['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', '']);
-
-        let xAxis = d3.svg.axis()
-            .orient('bottom')
-            .scale(this.dayOfWeekScale)
-            .tickValues(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
-            .innerTickSize(5)
-            .outerTickSize(0);
-
-        this.svg.append('g')
-            .attr('class', 'horizontal-axis')
-            .attr('transform', 'translate(' + dx + ',' + dy + ')' )
-            .call(xAxis);
-
-        return this;
-
-    }
-
-
-
-
-    protected drawSymbols():D3PunchcardWeekday {
+    protected drawSymbols():D3PunchcardWeekdayCircle {
 
         // capture the this object
-        let that:D3PunchcardWeekday = this;
+        let that:D3PunchcardWeekdayCircle = this;
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
@@ -168,33 +86,6 @@ class D3PunchcardWeekday extends D3PunchcardBase {
                     });
 
         return this;
-    }
-
-
-
-
-    protected set dayOfWeekScale(dayOfWeekScale:any) {
-        this._dayOfWeekScale = dayOfWeekScale;
-    }
-
-    protected get dayOfWeekScale():any {
-        return this._dayOfWeekScale;
-    }
-
-    protected set xFrom(xFrom:number) {
-        this._xFrom = xFrom;
-    }
-
-    protected get xFrom():number {
-        return this._xFrom;
-    }
-
-    protected set xTo(xTo:number) {
-        this._xTo = xTo;
-    }
-
-    protected get xTo():number {
-        return this._xTo;
     }
 
 
