@@ -219,13 +219,13 @@ class PunchcardBase {
         controlsDiv.className = 'controls';
 
         controlsDiv.innerHTML =
-            '<button type="button" class="btn btn-default btn-sm">' +
+            '<button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Moves the widget up">' +
             '    <span class="glyphicon glyphicon-chevron-up"></span>' +
             '</button>' +
-            '<button type="button" class="btn btn-default btn-sm">' +
+            '<button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Moves the widget down">' +
             '    <span class="glyphicon glyphicon-chevron-down"></span>' +
             '</button>' +
-            '<button type="button" class="btn btn-default btn-sm">' +
+            '<button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Closes the widget">' +
             '    <span class="glyphicon glyphicon-remove"></span>' +
             '</button>';
 
