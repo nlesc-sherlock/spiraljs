@@ -21,6 +21,7 @@ class PunchcardWeekdayRect extends PunchcardBase {
         this.marginBottom = 50;
         this.xlabel = 'Day of week';
         this.title = 'PunchcardWeekdayRect title';
+        this.colormap = new ColorMap('summer');
 
     }
 
@@ -51,17 +52,24 @@ class PunchcardWeekdayRect extends PunchcardBase {
     // overrides stub method in parent class
     public draw():PunchcardWeekdayRect {
 
-        super.drawSvg();
-        super.drawChartBody();
-        this.drawHorizontalAxis();
-        super.drawHorizontalAxisLabel();
-        super.drawVerticalAxis();
-        super.drawVerticalAxisLabel();
-        super.drawTitle();
-        this.drawSymbols();
-        super.drawBox();
+        if (this.domElem.classList.contains('hidden')) {
+            // div is hidden
+            return this;
+        } else {
+            // div is visible
+            super.drawSvg();
+            super.drawChartBody();
+            this.drawHorizontalAxis();
+            super.drawHorizontalAxisLabel();
+            super.drawVerticalAxis();
+            super.drawVerticalAxisLabel();
+            super.drawTitle();
+            this.drawSymbols();
+            super.drawBox();
+            this.drawControls();
 
-        return this;
+            return this;
+        }
     }
 
 
@@ -127,7 +135,6 @@ class PunchcardWeekdayRect extends PunchcardBase {
         let data:any = group.all();
 
 
-        this.colormap = new ColorMap('summer');
         // determine the min and max in the count in order to set the color
         // limits on the colormap later
         let lowest = Number.POSITIVE_INFINITY;

@@ -26,8 +26,13 @@
         time better than plain JavaScript does -->
         <script src="../bower_components/moment/min/moment.min.js"></script>
 
-        <!-- include moment-timezone.js to deal time zones -->
-        <script src="../bower_components/moment-timezone/moment-timezone.js"></script>
+        <!-- include jquery.js (required by bootstrap) -->
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+
+        <!-- include bootstrap.js to use buttons -->
+        <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <!-- include bootstrap's stylesheet -->
+        <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
 
         <!-- include our concatenated stylesheet -->
         <link rel="stylesheet" href="styles/bundle.css">
@@ -38,11 +43,14 @@
     <body>
 
         <div id="hist1-arrests-per-day" class="main-div-style"></div>
+
         <div id="punchcard-weekday-circle" class="main-div-style"></div>
+
+
         <div id="punchcard-weekday-rect" class="main-div-style"></div>
         <div id="punchcard-date-circle" class="main-div-style"></div>
         <div id="punchcard-date-rect" class="main-div-style"></div>
-        <div id="spiral-control" class="main-div-style">
+        <div id="spiral-control" class="main-div-style hidden">
             <div id="spiral-hist"></div>
             <div id="spiral"></div>
             <div id="spiral-power"></div>

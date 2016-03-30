@@ -9,8 +9,18 @@
     padding: 0px;
     float: left;
     box-shadow: 5px 5px 5px #99b3bf;
+    position: relative;
 }
 
+
+.main-div-style .controls {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    margin-top: 5px;
+    margin-right: 5px;
+    background-color: none;
+}
 
 .hidden {
     display: none;

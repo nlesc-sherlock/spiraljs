@@ -22,6 +22,7 @@ class PunchcardDateRect extends PunchcardBase {
         this.marginBottom = 110;
         this.xlabel = '';
         this.title = 'PunchcardDateRect title';
+        this.colormap = new ColorMap('default');
     }
 
 
@@ -49,17 +50,24 @@ class PunchcardDateRect extends PunchcardBase {
     // overrides stub method in parent class
     public draw():PunchcardDateRect {
 
-        super.drawSvg();
-        super.drawChartBody();
-        this.drawHorizontalAxis();
-        super.drawHorizontalAxisLabel();
-        super.drawVerticalAxis();
-        super.drawVerticalAxisLabel();
-        super.drawTitle();
-        this.drawSymbols();
-        super.drawBox();
+        if (this.domElem.classList.contains('hidden')) {
+            // div is hidden
+            return this;
+        } else {
+            // div is visible
+            super.drawSvg();
+            super.drawChartBody();
+            this.drawHorizontalAxis();
+            super.drawHorizontalAxisLabel();
+            super.drawVerticalAxis();
+            super.drawVerticalAxisLabel();
+            super.drawTitle();
+            this.drawSymbols();
+            super.drawBox();
+            super.drawControls();
 
-        return this;
+            return this;
+        }
     }
 
 
@@ -146,7 +154,6 @@ class PunchcardDateRect extends PunchcardBase {
         let data:any = group.all();
 
 
-        this.colormap = new ColorMap('default');
         // determine the min and max in the count in order to set the color
         // limits on the colormap later
         let lowest = Number.POSITIVE_INFINITY;

@@ -213,6 +213,39 @@ class PunchcardBase {
 
 
 
+    protected drawControls():void {
+
+        let controlsDiv = document.createElement('div');
+        controlsDiv.className = 'controls';
+
+        controlsDiv.innerHTML =
+            '<button type="button" class="btn btn-default btn-sm">' +
+            '    <span class="glyphicon glyphicon-remove"></span>' +
+            '</button>';
+
+        this.domElem.appendChild(controlsDiv);
+
+        // beware: JavaScript magic happens here
+        let that:PunchcardBase = this;
+        controlsDiv.addEventListener('click', function() {
+            that.hide();
+        });
+
+
+    }
+
+
+
+
+    public hide():PunchcardBase {
+
+        this.domElem.classList.add('hidden');
+        return this;
+    }
+
+
+
+
     protected onResize() {
 
         // get the div element that we want to redraw
