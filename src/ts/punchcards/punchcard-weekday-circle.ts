@@ -16,6 +16,7 @@ class PunchcardWeekdayCircle extends PunchcardWeekdayRect {
         this.marginBottom = 50;
         this.xlabel = 'Day of week';
         this.title = 'PunchcardWeekdayCircle title';
+        this.colormap = new ColorMap('autumn');
     }
 
 
@@ -47,7 +48,6 @@ class PunchcardWeekdayCircle extends PunchcardWeekdayRect {
         let data:any = group.all();
 
 
-        this.colormap = new ColorMap('autumn');
         // determine the min and max in the count in order to set the color
         // limits on the colormap later
         let lowest = Number.POSITIVE_INFINITY;

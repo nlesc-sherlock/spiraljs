@@ -18,6 +18,7 @@ class PunchcardDateCircle extends PunchcardDateRect {
         this.marginBottom = 110;
         this.xlabel = '';
         this.title = 'PunchcardDateCircle title';
+        this.colormap = new ColorMap('blues');
     }
 
 
@@ -49,7 +50,6 @@ class PunchcardDateCircle extends PunchcardDateRect {
         let data:any = group.all();
 
 
-        this.colormap = new ColorMap('default');
         // determine the min and max in the count in order to set the color
         // limits on the colormap later
         let lowest = Number.POSITIVE_INFINITY;

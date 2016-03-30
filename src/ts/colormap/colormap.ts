@@ -132,6 +132,27 @@ class ColorMap {
                 ];
                 break;
             }
+            case 'blues': {
+                colortable = [
+                    {
+                        at: Number.NEGATIVE_INFINITY,
+                        color: [0, 0, 0, 255]
+                    },
+                    {
+                        at: 0.0,
+                        color: [0, 0, 255, 0]
+                    },
+                    {
+                        at: 1.0,
+                        color: [0, 255, 255, 0]
+                    },
+                    {
+                        at: Number.POSITIVE_INFINITY,
+                        color: [255, 255, 255, 255]
+                    }
+                ];
+                break;
+            }
             case 'summer': {
                 colortable = [
                     {
