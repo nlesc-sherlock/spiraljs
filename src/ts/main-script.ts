@@ -15,9 +15,10 @@ function doit(data: IDataRow[]) {
     let hist1                 : OneDimensionalHistogram;
     let hist2                 : OneDimensionalHistogram;
     let map                   : Map;
+    let punchcardDateCircle   : PunchcardDateCircle;
     let punchcardDateRect     : PunchcardDateRect;
-    let punchcardWeekdayRect  : PunchcardWeekdayRect;
     let punchcardWeekdayCircle: PunchcardWeekdayCircle;
+    let punchcardWeekdayRect  : PunchcardWeekdayRect;
     let spiral                : Spiral;
 
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: doit() starts');
@@ -31,23 +32,29 @@ function doit(data: IDataRow[]) {
     hist1.draw();
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: oneDimensionalHistogram1 done');
 
-    // draw the punchcard-weekday using the crossfilter object and D3
+    // draw the punchcard-weekday with svg circles using the crossfilter object and D3
+    punchcardWeekdayCircle = new PunchcardWeekdayCircle(cf, 'punchcard-weekday-circle');
+    punchcardWeekdayCircle.defineDimensions();
+    punchcardWeekdayCircle.draw();
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: punchcardWeekdayCircle done');
+
+    // draw the punchcard-weekday with svg rects using the crossfilter object and D3
     punchcardWeekdayRect = new PunchcardWeekdayRect(cf, 'punchcard-weekday-rect');
     punchcardWeekdayRect.defineDimensions();
     punchcardWeekdayRect.draw();
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: punchcardWeekdayRect done');
 
-    // draw the punchcard-date using the crossfilter object and D3
+    // draw the punchcard-date with svg circles using the crossfilter object and D3
+    punchcardDateCircle = new PunchcardDateCircle(cf, 'punchcard-date-circle');
+    punchcardDateCircle.defineDimensions();
+    punchcardDateCircle.draw();
+    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: punchcardDateCircle done');
+
+    // draw the punchcard-date with svg rects using the crossfilter object and D3
     punchcardDateRect = new PunchcardDateRect(cf, 'punchcard-date-rect');
     punchcardDateRect.defineDimensions();
     punchcardDateRect.draw();
     console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: punchcardDateRect done');
-
-    // draw the punchcard-date using the crossfilter object and D3
-    punchcardWeekdayCircle = new PunchcardWeekdayCircle(cf, 'punchcard-weekday-circle');
-    punchcardWeekdayCircle.defineDimensions();
-    punchcardWeekdayCircle.draw();
-    console.log('+' + moment().diff(start, 'second', true).toFixed(3) + ' s: punchcardWeekdayCircle done');
 
     // spiral = new Spiral('spiral');
     // spiral.data = data;

@@ -1,10 +1,12 @@
 /// <reference path="../../../typings/crossfilter/crossfilter.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
-/// <reference path="./punchcard-weekday-rect.ts" />
+/// <reference path="../../../typings/moment/moment.d.ts" />
+/// <reference path="./punchcard-date-rect.ts" />
 
 
 
-class PunchcardWeekdayCircle extends PunchcardWeekdayRect {
+class PunchcardDateCircle extends PunchcardDateRect {
+
 
     constructor (cf: any, domElemId: string) {
 
@@ -13,33 +15,33 @@ class PunchcardWeekdayCircle extends PunchcardWeekdayRect {
         this.marginLeft = 70;
         this.marginRight = 70;
         this.marginTop = 40;
-        this.marginBottom = 50;
-        this.xlabel = 'Day of week';
-        this.title = 'PunchcardWeekdayCircle title';
+        this.marginBottom = 110;
+        this.xlabel = '';
+        this.title = 'PunchcardDateCircle title';
     }
 
 
 
 
-    protected drawSymbols():PunchcardWeekdayCircle {
+    protected drawSymbols():PunchcardDateCircle {
 
         // capture the this object
-        let that:PunchcardWeekdayCircle = this;
+        let that:PunchcardDateCircle = this;
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft;
         let dy:number = this.marginTop + h;
-        let symbolMargin = {left:2, right: 2, top: 2, bottom: 2}; // pixels
-        let symbolWidth :number = w / 7 - symbolMargin.left - symbolMargin.right;
-        let symbolHeight:number = h / 24 - symbolMargin.top - symbolMargin.bottom;
+        let symbolMargin = {left:0, right: 0, top: 0, bottom: 0}; // pixels
+        let wDays:number = moment(this.dateTo).diff(moment(this.dateFrom), 'days', true);
 
-        let r:number = Math.min(symbolWidth, symbolHeight) / 2;
+        let symbolWidth :number = w / wDays - symbolMargin.left - symbolMargin.right;
+        let symbolHeight:number = h / 24.0 - symbolMargin.top - symbolMargin.bottom;
 
         // based on example from
         // http://stackoverflow.com/questions/16766986/is-it-possible-to-group-by-multiple-dimensions-in-crossfilter
         // forEach method could be very expensive on write.
-        let group = this.dim.weekdayAndHourOfDay.group();
+        let group = this.dim.dateAndHourOfDay.group();
         group.all().forEach(function(d) {
             //parse the json string created above
             d.key = JSON.parse(d.key);
@@ -47,7 +49,7 @@ class PunchcardWeekdayCircle extends PunchcardWeekdayRect {
         let data:any = group.all();
 
 
-        this.colormap = new ColorMap('autumn');
+        this.colormap = new ColorMap('default');
         // determine the min and max in the count in order to set the color
         // limits on the colormap later
         let lowest = Number.POSITIVE_INFINITY;
@@ -69,27 +71,26 @@ class PunchcardWeekdayCircle extends PunchcardWeekdayRect {
             .append('g')
             .attr('class', 'symbol')
             .attr('transform', 'translate(' + dx + ',' + dy + ')')
-            .selectAll('circle.symbol')
+            .selectAll('rect.symbol')
                 .data(data)
                 .enter()
-                .append('circle')
+                .append('rect')
                     .attr('class', 'symbol')
-                    .attr('cx', function(d){
-                        return that.dayOfWeekScale(d.key['weekday']) + symbolMargin.left;
+                    .attr('x', function(d){
+                        return that.dateScale(new Date(d.key.datestr));
+                        })
+                    .attr('y', function(d){
+                        return that.todScale(parseInt(d.key.hourOfDay, 10));
                     })
-                    .attr('cy', function(d){
-                        return that.todScale(d.key['hourOfDay']) + symbolHeight / 2 + symbolMargin.top;
-                    })
-                    .attr('r', function(d){
-                        return r * (d.value - that.colormap.cLimLow) / (that.colormap.cLimHigh - that.colormap.cLimLow) + 1;
-                    })
+                    .attr('width', symbolWidth)
+                    .attr('height', symbolHeight)
                     .attr('fill', function(d){
                         return that.colormap.getColorRGB(d.value);
                     });
 
         return this;
-    }
 
+    }
 
 
 }

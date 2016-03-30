@@ -122,7 +122,7 @@ class PunchcardDateRect extends PunchcardBase {
 
 
 
-    private drawSymbols():PunchcardDateRect {
+    protected drawSymbols():PunchcardDateRect {
 
         // capture the this object
         let that:PunchcardDateRect = this;
@@ -194,27 +194,27 @@ class PunchcardDateRect extends PunchcardBase {
 
 
 
-    private set dateScale(dateScale:any) {
+    protected set dateScale(dateScale:any) {
         this._dateScale = dateScale;
     }
 
-    private get dateScale():any {
+    protected get dateScale():any {
         return this._dateScale;
     }
 
-    private set dateFrom(dateFrom:Date) {
+    protected set dateFrom(dateFrom:Date) {
         this._dateFrom = dateFrom;
     }
 
-    private get dateFrom():Date {
+    protected get dateFrom():Date {
         return this._dateFrom;
     }
 
-    private set dateTo(dateTo:Date) {
+    protected set dateTo(dateTo:Date) {
         this._dateTo = dateTo;
     }
 
-    private get dateTo():Date {
+    protected get dateTo():Date {
         return this._dateTo;
     }
 
