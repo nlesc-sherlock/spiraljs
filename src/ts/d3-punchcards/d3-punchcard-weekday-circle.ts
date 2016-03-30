@@ -31,9 +31,11 @@ class D3PunchcardWeekdayCircle extends D3PunchcardWeekday {
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft;
         let dy:number = this.marginTop + h;
-        let symbolMargin = {left:0, right: 0, top: 0, bottom: 0}; // pixels
+        let symbolMargin = {left:2, right: 2, top: 2, bottom: 2}; // pixels
         let symbolWidth :number = w / 7 - symbolMargin.left - symbolMargin.right;
         let symbolHeight:number = h / 24 - symbolMargin.top - symbolMargin.bottom;
+
+        let r:number = Math.min(symbolWidth, symbolHeight) / 2;
 
         // based on example from
         // http://stackoverflow.com/questions/16766986/is-it-possible-to-group-by-multiple-dimensions-in-crossfilter
@@ -46,7 +48,7 @@ class D3PunchcardWeekdayCircle extends D3PunchcardWeekday {
         let data:any = group.all();
 
 
-        this.colormap = new ColorMap('summer');
+        this.colormap = new ColorMap('autumn');
         // determine the min and max in the count in order to set the color
         // limits on the colormap later
         let lowest = Number.POSITIVE_INFINITY;
@@ -68,19 +70,20 @@ class D3PunchcardWeekdayCircle extends D3PunchcardWeekday {
             .append('g')
             .attr('class', 'symbol')
             .attr('transform', 'translate(' + dx + ',' + dy + ')')
-            .selectAll('rect.symbol')
+            .selectAll('circle.symbol')
                 .data(data)
                 .enter()
-                .append('rect')
+                .append('circle')
                     .attr('class', 'symbol')
-                    .attr('x', function(d){
-                        return that.dayOfWeekScale(d.key['weekday']) - symbolWidth / 2;
+                    .attr('cx', function(d){
+                        return that.dayOfWeekScale(d.key['weekday']) + symbolMargin.left;
                     })
-                    .attr('y', function(d){
-                        return that.todScale(d.key['hourOfDay']);
+                    .attr('cy', function(d){
+                        return that.todScale(d.key['hourOfDay']) + symbolHeight / 2 + symbolMargin.top;
                     })
-                    .attr('width', symbolWidth)
-                    .attr('height', symbolHeight)
+                    .attr('r', function(d){
+                        return r * (d.value - that.colormap.cLimLow) / (that.colormap.cLimHigh - that.colormap.cLimLow) + 1;
+                    })
                     .attr('fill', function(d){
                         return that.colormap.getColorRGB(d.value);
                     });
