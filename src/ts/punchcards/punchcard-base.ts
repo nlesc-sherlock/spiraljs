@@ -340,7 +340,6 @@ class PunchcardBase {
         minimButton.classList.remove('hidden');
 
         // restore the original height
-        this.domElem.style.minHeight = '240px';
         this.domElem.style.height = this.height + 'px';
 
         // show the contents of the div
