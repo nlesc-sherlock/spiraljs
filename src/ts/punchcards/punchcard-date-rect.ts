@@ -1,11 +1,11 @@
 /// <reference path="../../../typings/crossfilter/crossfilter.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
 /// <reference path="../../../typings/moment/moment.d.ts" />
-/// <reference path="./d3-punchcard-base.ts" />
+/// <reference path="./punchcard-base.ts" />
 
 
 
-class D3PunchcardDate extends D3PunchcardBase {
+class PunchcardDateRect extends PunchcardBase {
 
     private _dateScale   : any;
     private _dateFrom    : Date;
@@ -18,17 +18,17 @@ class D3PunchcardDate extends D3PunchcardBase {
 
         this.marginLeft = 70;
         this.marginRight = 70;
-        this.marginTop = 60;
-        this.marginBottom = 150;
-        this.xlabel = 'Date';
-        this.title = 'D3PunchcardDate title';
+        this.marginTop = 40;
+        this.marginBottom = 110;
+        this.xlabel = '';
+        this.title = 'PunchcardDateRect title';
     }
 
 
 
 
     // define the crossfilter dimensions as used by this class
-    public defineDimensions():D3PunchcardDate {
+    public defineDimensions():PunchcardDateRect {
 
         // based on example from
         // http://stackoverflow.com/questions/16766986/is-it-possible-to-group-by-multiple-dimensions-in-crossfilter
@@ -47,7 +47,7 @@ class D3PunchcardDate extends D3PunchcardBase {
 
 
     // overrides stub method in parent class
-    public draw():D3PunchcardDate {
+    public draw():PunchcardDateRect {
 
         super.drawSvg();
         super.drawChartBody();
@@ -65,7 +65,7 @@ class D3PunchcardDate extends D3PunchcardBase {
 
 
 
-    private drawHorizontalAxis():D3PunchcardDate {
+    private drawHorizontalAxis():PunchcardDateRect {
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let dx:number = this.marginLeft;
@@ -81,13 +81,13 @@ class D3PunchcardDate extends D3PunchcardBase {
         let ticks;
         let nHoursDiff: number = moment(this.dateTo).diff(moment(this.dateFrom), 'hour', true);
         if (nHoursDiff > 5 * 24) {
-            tickFormat = d3.time.format('%b %-d, %Y');
+            tickFormat = d3.time.format('%a %b %-d, %Y');
             ticks = 7;
         } else if (nHoursDiff > 2 * 24) {
-            tickFormat = d3.time.format('%b %-d, %Y');
+            tickFormat = d3.time.format('%a %b %-d, %Y');
             ticks = d3.time.days;
         } else {
-            tickFormat = d3.time.format('%b %-d, %Y %H:%M');
+            tickFormat = d3.time.format('%a %b %-d, %Y %H:%M');
             ticks = 4;
         };
 
@@ -122,10 +122,10 @@ class D3PunchcardDate extends D3PunchcardBase {
 
 
 
-    private drawSymbols():D3PunchcardDate {
+    private drawSymbols():PunchcardDateRect {
 
         // capture the this object
-        let that:D3PunchcardDate = this;
+        let that:PunchcardDateRect = this;
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;

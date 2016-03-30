@@ -4,7 +4,7 @@
 
 
 
-class D3PunchcardBase {
+class PunchcardBase {
 
     private _cf          : CrossFilter.CrossFilter<IDataRow>;
     private _colormap    : ColorMap;
@@ -51,7 +51,7 @@ class D3PunchcardBase {
         this.colormap = new ColorMap();
 
         // beware: JavaScript magic happens here
-        let that:D3PunchcardBase = this;
+        let that:PunchcardBase = this;
         window.addEventListener('resize', function() {
             that.onResize();
         });
@@ -60,7 +60,7 @@ class D3PunchcardBase {
 
 
 
-    public draw():D3PunchcardBase {
+    public draw():PunchcardBase {
 
         // placeholder method to be overridden in classes that inherit from this class
         return this;
@@ -69,7 +69,7 @@ class D3PunchcardBase {
 
 
 
-    protected drawSvg():D3PunchcardBase {
+    protected drawSvg():PunchcardBase {
 
         this.svg = d3.select(this.domElem).append('svg')
             .attr('width', this.domElem.clientWidth)
@@ -81,7 +81,7 @@ class D3PunchcardBase {
 
 
 
-    protected drawChartBody():D3PunchcardBase {
+    protected drawChartBody():PunchcardBase {
         //
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
@@ -103,7 +103,7 @@ class D3PunchcardBase {
 
 
 
-    protected drawHorizontalAxisLabel():D3PunchcardBase {
+    protected drawHorizontalAxisLabel():PunchcardBase {
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
@@ -122,7 +122,7 @@ class D3PunchcardBase {
 
 
 
-    protected drawVerticalAxis():D3PunchcardBase {
+    protected drawVerticalAxis():PunchcardBase {
         //
         let dx:number = this.marginLeft;
         let dy:number = this.domElem.clientHeight - this.marginBottom;
@@ -152,7 +152,7 @@ class D3PunchcardBase {
 
 
 
-    protected drawVerticalAxisLabel():D3PunchcardBase {
+    protected drawVerticalAxisLabel():PunchcardBase {
         //
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = 0.3 * this.marginLeft;
@@ -172,7 +172,7 @@ class D3PunchcardBase {
 
 
 
-    protected drawTitle():D3PunchcardBase {
+    protected drawTitle():PunchcardBase {
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let dx:number = this.marginLeft + 0.5 * w;
@@ -191,7 +191,7 @@ class D3PunchcardBase {
 
 
 
-    protected drawBox():D3PunchcardBase {
+    protected drawBox():PunchcardBase {
         //
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
@@ -230,7 +230,7 @@ class D3PunchcardBase {
 
 
 
-    private updateMinHeight():D3PunchcardBase {
+    private updateMinHeight():PunchcardBase {
 
         let top:number = this.marginTop;
         let bottom:number = this.marginBottom;
@@ -251,7 +251,7 @@ class D3PunchcardBase {
 
 
 
-    private updateMinWidth():D3PunchcardBase {
+    private updateMinWidth():PunchcardBase {
 
         let left:number = this.marginLeft;
         let right:number = this.marginRight;

@@ -1,11 +1,10 @@
 /// <reference path="../../../typings/crossfilter/crossfilter.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
-/// <reference path="../../../typings/moment/moment.d.ts" />
-/// <reference path="./d3-punchcard-base.ts" />
+/// <reference path="./punchcard-weekday-rect.ts" />
 
 
 
-class D3PunchcardWeekdayCircle extends D3PunchcardWeekday {
+class PunchcardWeekdayCircle extends PunchcardWeekdayRect {
 
     constructor (cf: any, domElemId: string) {
 
@@ -13,7 +12,7 @@ class D3PunchcardWeekdayCircle extends D3PunchcardWeekday {
 
         this.marginLeft = 70;
         this.marginRight = 70;
-        this.marginTop = 50;
+        this.marginTop = 40;
         this.marginBottom = 50;
         this.xlabel = 'Day of week';
         this.title = 'D3PunchcardWeekdayCircle title';
@@ -22,10 +21,10 @@ class D3PunchcardWeekdayCircle extends D3PunchcardWeekday {
 
 
 
-    protected drawSymbols():D3PunchcardWeekdayCircle {
+    protected drawSymbols():PunchcardWeekdayCircle {
 
         // capture the this object
-        let that:D3PunchcardWeekdayCircle = this;
+        let that:PunchcardWeekdayCircle = this;
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;

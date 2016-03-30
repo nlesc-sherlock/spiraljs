@@ -1,11 +1,10 @@
 /// <reference path="../../../typings/crossfilter/crossfilter.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
-/// <reference path="../../../typings/moment/moment.d.ts" />
-/// <reference path="./d3-punchcard-base.ts" />
+/// <reference path="./punchcard-base.ts" />
 
 
 
-class D3PunchcardWeekday extends D3PunchcardBase {
+class PunchcardWeekdayRect extends PunchcardBase {
 
     private _dayOfWeekScale: any;
     private _xFrom         : number;
@@ -18,10 +17,10 @@ class D3PunchcardWeekday extends D3PunchcardBase {
 
         this.marginLeft = 70;
         this.marginRight = 70;
-        this.marginTop = 50;
+        this.marginTop = 40;
         this.marginBottom = 50;
         this.xlabel = 'Day of week';
-        this.title = 'D3PunchcardWeekday title';
+        this.title = 'PunchcardWeekdayRect title';
 
     }
 
@@ -29,7 +28,7 @@ class D3PunchcardWeekday extends D3PunchcardBase {
 
 
     // define the crossfilter dimensions as used by this class
-    public defineDimensions():D3PunchcardWeekday {
+    public defineDimensions():PunchcardWeekdayRect {
 
         // based on example from
         // http://stackoverflow.com/questions/16766986/is-it-possible-to-group-by-multiple-dimensions-in-crossfilter
@@ -50,7 +49,7 @@ class D3PunchcardWeekday extends D3PunchcardBase {
 
 
     // overrides stub method in parent class
-    public draw():D3PunchcardWeekday {
+    public draw():PunchcardWeekdayRect {
 
         super.drawSvg();
         super.drawChartBody();
@@ -69,7 +68,7 @@ class D3PunchcardWeekday extends D3PunchcardBase {
 
 
 
-    private drawHorizontalAxis():D3PunchcardWeekday {
+    private drawHorizontalAxis():PunchcardWeekdayRect {
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let dx:number = this.marginLeft;
@@ -104,10 +103,10 @@ class D3PunchcardWeekday extends D3PunchcardBase {
 
 
 
-    protected drawSymbols():D3PunchcardWeekday {
+    protected drawSymbols():PunchcardWeekdayRect {
 
         // capture the this object
-        let that:D3PunchcardWeekday = this;
+        let that:PunchcardWeekdayRect = this;
 
         let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
