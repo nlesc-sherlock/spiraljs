@@ -20,6 +20,7 @@ class PunchcardBase {
     private _xlabel      : string;
     private _ylabel      : string;
     private _todScale    : any;
+    private _height      : number;
 
 
 
@@ -219,11 +220,17 @@ class PunchcardBase {
         controlsDiv.className = 'controls';
 
         controlsDiv.innerHTML =
+            '<button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Minimizes the widget">' +
+            '    <span class="glyphicon glyphicon-triangle-bottom"></span>' +
+            '</button>' +
+            '<button type="button" class="btn btn-default btn-sm hidden" data-toggle="tooltip" title="Restores the widget">' +
+            '    <span class="glyphicon glyphicon-triangle-top"></span>' +
+            '</button>' +
             '<button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Moves the widget up">' +
-            '    <span class="glyphicon glyphicon-chevron-up"></span>' +
+            '    <span class="glyphicon glyphicon-arrow-up"></span>' +
             '</button>' +
             '<button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Moves the widget down">' +
-            '    <span class="glyphicon glyphicon-chevron-down"></span>' +
+            '    <span class="glyphicon glyphicon-arrow-down"></span>' +
             '</button>' +
             '<button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Closes the widget">' +
             '    <span class="glyphicon glyphicon-remove"></span>' +
@@ -233,15 +240,24 @@ class PunchcardBase {
 
         // beware: JavaScript magic happens here
         let that:PunchcardBase = this;
-        controlsDiv.getElementsByClassName('glyphicon-chevron-up')[0].addEventListener('click', function() {
+
+        controlsDiv.getElementsByClassName('glyphicon-triangle-bottom')[0].parentNode.addEventListener('click', function() {
+            that.minimize();
+        });
+
+        controlsDiv.getElementsByClassName('glyphicon-triangle-top')[0].parentNode.addEventListener('click', function() {
+            that.restore();
+        });
+
+        controlsDiv.getElementsByClassName('glyphicon-arrow-up')[0].parentNode.addEventListener('click', function() {
             that.moveUp();
         });
 
-        controlsDiv.getElementsByClassName('glyphicon-chevron-down')[0].addEventListener('click', function() {
+        controlsDiv.getElementsByClassName('glyphicon-arrow-down')[0].parentNode.addEventListener('click', function() {
             that.moveDown();
         });
 
-        controlsDiv.getElementsByClassName('glyphicon-remove')[0].addEventListener('click', function() {
+        controlsDiv.getElementsByClassName('glyphicon-remove')[0].parentNode.addEventListener('click', function() {
             that.hide();
         });
 
@@ -260,6 +276,81 @@ class PunchcardBase {
 
 
 
+    protected minimize():void {
+
+        // hide the contents of the div:
+        this.domElem.getElementsByTagName('svg')[0].classList.add('hidden');
+
+        // store the current height:
+        this.height = this.domElem.clientHeight;
+
+        // resize the div
+        this.domElem.style.minHeight = '40px';
+        this.domElem.style.height = '40px';
+
+        // cast the event target to an HTMLElement so as not to confuse TypeScript
+        let minimButton: HTMLElement;
+        let myTarget: HTMLElement = <HTMLElement>event.target;
+        if (myTarget.tagName === 'BUTTON') {
+            // user clicked on the button part
+            minimButton = <HTMLElement>event.target;
+        } else if (myTarget.tagName === 'SPAN') {
+            // user clicked glyph part of the button
+            minimButton = <HTMLElement>myTarget.parentNode;
+        } else {
+            // pass
+        }
+
+        // hide the minimize button
+        minimButton.classList.add('hidden');
+
+        let restoreButton: HTMLElement = <HTMLElement>minimButton.nextSibling;
+
+        // show the restore button
+        restoreButton.classList.remove('hidden');
+
+        // Not sure this even works
+        event.stopPropagation();
+
+    }
+
+
+
+    protected restore():void {
+
+        // cast the event target to an HTMLElement so as not to confuse TypeScript
+        let restoreButton: HTMLElement;
+        let myTarget: HTMLElement = <HTMLElement>event.target;
+        if (myTarget.tagName === 'BUTTON') {
+            // user clicked on the button part
+            restoreButton = <HTMLElement>event.target;
+        } else if (myTarget.tagName === 'SPAN') {
+            // user clicked glyph part of the button
+            restoreButton = <HTMLElement>myTarget.parentNode;
+        } else {
+            // pass
+        }
+
+        // hide the restore button
+        restoreButton.classList.add('hidden');
+
+        let minimButton: HTMLElement = <HTMLElement>restoreButton.previousSibling;
+
+        // show the minimize button
+        minimButton.classList.remove('hidden');
+
+        // restore the original height
+        this.domElem.style.minHeight = '240px';
+        this.domElem.style.height = this.height + 'px';
+
+        // show the contents of the div
+        this.domElem.getElementsByTagName('svg')[0].classList.remove('hidden');
+
+        // Not sure this even works
+        event.stopPropagation();
+
+    }
+
     protected moveDown():void {
 
         let myElem = this.domElem;
@@ -271,6 +362,7 @@ class PunchcardBase {
             console.error('You\'re already the last element.');
         }
 
+        // Not sure this even works
         event.stopPropagation();
 
     }
@@ -289,6 +381,7 @@ class PunchcardBase {
             console.error('You\'re already the first element.');
         }
 
+        // Not sure this even works
         event.stopPropagation();
 
     }
@@ -309,6 +402,10 @@ class PunchcardBase {
         // draw the figure again, given that the window just changed size
         this.draw();
     }
+
+
+
+
 
 
 
@@ -471,6 +568,13 @@ class PunchcardBase {
         return this._todScale;
     }
 
+    protected set height(height:number) {
+        this._height = height;
+    }
+
+    protected get height():number {
+        return this._height;
+    }
 
 }
 

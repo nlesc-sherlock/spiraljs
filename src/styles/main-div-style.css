@@ -17,9 +17,14 @@
     position: absolute;
     right: 0px;
     top: 0px;
-    margin-top: 5px;
-    margin-right: 5px;
     background-color: none;
+}
+
+.main-div-style .controls button {
+    margin-bottom: 4px;
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-left: 0px;
 }
 
 .hidden {
