@@ -265,7 +265,13 @@ class PunchcardBase {
         let myElem = this.domElem;
         let otherElem = this.domElem.nextElementSibling;
 
-        myElem.parentNode.insertBefore(otherElem, myElem);
+        if (otherElem.tagName === 'DIV') {
+            myElem.parentNode.insertBefore(otherElem, myElem);
+        } else {
+            console.error('You\'re already the last element.');
+        }
+
+        event.stopPropagation();
 
     }
 
@@ -277,7 +283,13 @@ class PunchcardBase {
         let myElem = this.domElem;
         let otherElem = this.domElem.previousElementSibling;
 
-        myElem.parentNode.insertBefore(myElem, otherElem);
+        if (otherElem.tagName === 'DIV') {
+            myElem.parentNode.insertBefore(myElem, otherElem);
+        } else {
+            console.error('You\'re already the first element.');
+        }
+
+        event.stopPropagation();
 
     }
 
