@@ -111,27 +111,6 @@ class ColorMap {
                 ];
                 break;
             }
-            case 'summer': {
-                colortable = [
-                    {
-                        at: Number.NEGATIVE_INFINITY,
-                        color: [0, 0, 0, 255]
-                    },
-                    {
-                        at: 0.0,
-                        color: [8, 160, 120, 0]
-                    },
-                    {
-                        at: 1.0,
-                        color: [252, 252, 42, 0]
-                    },
-                    {
-                        at: Number.POSITIVE_INFINITY,
-                        color: [255, 255, 255, 255]
-                    }
-                ];
-                break;
-            }
             case 'autumn': {
                 colortable = [
                     {
@@ -145,6 +124,27 @@ class ColorMap {
                     {
                         at: 1.0,
                         color: [255, 255, 0, 0]
+                    },
+                    {
+                        at: Number.POSITIVE_INFINITY,
+                        color: [255, 255, 255, 255]
+                    }
+                ];
+                break;
+            }
+            case 'summer': {
+                colortable = [
+                    {
+                        at: Number.NEGATIVE_INFINITY,
+                        color: [0, 0, 0, 255]
+                    },
+                    {
+                        at: 0.0,
+                        color: [8, 160, 120, 0]
+                    },
+                    {
+                        at: 1.0,
+                        color: [252, 252, 42, 0]
                     },
                     {
                         at: Number.POSITIVE_INFINITY,
