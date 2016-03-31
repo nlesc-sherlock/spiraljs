@@ -1,6 +1,7 @@
 /// <reference path="../../../typings/crossfilter/crossfilter.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
 /// <reference path="./punchcard-base.ts" />
+/// <reference path="./punchcard-colormap.ts" />
 
 
 
@@ -18,7 +19,7 @@ class PunchcardWeekdayRect extends PunchcardBase {
         this.marginBottom = 50;
         this.xlabel = 'Day of week';
         this.title = 'PunchcardWeekdayRect title';
-        this.colormap = new ColorMap('summer');
+        this.colormap = new PunchcardColorMap('summer');
 
     }
 
@@ -64,6 +65,7 @@ class PunchcardWeekdayRect extends PunchcardBase {
             this.drawSymbols();
             super.drawBox();
             this.drawControls();
+            super.drawLegend();
 
             return this;
         }
@@ -75,7 +77,7 @@ class PunchcardWeekdayRect extends PunchcardBase {
 
     private drawHorizontalAxis():PunchcardWeekdayRect {
 
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight - this.legendWidth;
         let dx:number = this.marginLeft;
         let dy:number = this.domElem.clientHeight - this.marginBottom;
 
@@ -113,7 +115,7 @@ class PunchcardWeekdayRect extends PunchcardBase {
         // capture the this object
         let that:PunchcardWeekdayRect = this;
 
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight - this.legendWidth;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft;
         let dy:number = this.marginTop + h;

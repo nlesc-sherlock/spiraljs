@@ -2,6 +2,7 @@
 /// <reference path="../../../typings/d3/d3.d.ts" />
 /// <reference path="../../../typings/moment/moment.d.ts" />
 /// <reference path="./punchcard-date-rect.ts" />
+/// <reference path="./punchcard-colormap.ts" />
 
 
 
@@ -14,7 +15,7 @@ class PunchcardDateCircle extends PunchcardDateRect {
 
         this.xlabel = '';
         this.title = 'PunchcardDateCircle title';
-        this.colormap = new ColorMap('blues');
+        this.colormap = new PunchcardColorMap('rainbow');
     }
 
 
@@ -25,7 +26,7 @@ class PunchcardDateCircle extends PunchcardDateRect {
         // capture the this object
         let that:PunchcardDateCircle = this;
 
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight - this.legendWidth;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft;
         let dy:number = this.marginTop + h;

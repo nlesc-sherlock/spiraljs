@@ -1,13 +1,13 @@
 /// <reference path="../../../typings/crossfilter/crossfilter.d.ts" />
 /// <reference path="../../../typings/d3/d3.d.ts" />
 /// <reference path="../../../typings/moment/moment.d.ts" />
-
+/// <reference path="./punchcard-colormap.ts" />
 
 
 class PunchcardBase {
 
     private _cf          : CrossFilter.CrossFilter<IDataRow>;
-    private _colormap    : ColorMap;
+    private _colormap    : PunchcardColorMap;
     private _dim         : any;
     private _domElem     : HTMLElement;
     private _domElemId   : string;
@@ -21,6 +21,7 @@ class PunchcardBase {
     private _ylabel      : string;
     private _todScale    : any;
     private _height      : number;
+    private _legendWidth : number;
 
 
 
@@ -41,14 +42,15 @@ class PunchcardBase {
 
         // the margins around the graph body
         this.marginLeft = 70;
-        this.marginRight = 70;
+        this.marginRight = 30;
         this.marginTop = 50;
         this.marginBottom = 110;
+        this.legendWidth = 80;
 
         this.ylabel = 'Time of day';
         this.title = '';
 
-        this.colormap = new ColorMap();
+        this.colormap = new PunchcardColorMap();
 
         // beware: JavaScript magic happens here
         let that:PunchcardBase = this;
@@ -71,7 +73,7 @@ class PunchcardBase {
 
     protected drawBox():PunchcardBase {
         //
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight - this.legendWidth;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft;
         let dy:number = this.marginTop;
@@ -146,7 +148,7 @@ class PunchcardBase {
 
     protected drawChartBody():PunchcardBase {
         //
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight - this.legendWidth;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft;
         let dy:number = this.marginTop;
@@ -168,7 +170,7 @@ class PunchcardBase {
 
     protected drawHorizontalAxisLabel():PunchcardBase {
 
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight - this.legendWidth;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft + 0.5 * w;
         let dy:number = this.marginTop + h + 0.8 * this.marginBottom;
@@ -185,6 +187,18 @@ class PunchcardBase {
 
 
 
+
+    protected drawLegend():PunchcardBase {
+        // draw the legend
+
+        let legend:PunchcardLegend = new PunchcardLegend(this);
+        legend.draw();
+
+
+        return this;
+    }
+
+
     protected drawSvg():PunchcardBase {
 
         this.svg = d3.select(this.domElem).append('svg')
@@ -199,7 +213,7 @@ class PunchcardBase {
 
     protected drawTitle():PunchcardBase {
 
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight - this.legendWidth;
         let dx:number = this.marginLeft + 0.5 * w;
         let dy:number = 0.5 * this.marginTop;
 
@@ -457,11 +471,11 @@ class PunchcardBase {
         return this._cf;
     }
 
-    protected set colormap(colormap:ColorMap) {
+    public set colormap(colormap:PunchcardColorMap) {
         this._colormap = colormap;
     }
 
-    protected get colormap():ColorMap {
+    public get colormap():PunchcardColorMap {
         return this._colormap;
     }
 
@@ -473,11 +487,11 @@ class PunchcardBase {
         return this._dim;
     }
 
-    protected set domElem(domElem:HTMLElement) {
+    public set domElem(domElem:HTMLElement) {
         this._domElem = domElem;
     }
 
-    protected get domElem():HTMLElement {
+    public get domElem():HTMLElement {
         return this._domElem;
     }
 
@@ -489,47 +503,47 @@ class PunchcardBase {
         return this._domElemId;
     }
 
-    protected set svg(svg:any) {
+    public set svg(svg:any) {
         this._svg = svg;
     }
 
-    protected get svg():any {
+    public get svg():any {
         return this._svg;
     }
 
-    protected set marginLeft(marginLeft:number) {
+    public set marginLeft(marginLeft:number) {
         this._marginLeft = marginLeft;
         this.updateMinWidth();
     }
 
-    protected get marginLeft():number {
+    public get marginLeft():number {
         return this._marginLeft;
     }
 
-    protected set marginRight(marginRight:number) {
+    public set marginRight(marginRight:number) {
         this._marginRight = marginRight;
         this.updateMinWidth();
     }
 
-    protected get marginRight():number {
+    public get marginRight():number {
         return this._marginRight;
     }
 
-    protected set marginTop(marginTop:number) {
+    public set marginTop(marginTop:number) {
         this._marginTop = marginTop;
         this.updateMinHeight();
     }
 
-    protected get marginTop():number {
+    public get marginTop():number {
         return this._marginTop;
     }
 
-    protected set marginBottom(marginBottom:number) {
+    public set marginBottom(marginBottom:number) {
         this._marginBottom = marginBottom;
         this.updateMinHeight();
     }
 
-    protected get marginBottom():number {
+    public get marginBottom():number {
         return this._marginBottom;
     }
 
@@ -571,6 +585,15 @@ class PunchcardBase {
 
     protected get height():number {
         return this._height;
+    }
+
+    public set legendWidth(legendWidth:number) {
+        let minimumWidth:number = 50;
+        this._legendWidth = Math.max(legendWidth, 50);
+    }
+
+    public get legendWidth():number {
+        return this._legendWidth;
     }
 
 }

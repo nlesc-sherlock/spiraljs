@@ -18,7 +18,7 @@ class PunchcardDateRect extends PunchcardBase {
 
         this.xlabel = '';
         this.title = 'PunchcardDateRect title';
-        this.colormap = new ColorMap('default');
+        this.colormap = new PunchcardColorMap('default');
     }
 
 
@@ -61,6 +61,7 @@ class PunchcardDateRect extends PunchcardBase {
             this.drawSymbols();
             super.drawBox();
             super.drawControls();
+            super.drawLegend();
 
             return this;
         }
@@ -71,7 +72,7 @@ class PunchcardDateRect extends PunchcardBase {
 
     private drawHorizontalAxis():PunchcardDateRect {
 
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight - this.legendWidth;
         let dx:number = this.marginLeft;
         let dy:number = this.domElem.clientHeight - this.marginBottom;
 
@@ -129,7 +130,7 @@ class PunchcardDateRect extends PunchcardBase {
         // capture the this object
         let that:PunchcardDateRect = this;
 
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight - this.legendWidth;
         let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
         let dx:number = this.marginLeft;
         let dy:number = this.marginTop + h;

@@ -1,14 +1,14 @@
 
 
-interface ColorTableItem {
+type ColorTableItem = {
     at   : number;
     color: [number, number, number];
 }
 
-interface ColorTable extends Array<ColorTableItem> {};
+type ColorTable = Array<ColorTableItem>;
 
 
-class ColorMap {
+class PunchcardColorMap {
 
     private _colortable: ColorTable;
     private _cLimLow: number;
@@ -87,7 +87,7 @@ class ColorMap {
 
         switch (str) {
             case 'default': {
-                colortable = ColorMap.defaultColorTable;
+                colortable = PunchcardColorMap.defaultColorTable;
                 break;
             }
             case 'gray': {
@@ -103,6 +103,19 @@ class ColorMap {
                     {
                         at: 1.0,
                         color: [255, 255, 255, 0]
+                    },
+                    {
+                        at: Number.POSITIVE_INFINITY,
+                        color: [255, 255, 255, 255]
+                    }
+                ];
+                break;
+            }
+            case 'empty': {
+                colortable = [
+                    {
+                        at: Number.NEGATIVE_INFINITY,
+                        color: [0, 0, 0, 255]
                     },
                     {
                         at: Number.POSITIVE_INFINITY,
@@ -174,6 +187,55 @@ class ColorMap {
                 ];
                 break;
             }
+            case 'rainbow': {
+                colortable = [
+                    {
+                        at:Number.NEGATIVE_INFINITY,
+                        color: [255, 255,   0,  0]
+                    },
+                    {
+                        at:0.000,
+                        color: [255, 255,   0,  0]
+                    },
+                    {
+                        at:0.125,
+                        color: [255, 255,   0,  0]
+                    },
+                    {
+                        at:0.250,
+                        color: [145, 255,   0,  0]
+                    },
+                    {
+                        at:0.375,
+                        color: [  0, 255,  54,  0]
+                    },
+                    {
+                        at:0.500,
+                        color: [  0, 179, 255,  0]
+                    },
+                    {
+                        at:0.625,
+                        color: [ 10,   0, 255,  0]
+                    },
+                    {
+                        at:0.750,
+                        color: [171,   0, 255,  0]
+                    },
+                    {
+                        at:0.875,
+                        color: [255,   0, 159,  0]
+                    },
+                    {
+                        at:1.000,
+                        color: [255,  89,   0,  0]
+                    },
+                    {
+                        at:Number.POSITIVE_INFINITY,
+                        color: [255,  89,   0,  0]
+                    }
+                ];
+                break;
+            }
             default: {
                 throw new Error('ColorMap.expandColorTableStr(): unknown case');
             }
@@ -229,12 +291,37 @@ class ColorMap {
 
 
 
+
     public getColorRGB(at:number):string {
 
         let color:[number, number, number];
         color = this.getColor(at);
         return 'rgb(' + color[0] + ',' + color[1] + ',' + color[2] + ')';
-}
+    }
+
+
+
+
+    public addColor(color: ColorTableItem): PunchcardColorMap {
+
+        this.colortable.push(color);
+        this.colortable = this.colortable.sort(this.compare);
+
+        return this;
+    }
+
+    public addColors(colors:ColorTable): PunchcardColorMap {
+
+        for (let elem of colors) {
+            this.colortable.push(elem);
+        }
+        this.colortable = this.colortable.sort(this.compare);
+
+        return this;
+    }
+
+
+
 
     public set cLimLow(cLimLow:number) {
         this._cLimLow = cLimLow;
