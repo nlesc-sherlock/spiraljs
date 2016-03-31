@@ -26,7 +26,6 @@ class PunchcardBase {
 
     constructor (cf: any, domElemId: string) {
 
-
         // the crossfilter object
         this.cf = cf;
 
@@ -64,128 +63,6 @@ class PunchcardBase {
     public draw():PunchcardBase {
 
         // placeholder method to be overridden in classes that inherit from this class
-        return this;
-    }
-
-
-
-
-    protected drawSvg():PunchcardBase {
-
-        this.svg = d3.select(this.domElem).append('svg')
-            .attr('width', this.domElem.clientWidth)
-            .attr('height', this.domElem.clientHeight);
-
-        return this;
-    }
-
-
-
-
-    protected drawChartBody():PunchcardBase {
-        //
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
-        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
-        let dx:number = this.marginLeft;
-        let dy:number = this.marginTop;
-
-
-        this.svg.append('g')
-            .attr('class', 'chartbody')
-            .attr('transform', 'translate(' + dx + ',' + dy + ')' )
-            .append('rect')
-                .attr('width', w)
-                .attr('height', h)
-                .attr('class', 'chartbody');
-
-        return this;
-    }
-
-
-
-
-    protected drawHorizontalAxisLabel():PunchcardBase {
-
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
-        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
-        let dx:number = this.marginLeft + 0.5 * w;
-        let dy:number = this.marginTop + h + 0.8 * this.marginBottom;
-
-        this.svg.append('g')
-            .attr('class', 'horizontal-axis-label')
-            .attr('transform', 'translate(' + dx + ',' + dy + ')')
-            .append('text')
-            .text(this.xlabel)
-            .attr('class', 'horizontal-axis-label');
-
-        return this;
-    }
-
-
-
-    protected drawVerticalAxis():PunchcardBase {
-        //
-        let dx:number = this.marginLeft;
-        let dy:number = this.domElem.clientHeight - this.marginBottom;
-        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
-
-
-        this.todScale = d3.scale.linear()
-            .range([-h, 0])
-            .domain([0.0, 24.0]);
-
-        let todAxis = d3.svg.axis()
-            .orient('left')
-            .scale(this.todScale)
-            .tickValues([0, 3, 6, 9, 12, 15, 18, 21, 24])
-            .innerTickSize(5)
-            .outerTickSize(0);
-
-        this.svg.append('g')
-            .attr('class', 'vertical-axis')
-            .attr('transform', 'translate(' + dx + ',' + dy + ')' )
-            .call(todAxis);
-
-        return this;
-
-    }
-
-
-
-
-    protected drawVerticalAxisLabel():PunchcardBase {
-        //
-        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
-        let dx:number = 0.3 * this.marginLeft;
-        let dy:number = this.marginTop + 0.5 * h;
-
-        this.svg.append('g')
-            .attr('class', 'vertical-axis-label')
-            .attr('transform', 'translate(' + dx + ',' + dy + ') rotate(-90)')
-            .append('text')
-            .text(this.ylabel)
-            .attr('class', 'vertical-axis-label');
-
-        return this;
-
-    }
-
-
-
-
-    protected drawTitle():PunchcardBase {
-
-        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
-        let dx:number = this.marginLeft + 0.5 * w;
-        let dy:number = 0.5 * this.marginTop;
-
-        this.svg.append('g')
-            .attr('class', 'title')
-            .attr('transform', 'translate(' + dx + ',' + dy + ')')
-            .append('text')
-            .text(this.title)
-            .attr('class', 'title');
-
         return this;
     }
 
@@ -267,6 +144,128 @@ class PunchcardBase {
 
 
 
+    protected drawChartBody():PunchcardBase {
+        //
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
+        let dx:number = this.marginLeft;
+        let dy:number = this.marginTop;
+
+
+        this.svg.append('g')
+            .attr('class', 'chartbody')
+            .attr('transform', 'translate(' + dx + ',' + dy + ')' )
+            .append('rect')
+                .attr('width', w)
+                .attr('height', h)
+                .attr('class', 'chartbody');
+
+        return this;
+    }
+
+
+
+
+    protected drawHorizontalAxisLabel():PunchcardBase {
+
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
+        let dx:number = this.marginLeft + 0.5 * w;
+        let dy:number = this.marginTop + h + 0.8 * this.marginBottom;
+
+        this.svg.append('g')
+            .attr('class', 'horizontal-axis-label')
+            .attr('transform', 'translate(' + dx + ',' + dy + ')')
+            .append('text')
+            .text(this.xlabel)
+            .attr('class', 'horizontal-axis-label');
+
+        return this;
+    }
+
+
+
+    protected drawSvg():PunchcardBase {
+
+        this.svg = d3.select(this.domElem).append('svg')
+            .attr('width', this.domElem.clientWidth)
+            .attr('height', this.domElem.clientHeight);
+
+        return this;
+    }
+
+
+
+
+    protected drawTitle():PunchcardBase {
+
+        let w :number = this.domElem.clientWidth - this.marginLeft - this.marginRight;
+        let dx:number = this.marginLeft + 0.5 * w;
+        let dy:number = 0.5 * this.marginTop;
+
+        this.svg.append('g')
+            .attr('class', 'title')
+            .attr('transform', 'translate(' + dx + ',' + dy + ')')
+            .append('text')
+            .text(this.title)
+            .attr('class', 'title');
+
+        return this;
+    }
+
+
+
+
+    protected drawVerticalAxis():PunchcardBase {
+        //
+        let dx:number = this.marginLeft;
+        let dy:number = this.domElem.clientHeight - this.marginBottom;
+        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
+
+
+        this.todScale = d3.scale.linear()
+            .range([-h, 0])
+            .domain([0.0, 24.0]);
+
+        let todAxis = d3.svg.axis()
+            .orient('left')
+            .scale(this.todScale)
+            .tickValues([0, 3, 6, 9, 12, 15, 18, 21, 24])
+            .innerTickSize(5)
+            .outerTickSize(0);
+
+        this.svg.append('g')
+            .attr('class', 'vertical-axis')
+            .attr('transform', 'translate(' + dx + ',' + dy + ')' )
+            .call(todAxis);
+
+        return this;
+
+    }
+
+
+
+
+    protected drawVerticalAxisLabel():PunchcardBase {
+        //
+        let h :number = this.domElem.clientHeight - this.marginTop - this.marginBottom;
+        let dx:number = 0.3 * this.marginLeft;
+        let dy:number = this.marginTop + 0.5 * h;
+
+        this.svg.append('g')
+            .attr('class', 'vertical-axis-label')
+            .attr('transform', 'translate(' + dx + ',' + dy + ') rotate(-90)')
+            .append('text')
+            .text(this.ylabel)
+            .attr('class', 'vertical-axis-label');
+
+        return this;
+
+    }
+
+
+
+
     protected hide():PunchcardBase {
 
         this.domElem.classList.add('hidden');
@@ -315,40 +314,6 @@ class PunchcardBase {
     }
 
 
-
-    protected restore():void {
-
-        // cast the event target to an HTMLElement so as not to confuse TypeScript
-        let restoreButton: HTMLElement;
-        let myTarget: HTMLElement = <HTMLElement>event.target;
-        if (myTarget.tagName === 'BUTTON') {
-            // user clicked on the button part
-            restoreButton = <HTMLElement>event.target;
-        } else if (myTarget.tagName === 'SPAN') {
-            // user clicked glyph part of the button
-            restoreButton = <HTMLElement>myTarget.parentNode;
-        } else {
-            // pass
-        }
-
-        // hide the restore button
-        restoreButton.classList.add('hidden');
-
-        let minimButton: HTMLElement = <HTMLElement>restoreButton.previousSibling;
-
-        // show the minimize button
-        minimButton.classList.remove('hidden');
-
-        // restore the original height
-        this.domElem.style.height = this.height + 'px';
-
-        // show the contents of the div
-        this.domElem.getElementsByTagName('svg')[0].classList.remove('hidden');
-
-        // Not sure this even works
-        event.stopPropagation();
-
-    }
 
     protected moveDown():void {
 
@@ -405,6 +370,39 @@ class PunchcardBase {
 
 
 
+    protected restore():void {
+
+        // cast the event target to an HTMLElement so as not to confuse TypeScript
+        let restoreButton: HTMLElement;
+        let myTarget: HTMLElement = <HTMLElement>event.target;
+        if (myTarget.tagName === 'BUTTON') {
+            // user clicked on the button part
+            restoreButton = <HTMLElement>event.target;
+        } else if (myTarget.tagName === 'SPAN') {
+            // user clicked glyph part of the button
+            restoreButton = <HTMLElement>myTarget.parentNode;
+        } else {
+            // pass
+        }
+
+        // hide the restore button
+        restoreButton.classList.add('hidden');
+
+        let minimButton: HTMLElement = <HTMLElement>restoreButton.previousSibling;
+
+        // show the minimize button
+        minimButton.classList.remove('hidden');
+
+        // restore the original height
+        this.domElem.style.height = this.height + 'px';
+
+        // show the contents of the div
+        this.domElem.getElementsByTagName('svg')[0].classList.remove('hidden');
+
+        // Not sure this even works
+        event.stopPropagation();
+
+    }
 
 
 
