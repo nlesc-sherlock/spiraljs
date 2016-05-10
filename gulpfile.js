@@ -52,6 +52,17 @@ gulp.task('ts',
             .pipe(gulp.dest("./"));
     });
 
+var typedoc = require("gulp-typedoc");
+gulp.task("typedoc", function() {
+    return gulp
+        .src(["src/ts/**/*.ts"])
+        .pipe(typedoc({
+            module: "commonjs",
+            target: "es5",
+            out: "docs/",
+            name: "My project title"
+        }));
+});
 
 //concatenate css files
 gulp.task('concat-css',

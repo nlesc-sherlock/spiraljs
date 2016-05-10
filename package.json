@@ -30,12 +30,14 @@
     "gulp-help": "^1.6.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-tslint": "^4.1.0",
+    "gulp-typedoc": "^1.2.1",
     "gulp-typescript": "^2.9.2",
     "gulp-watch": "^4.3.5",
     "js-beautify": "^1.5.10",
     "merge2": "^0.3.6",
     "rimraf": "^2.4.4",
     "tslint": "^3.1.1",
+    "typedoc": "^0.3.12",
     "typescript": "^1.7.3"
   },
   "dependencies": {
