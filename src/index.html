@@ -22,15 +22,12 @@
         <!-- also include the leaflet stylesheet-->
         <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
 
-        <!-- include moment.js to deal with dates, times, and daylight savings
-        time better than plain JavaScript does -->
-        <script src="../bower_components/moment/min/moment.min.js"></script>
-
         <!-- include jquery.js (required by bootstrap) -->
         <script src="../bower_components/jquery/dist/jquery.js"></script>
 
         <!-- include bootstrap.js to use buttons -->
         <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
         <!-- include bootstrap's stylesheet -->
         <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
 
@@ -42,15 +39,7 @@
 
     <body>
 
-        <div id="hist1-arrests-per-day" class="main-div-style"></div>
-
-        <div id="punchcard-weekday-circle" class="main-div-style"></div>
-
-
-        <div id="punchcard-weekday-rect" class="main-div-style"></div>
-        <div id="punchcard-date-circle" class="main-div-style"></div>
-        <div id="punchcard-date-rect" class="main-div-style"></div>
-        <div id="spiral-control" class="main-div-style hidden">
+        <div id="spiral-control" class="main-div-style">
             <div id="spiral-hist"></div>
             <div id="spiral"></div>
             <div id="spiral-power"></div>
@@ -60,7 +49,7 @@
             <div id="spiral-value"></div>
         </div>
 
-        <script src="js/chicago.js"></script>
+        <script src="js/spiral.js"></script>
 
     </body>
 

@@ -302,7 +302,7 @@ class TimedDataRow implements TimedRecord<IDataRow> {
         }
     }
 
-    get date(): Date { return this._row.moment.toDate(); }
+    get date(): Date { return new Date(this._row.datestr); }
     get record(): IDataRow { return this._row; }
     get color(): string { return TimedDataRow.color_map[this._row.primary]; }
 }
@@ -336,9 +336,7 @@ class Spiral {
             let s = 1. / this.value;
             that.chart.period_seconds = s * 3600 * 24;
             that.chart.update(that._data);
-            d3.select('#spiral-value').html('Period: ' +
-                moment.duration(s, 'days').humanize() + '(' +
-                moment.duration(s, 'days').as('hours') + ' hours)');
+            d3.select('#spiral-value').html('Period: ' + s.toString() + 'days');
         });
 
         d3.select('#spiral-slider')
