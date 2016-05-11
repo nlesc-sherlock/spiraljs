@@ -39,6 +39,7 @@ gulp.task('beautify-ts', false, function() {
 
 // compile javascript from typescript
 var tsProject = ts.createProject('tsconfig.json');
+
 // compile typescript
 gulp.task('ts',
     'Compiles typescript to javascript according to tsconfig.json', ['tslint'],
@@ -52,6 +53,21 @@ gulp.task('ts',
             .pipe(gulp.dest("./"));
     });
 
+var tsProjectTests = ts.createProject('src/tests/tsconfig.json')
+
+// compile typescript
+gulp.task('build-tests',
+    'Compiles typescript to javascript according to tsconfig.json', ['tslint'],
+    function() {
+        var tsResult = tsProjectTests.src()
+            .pipe(sourcemaps.init())
+            .pipe(ts(tsProjectTests));
+
+        return tsResult.js
+            .pipe(sourcemaps.write())
+            .pipe(gulp.dest("./src/tests"));
+    });
+
 var typedoc = require("gulp-typedoc");
 gulp.task("typedoc", function() {
     return gulp
@@ -60,7 +76,7 @@ gulp.task("typedoc", function() {
             module: "commonjs",
             target: "es5",
             out: "docs/",
-            name: "My project title"
+            name: "spiral-js"
         }));
 });
 
@@ -84,6 +100,7 @@ gulp.task('copy-build',
 // watch and build on change
 gulp.task('watch', false, ['ts'], function() {
     gulp.watch('src/**/*.ts', ['ts']);
+    gulp.watch('src/tests/**/*.ts', ['build-tests']);
     gulp.watch('./*.js', ['eslint', 'beautify-js']);
     gulp.watch(['src/*.html'], ['copy-build']);
     gulp.watch(['./src/styles/*.css'], ['concat-css']);
@@ -113,4 +130,4 @@ gulp.task('clean',
     });
 
 gulp.task('dev-watch',
-    'Watches files for development', ['ts', 'concat-css', 'copy-build', 'watch', 'browser-sync']);
+    'Watches files for development', ['ts', 'build-tests', 'concat-css', 'copy-build', 'watch', 'browser-sync']);

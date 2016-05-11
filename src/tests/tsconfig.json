@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "outFile": "../../build/js/spiral.spec.js",
+        "inlineSourceMap": true,
+        "inlineSources": true
+    },
+    "files": [
+        "dsp.spec.ts"
+    ]
+}
+

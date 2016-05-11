@@ -19,7 +19,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nlesc-sherlock/chicago.git"
+    "url": "https://github.com/nlesc-sherlock/spiraljs.git"
   },
   "devDependencies": {
     "browser-sync": "^2.10.0",
@@ -33,9 +33,11 @@
     "gulp-typedoc": "^1.2.1",
     "gulp-typescript": "^2.9.2",
     "gulp-watch": "^4.3.5",
+    "jasmine-core": "2.4.1",
     "js-beautify": "^1.5.10",
     "merge2": "^0.3.6",
     "rimraf": "^2.4.4",
+    "tape": "^4.5.1",
     "tslint": "^3.1.1",
     "typedoc": "^0.3.12",
     "typescript": "^1.7.3"
