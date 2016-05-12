@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/d3/d3.d.ts" />
+/// <reference path="../../../typings/main/ambient/d3/index.d.ts" />
 
 /**
  * Common interface for Charts

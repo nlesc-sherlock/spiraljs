@@ -1,4 +1,4 @@
-/// <reference path="../../typings/leaflet/leaflet.d.ts" />
+/// <reference path="../../typings/main/ambient/leaflet/index.d.ts" />
 
 
 
@@ -114,4 +114,3 @@ class DataLoader {
 
 
 }
-

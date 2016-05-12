@@ -1,6 +1,6 @@
-/// <reference path="../../typings/node/node.d.ts"/>
-/// <reference path="../../typings/jasmine/jasmine.d.ts" />
-/// <reference path="../../typings/lodash/lodash.d.ts" />
+/// <reference path="../../typings/main/ambient/node/index.d.ts"/>
+/// <reference path="../../typings/main/ambient/jasmine/index.d.ts" />
+/// <reference path="../../typings/main/ambient/lodash/index.d.ts" />
 
 /// <reference path="../ts/spiralchart/dsp.ts" />
 
