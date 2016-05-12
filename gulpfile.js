@@ -60,7 +60,7 @@ var tsProjectTests = ts.createProject('src/tests/tsconfig.json')
 
 // compile typescript
 gulp.task('build-tests',
-    'Compiles typescript to javascript according to tsconfig.json', ['tslint'],
+    'Compiles typescript to javascript according to tsconfig.json', ['ts'],
     function() {
         var tsResult = tsProjectTests.src()
             .pipe(sourcemaps.init())

@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - "5.1"
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
+before_script:
+  - npm install --global typescript
+  - npm install --global tsd
+  - npm install --global tslint
+  - npm install --global bower
+  - npm install --global gulp
+  - npm run deploy-dev
+
+script: gulp test
