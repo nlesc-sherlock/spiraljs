@@ -44,9 +44,9 @@ gulp.task('beautify-ts', false, function() {
 var tsProject = ts.createProject('tsconfig.json');
 
 // compile typescript
-gulp.task('ts',
-    'Compiles typescript to javascript according to tsconfig.json', ['tslint'],
+gulp.task('ts', ['tslint'],
     function() {
+        'Compiles typescript to javascript according to tsconfig.json'
         var tsResult = tsProject.src()
             .pipe(sourcemaps.init())
             .pipe(ts(tsProject));
@@ -59,9 +59,9 @@ gulp.task('ts',
 var tsProjectTests = ts.createProject('src/tests/tsconfig.json')
 
 // compile typescript
-gulp.task('build-tests',
-    'Compiles typescript to javascript according to tsconfig.json', ['ts'],
+gulp.task('build-tests', ['ts'],
     function() {
+        'Compiles typescript to javascript according to tsconfig.json'
         var tsResult = tsProjectTests.src()
             .pipe(sourcemaps.init())
             .pipe(ts(tsProjectTests));
@@ -71,13 +71,14 @@ gulp.task('build-tests',
             .pipe(gulp.dest("./src/tests"));
     });
 
-gulp.task('test', function() {
-    'Runs tests', ['build-tests']
-    return gulp.src('build/js/**/*.spec.js')
-        .pipe(jasmine())
-        .pipe(tapcolorize())
-        .pipe(tapspec());
-});
+gulp.task('test', ['build-tests'],
+    function() {
+      'Runs tests'
+      return gulp.src('build/js/**/*.spec.js')
+          .pipe(jasmine())
+          .pipe(tapcolorize())
+          .pipe(tapspec());
+    });
 
 var typedoc = require("gulp-typedoc");
 gulp.task("typedoc", function() {
@@ -93,8 +94,8 @@ gulp.task("typedoc", function() {
 
 //concatenate css files
 gulp.task('concat-css',
-    'Concatenates css files',
     function() {
+        'Concatenates css files'
         return gulp.src('src/**/*.css')
             .pipe(concatCss('bundle.css'))
             .pipe(gulp.dest('build/styles/'));
@@ -102,8 +103,8 @@ gulp.task('concat-css',
 
 // copy html and css files to build
 gulp.task('copy-build',
-    'Copies html to build directory',
     function() {
+        'Copies html to build directory'
         gulp.src('./src/*.html').pipe(gulp.dest('./build/'))
     });
 
@@ -118,9 +119,9 @@ gulp.task('watch', false, ['ts'], function() {
 });
 
 // run BrowserSync
-gulp.task('browser-sync',
-    'Serves files with BrowserSync, starts and restarts browser on changes',
+gulp.task('browser-sync', ['copy-build', 'concat-css'],
     function() {
+        'Serves files with BrowserSync, starts and restarts browser on changes'
         browsersync.init({
             server: {
                 baseDir: ['./', 'build'],
@@ -135,10 +136,11 @@ gulp.task('browser-sync',
     });
 
 gulp.task('clean',
-    'Remove files generated in build process',
     function(cb) {
+        'Remove files generated in build process'
         rimraf('./build', cb);
     });
 
+// Watches files for development
 gulp.task('dev-watch',
-    'Watches files for development', ['ts', 'build-tests', 'concat-css', 'copy-build', 'watch', 'browser-sync']);
+    ['browser-sync']);
