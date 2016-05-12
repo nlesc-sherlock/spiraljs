@@ -28,15 +28,19 @@
     "gulp-concat-css": "^2.2.0",
     "gulp-eslint": "^1.1.1",
     "gulp-help": "^1.6.1",
+    "gulp-jasmine": "^2.3.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-tslint": "^4.1.0",
     "gulp-typedoc": "^1.2.1",
     "gulp-typescript": "^2.9.2",
     "gulp-watch": "^4.3.5",
+    "jasmine": "^2.4.1",
     "jasmine-core": "2.4.1",
     "js-beautify": "^1.5.10",
     "merge2": "^0.3.6",
     "rimraf": "^2.4.4",
+    "tap-colorize": "^1.2.0",
+    "tap-spec": "^4.1.1",
     "tape": "^4.5.1",
     "tslint": "^3.1.1",
     "typedoc": "^0.3.12",
@@ -44,6 +48,7 @@
   },
   "dependencies": {
     "gulp": "^3.9.0",
-    "gulp-help": "^1.6.1"
+    "gulp-help": "^1.6.1",
+    "lodash": "^4.12.0"
   }
 }

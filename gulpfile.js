@@ -8,6 +8,9 @@ var concatCss = require('gulp-concat-css');
 var watch = require('gulp-watch');
 var browsersync = require('browser-sync').create();
 var rimraf = require('rimraf');
+var jasmine = require('gulp-jasmine');
+var tapcolorize = require('tap-colorize');
+var tapspec = require('tap-spec');
 
 // tasks
 // lint javascript and typescript
@@ -67,6 +70,14 @@ gulp.task('build-tests',
             .pipe(sourcemaps.write())
             .pipe(gulp.dest("./src/tests"));
     });
+
+gulp.task('test', function() {
+    'Runs tests', ['build-tests']
+    return gulp.src('build/js/**/*.spec.js')
+        .pipe(jasmine())
+        .pipe(tapcolorize())
+        .pipe(tapspec());
+});
 
 var typedoc = require("gulp-typedoc");
 gulp.task("typedoc", function() {

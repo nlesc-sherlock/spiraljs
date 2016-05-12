@@ -1,3 +1,4 @@
+/// <reference path="../../typings/node/node.d.ts"/>
 /// <reference path="../../typings/jasmine/jasmine.d.ts" />
 /// <reference path="../../typings/lodash/lodash.d.ts" />
 
@@ -5,12 +6,18 @@
 
 import complex = Complex.Complex;
 
-describe('testing infrastructure', () => {
-	it('true is true', () =>
-		expect(true).toEqual(true));
+if (typeof module !== 'undefined' && module.exports) {
+    // we have CommonJS support, load requirements
+    var _: _.LoDashStatic = require('lodash');
+    require('jasmine');
+}
 
-	it('null is not the same thing as undefined', () =>
-		expect(null).not.toEqual(undefined));
+describe('testing infrastructure', () => {
+    it('true is true', () =>
+        expect(true).toEqual(true));
+
+    it('null is not the same thing as undefined', () =>
+        expect(null).not.toEqual(undefined));
 });
 
 describe('complex numbers', () => {
