@@ -12,7 +12,7 @@ addons:
 
 before_script:
   - npm install --global typescript
-  - npm install --global tsd
+  - npm install --global typings
   - npm install --global tslint
   - npm install --global bower
   - npm install --global gulp

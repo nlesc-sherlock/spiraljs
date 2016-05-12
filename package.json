@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "deploy": "npm install --production && bower install",
-    "deploy-dev": "npm install && bower install && tsd install",
+    "deploy-dev": "npm install && bower install && typings install",
     "dev-watch": "gulp dev-watch",
     "test": "gulp test"
   },
