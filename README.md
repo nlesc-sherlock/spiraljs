@@ -1,5 +1,5 @@
 [![devDependency Status](https://david-dm.org/nlesc-sherlock/chicago/dev-status.svg)](https://david-dm.org/nlesc-sherlock/chicago#info=devDependencies)
-[![Build Status](https://travis-ci.org/nlesc-sherlock/metrochartjs.svg?branch=master)](https://travis-ci.org/nlesc-sherlock/metrochartjs)
+[![Build Status](https://travis-ci.org/nlesc-sherlock/spiraljs.svg?branch=master)](https://travis-ci.org/nlesc-sherlock/spiraljs)
 
 # Setting up the development environment (Linux Ubuntu)
 
