@@ -75,9 +75,9 @@ gulp.task('test', ['build-tests'],
     function() {
       'Runs tests'
       return gulp.src('build/js/**/*.spec.js')
-          .pipe(jasmine())
-          .pipe(tapcolorize())
-          .pipe(tapspec());
+          .pipe(jasmine({
+              reporter: tapcolorize().pipe(tapspec())
+          }));
     });
 
 var typedoc = require("gulp-typedoc");
