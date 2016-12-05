@@ -1,12 +1,12 @@
 import * as d3 from 'd3';
 
-import { Base }       from '/.basechart';
-import { Polar }      from '/.basechart';
-import { Coordinate } from '/.basechart';
+import { Base }       from './basechart';
+import { Polar }      from './basechart';
+import { Coordinate } from './basechart';
 
 // (used to be in spiral.ts, module Chart)
 
-class SpiralBase<T> extends Base<T> {
+export class SpiralBase<T> extends Base<T> {
 
     public radial_map: (x: T) => number;
 

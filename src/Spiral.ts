@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+import 'd3';
 
 import { TimedDataRow}       from './TimedDataRow';
 import { TimedBubbleSpiral } from './TimedBubbleSpiral';

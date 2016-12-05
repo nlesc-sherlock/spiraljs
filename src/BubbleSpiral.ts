@@ -1,7 +1,5 @@
 import  * as d3 from 'd3';
-import { Spiralbase } from './SpiralBase';
-
-// (used to be in spiral.ts. module Chart)
+import { SpiralBase } from './SpiralBase';
 
 export class BubbleSpiral<T> extends SpiralBase<T> {
     constructor (element: d3.Selection<any>) {

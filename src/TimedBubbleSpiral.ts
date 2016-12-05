@@ -1,8 +1,7 @@
-import * as d3 from 'd3';
+import 'd3';
 
 import { LineSpiral } from './LineSpiral';
 import { TimedRecord } from './TimeRecord';
-import {} from '';
 
 
 class TimedBubbleSpiral<T> extends LineSpiral<TimedRecord<T>> {
