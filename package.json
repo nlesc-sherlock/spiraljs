@@ -13,7 +13,7 @@
     "clean-tsdoc": "trash docs/sites/tsdoc/",
     "cover": "npm run test && npm run remap-istanbul-json && npm run remap-istanbul-html",
     "csslint": "cat src/*.css > dist/spiral.css && csslint --config=.csslintrc --format=compact dist/spiral.css",
-    "dist": "browserify src/spiral.ts --debug --standalone spiral -p [ tsify --project . ] > build/spiral-with-source-maps.js",
+    "dist": "browserify src/index.ts --debug --standalone spiral -p [ tsify --project . ] > build/spiral-with-source-maps.js",
     "everything": "npm run tsdoc && npm run cover",
     "exorcist": "<build/spiral-with-source-maps.js exorcist dist/spiral.js.map > dist/spiral.js",
     "jshint": "jshint test/*.js",
@@ -46,6 +46,7 @@
     "url": "https://github.com/nlesc-sherlock/spiraljs.git"
   },
   "devDependencies": {
+    "@types/d3": "^3.5.36",
     "browserify": "^13.1.0",
     "browserify-shim": "^3.8.12",
     "csslint": "^1.0.2",
@@ -68,7 +69,7 @@
     "tsify": "^1.0.3",
     "tslint": "^3.9.0",
     "typedoc": "^0.4.1",
-    "typescript": "^1.8.10",
+    "typescript": "^2.0.10",
     "uglify-js": "^2.7.3",
     "uglifycss": "0.0.21"
   },
