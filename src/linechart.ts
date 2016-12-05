@@ -1,5 +1,5 @@
 /// <reference path="../../../typings/d3/d3.d.ts" />
-/// <reference path="chartbase.ts" />
+/// <reference path="basechart.ts" />
 
 module Chart {
     export class LineChart extends Base<Coordinate> {
