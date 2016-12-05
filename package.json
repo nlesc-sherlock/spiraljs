@@ -1,45 +1,107 @@
 {
-  "name": "chicago",
-  "version": "1.0.0",
-  "description": "This repository visualizes the City of Chicago police data set using web-based tools such as JavaScript, TypeScript, Gulp and Node.js",
-  "main": "index.js",
+  "name": "spiraljs",
+  "version": "1.0.0-alpha.1",
+  "description": "Spiralchart visualization using TypeScript and D3.js",
+  "main": "./dist/spiral.min.js",
   "scripts": {
-    "deploy": "npm install --production && bower install",
-    "deploy-dev": "npm install && bower install && tsd install",
-    "dev-watch": "gulp dev-watch",
-    "test": "gulp test"
+    "clean-build": "trash build/",
+    "clean-cover": "trash docs/sites/coverage/",
+    "clean-dist": "trash dist/",
+    "clean-downloaded": "trash typings/ node_modules/",
+    "clean": "npm run clean-build & npm run clean-dist & npm run clean-sites",
+    "clean-sites": "npm run clean-cover & npm run clean-tsdoc",
+    "clean-tsdoc": "trash docs/sites/tsdoc/",
+    "cover": "npm run test && npm run remap-istanbul-json && npm run remap-istanbul-html",
+    "csslint": "cat src/*.css > dist/spiral.css && csslint --config=.csslintrc --format=compact dist/spiral.css",
+    "dist": "browserify src/spiral.ts --debug --standalone spiral -p [ tsify --project . ] > build/spiral-with-source-maps.js",
+    "everything": "npm run tsdoc && npm run cover",
+    "exorcist": "<build/spiral-with-source-maps.js exorcist dist/spiral.js.map > dist/spiral.js",
+    "jshint": "jshint test/*.js",
+    "jslint": "jslint test/*.js",
+    "lint": "npm run tslint && npm run jshint && npm run jslint && npm run csslint",
+    "postdist": "npm run exorcist && npm run uglifyjs && npm run uglifycss",
+    "postversion": "git log --pretty=oneline --max-count 10",
+    "precover": "trash docs/sites/coverage/ && npm run jslint && npm run jshint && npm run dist",
+    "predist": "trash build/ && mkdirp build && trash dist/ && mkdirp dist && npm run tslint && npm run csslint",
+    "pretsdoc": "npm run clean-tsdoc && mkdirp docs/sites/tsdoc",
+    "preversion": "npm run purge && npm install && typings install && npm run dist && npm run test",
+    "purge": "npm run clean & npm run clean-downloaded",
+    "remap-istanbul-html": "remap-istanbul --input docs/sites/coverage/coverage-remapped.json --output docs/sites/coverage/remapped --type html --exclude node_modules",
+    "remap-istanbul-json": "remap-istanbul --input docs/sites/coverage/coverage.json --output docs/sites/coverage/coverage-remapped.json",
+    "test": "karma start karma.conf.js",
+    "tsdoc": "typedoc --out docs/sites/tsdoc/ .",
+    "tslint": "tslint --config tslint.json ./src/**/*.ts",
+    "uglifycss": "uglifycss dist/spiral.css > dist/spiral.min.css",
+    "uglifyjs": "uglifyjs dist/spiral.js --output dist/spiral.min.js --source-map dist/spiral.min.js.map --screw-ie8 --in-source-map dist/spiral.js.map --source-map-url spiral.min.js.map"
   },
   "keywords": [
     "typescript",
-    "chicago",
-    "police",
-    "crime"
+    "spiralchart",
+    "visualization"
   ],
-  "author": "Johan Hidding, Mateusz Kuzak, Jurriaan H. Spaaks, Lourens Veen",
+  "author": "Johan Hidding, Mateusz Kuzak, Jurriaan H. Spaaks, Lourens Veen, Faruk Diblen",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nlesc-sherlock/chicago.git"
+    "url": "https://github.com/nlesc-sherlock/spiraljs.git"
   },
   "devDependencies": {
-    "browser-sync": "^2.10.0",
-    "gulp": "^3.9.0",
-    "gulp-beautify": "^2.0.0",
-    "gulp-concat-css": "^2.2.0",
-    "gulp-eslint": "^1.1.1",
-    "gulp-help": "^1.6.1",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-tslint": "^4.1.0",
-    "gulp-typescript": "^2.9.2",
-    "gulp-watch": "^4.3.5",
-    "js-beautify": "^1.5.10",
-    "merge2": "^0.3.6",
-    "rimraf": "^2.4.4",
-    "tslint": "^3.1.1",
-    "typescript": "^1.7.3"
+    "browserify": "^13.1.0",
+    "browserify-shim": "^3.8.12",
+    "csslint": "^1.0.2",
+    "exorcist": "^0.4.0",
+    "istanbul": "^0.4.4",
+    "jasmine-core": "^2.4.1",
+    "jshint": "^2.9.3",
+    "jslint": "^0.10.3",
+    "karma": "^1.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-fixture": "^0.2.6",
+    "karma-html2js-preprocessor": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-json-fixtures-preprocessor": "0.0.6",
+    "karma-phantomjs-launcher": "^1.0.1",
+    "karma-spec-reporter": "0.0.26",
+    "mkdirp": "^0.5.1",
+    "remap-istanbul": "^0.6.4",
+    "trash-cli": "^1.3.0",
+    "tsify": "^1.0.3",
+    "tslint": "^3.9.0",
+    "typedoc": "^0.4.1",
+    "typescript": "^1.8.10",
+    "uglify-js": "^2.7.3",
+    "uglifycss": "0.0.21"
   },
   "dependencies": {
-    "gulp": "^3.9.0",
-    "gulp-help": "^1.6.1"
-  }
+    "crossfilter": "^1.3.12",
+    "d3": "^3.5.17",
+    "moment": "^2.14.1"
+  },
+  "browser": {
+    "crossfilter": "node_modules/crossfilter/crossfilter.js",
+    "d3": "node_modules/d3/d3.js",
+    "moment": "node_modules/moment/moment.js"
+  },
+  "browserify-shim": {
+    "crossfilter": "global:crossfilter",
+    "d3": "global:d3",
+    "moment": "global:moment"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "files": [
+    "CHANGELOG",
+    "dist/spiral.js",
+    "dist/spiral.js.map",
+    "dist/spiral.min.js",
+    "dist/spiral.min.js.map",
+    "dist/spiral.css",
+    "dist/spiral.min.css",
+    "LICENSE",
+    "package.json",
+    "README"
+  ]
 }
