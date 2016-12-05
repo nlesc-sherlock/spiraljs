@@ -11,12 +11,7 @@
         "inlineSources": true
     },
     "files": [
-        "src/ts/dataloader.ts",
-        "src/ts/main-script.ts",
-        "src/ts/spiralchart/chartbase.ts",
-        "src/ts/spiralchart/dsp.ts",
-        "src/ts/spiralchart/linechart.ts",
-        "src/ts/spiralchart/spiral.ts"
+        "src/index.ts"
     ]
 }
 
