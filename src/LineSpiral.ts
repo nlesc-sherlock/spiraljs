@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-import { SpiralBase }      from './SpiralBase'; 
+import { SpiralBase }      from './SpiralBase';
 import { HistogramOutput } from './basechart';
 import { Polar }           from './basechart';
 
