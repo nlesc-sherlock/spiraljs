@@ -32,15 +32,14 @@ interface HistogramOutput {
     y: number;
 }
 
-module Chart {
-    export abstract class Base<T> {
-        public chartWidth = 800;
-        public chartHeight = 600;
+export abstract class Base<T> {
+    public chartWidth = 800;
+    public chartHeight = 600;
 
-        constructor (public element: d3.Selection<any>) {}
+    constructor (public element: d3.Selection<any>) {}
 
-        public render(data: T[]): d3.Selection<any> {
-            return null;
-        }
+    public render(data: T[]): d3.Selection<any> {
+        return null;
     }
 }
+
