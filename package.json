@@ -1,0 +1,107 @@
+{
+  "name": "punchcardjs",
+  "version": "1.0.0-alpha.12",
+  "description": "Punchcard visualization using TypeScript and D3.js",
+  "main": "./dist/punchcards.min.js",
+  "scripts": {
+    "clean-build": "trash build/",
+    "clean-cover": "trash docs/sites/coverage/",
+    "clean-dist": "trash dist/",
+    "clean-downloaded": "trash typings/ node_modules/",
+    "clean": "npm run clean-build & npm run clean-dist & npm run clean-sites",
+    "clean-sites": "npm run clean-cover & npm run clean-tsdoc",
+    "clean-tsdoc": "trash docs/sites/tsdoc/",
+    "cover": "npm run test && npm run remap-istanbul-json && npm run remap-istanbul-html",
+    "csslint": "cat src/*.css > dist/punchcards.css && csslint --config=.csslintrc --format=compact dist/punchcards.css",
+    "dist": "browserify src/punchcards.ts --debug --standalone punchcards -p [ tsify --project . ] > build/punchcards-with-source-maps.js",
+    "everything": "npm run tsdoc && npm run cover",
+    "exorcist": "<build/punchcards-with-source-maps.js exorcist dist/punchcards.js.map > dist/punchcards.js",
+    "jshint": "jshint test/*.js",
+    "jslint": "jslint test/*.js",
+    "lint": "npm run tslint && npm run jshint && npm run jslint && npm run csslint",
+    "postdist": "npm run exorcist && npm run uglifyjs && npm run uglifycss",
+    "postversion": "git log --pretty=oneline --max-count 10",
+    "precover": "trash docs/sites/coverage/ && npm run jslint && npm run jshint && npm run dist",
+    "predist": "trash build/ && mkdirp build && trash dist/ && mkdirp dist && npm run tslint && npm run csslint",
+    "pretsdoc": "npm run clean-tsdoc && mkdirp docs/sites/tsdoc",
+    "preversion": "npm run purge && npm install && typings install && npm run dist && npm run test",
+    "purge": "npm run clean & npm run clean-downloaded",
+    "remap-istanbul-html": "remap-istanbul --input docs/sites/coverage/coverage-remapped.json --output docs/sites/coverage/remapped --type html --exclude node_modules",
+    "remap-istanbul-json": "remap-istanbul --input docs/sites/coverage/coverage.json --output docs/sites/coverage/coverage-remapped.json",
+    "test": "karma start karma.conf.js",
+    "tsdoc": "typedoc --out docs/sites/tsdoc/ .",
+    "tslint": "tslint --config tslint.json ./src/**/*.ts",
+    "uglifycss": "uglifycss dist/punchcards.css > dist/punchcards.min.css",
+    "uglifyjs": "uglifyjs dist/punchcards.js --output dist/punchcards.min.js --source-map dist/punchcards.min.js.map --screw-ie8 --in-source-map dist/punchcards.js.map --source-map-url punchcards.min.js.map"
+  },
+  "keywords": [
+    "typescript",
+    "punchcard",
+    "visualization"
+  ],
+  "author": "Johan Hidding, Mateusz Kuzak, Jurriaan H. Spaaks, Lourens Veen, Faruk Diblen",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nlesc-sherlock/punchcardjs.git"
+  },
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "browserify-shim": "^3.8.12",
+    "csslint": "^1.0.2",
+    "exorcist": "^0.4.0",
+    "istanbul": "^0.4.4",
+    "jasmine-core": "^2.4.1",
+    "jshint": "^2.9.3",
+    "jslint": "^0.10.3",
+    "karma": "^1.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-fixture": "^0.2.6",
+    "karma-html2js-preprocessor": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-json-fixtures-preprocessor": "0.0.6",
+    "karma-phantomjs-launcher": "^1.0.1",
+    "karma-spec-reporter": "0.0.26",
+    "mkdirp": "^0.5.1",
+    "remap-istanbul": "^0.6.4",
+    "trash-cli": "^1.3.0",
+    "tsify": "^1.0.3",
+    "tslint": "^3.9.0",
+    "typedoc": "^0.4.1",
+    "typescript": "^1.8.10",
+    "uglify-js": "^2.7.3",
+    "uglifycss": "0.0.21"
+  },
+  "dependencies": {
+    "crossfilter": "^1.3.12",
+    "d3": "^3.5.17",
+    "moment": "^2.14.1"
+  },
+  "browser": {
+    "crossfilter": "node_modules/crossfilter/crossfilter.js",
+    "d3": "node_modules/d3/d3.js",
+    "moment": "node_modules/moment/moment.js"
+  },
+  "browserify-shim": {
+    "crossfilter": "global:crossfilter",
+    "d3": "global:d3",
+    "moment": "global:moment"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "files": [
+    "CHANGELOG",
+    "dist/punchcards.js",
+    "dist/punchcards.js.map",
+    "dist/punchcards.min.js",
+    "dist/punchcards.min.js.map",
+    "dist/punchcards.css",
+    "dist/punchcards.min.css",
+    "LICENSE",
+    "package.json",
+    "README"
+  ]
+}
