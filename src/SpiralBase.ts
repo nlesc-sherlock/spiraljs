@@ -1,7 +1,13 @@
+import * as d3 from 'd3';
+
+import { Base }       from '/.basechart';
+import { Polar }      from '/.basechart';
+import { Coordinate } from '/.basechart';
 
 // (used to be in spiral.ts, module Chart)
 
 class SpiralBase<T> extends Base<T> {
+
     public radial_map: (x: T) => number;
 
     public radial_scale: number;
@@ -14,11 +20,19 @@ class SpiralBase<T> extends Base<T> {
     public color_map: (x: T) => string = null;
 
     private angular_map(x: number) {
-        return modulo(x, this.period_fraction) /
+        return SpiralBase.modulo(x, this.period_fraction) /
             this.period_fraction * 2 * Math.PI - Math.PI / 2;
     }
 
     public line_tics;
+
+    static modulo(x: number, y: number): number {
+        if (x >= 0) {
+            return x % y;
+        } else {
+            return y - (x % y);
+        }
+    }
 
     constructor (element: d3.Selection<any>) {
         super(element);
@@ -39,7 +53,7 @@ class SpiralBase<T> extends Base<T> {
         var pts: Coordinate[] = d3.range(1000).map(
             (i) => new Polar(
                 ((i / 1000) * 0.8 + 0.15) * this.radial_scale,
-                modulo(i / 1000, this.period_fraction) /
+                SpiralBase.modulo(i / 1000, this.period_fraction) /
                     this.period_fraction * 2 * Math.PI)
         );
 

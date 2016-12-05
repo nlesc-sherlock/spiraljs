@@ -1,4 +1,11 @@
-class TimedBubbleSpiral<T> extends Chart.LineSpiral<TimedRecord<T>> {
+import * as d3 from 'd3';
+
+import { LineSpiral } from './LineSpiral';
+import { TimedRecord } from './TimeRecord';
+import {} from '';
+
+
+class TimedBubbleSpiral<T> extends LineSpiral<TimedRecord<T>> {
     private _period: d3.time.Interval;
     public time_scale: d3.time.Scale<number, number>;
     public color_map = function (d: TimedRecord<T>) {
@@ -46,3 +53,4 @@ class TimedBubbleSpiral<T> extends Chart.LineSpiral<TimedRecord<T>> {
         return plot;
     }
 }
+

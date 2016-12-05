@@ -1,8 +1,20 @@
+import * as d3 from 'd3';
+
+import { TimedDataRow}       from './TimedDataRow';
+import { TimedBubbleSpiral } from './TimedBubbleSpiral';
+// IDataRow probably should be TimedRecord or something
+import { LineChart }         from './LineChart';
+import { Coordinate }        from './basechart';
+import { Cartesian }         from './basechart';
+import { fft }               from './fourier';
+import { Complex }           from './Complex';
+
+
 class Spiral {
     public _data: TimedDataRow[];
     public chart: TimedBubbleSpiral<IDataRow>;
-    private hist_chart: Chart.LineChart;
-    private power_chart: Chart.LineChart;
+    private hist_chart: LineChart;
+    private power_chart: LineChart;
 
     private histogram: any;
     private _hist_fn: d3.layout.Histogram<TimedDataRow>;
@@ -11,8 +23,8 @@ class Spiral {
 
     constructor (id_tag: string) {
         this.chart = new TimedBubbleSpiral<IDataRow>(d3.select('#' + id_tag));
-        this.hist_chart = new Chart.LineChart(d3.select('#spiral-hist'));
-        this.power_chart = new Chart.LineChart(d3.select('#spiral-power'));
+        this.hist_chart = new LineChart(d3.select('#spiral-hist'));
+        this.power_chart = new LineChart(d3.select('#spiral-power'));
 
         this.hist_chart.chartHeight = 200;
         this.power_chart.chartHeight = 200;
@@ -62,7 +74,7 @@ class Spiral {
             }
         };
 
-        this._power_data = FFT.fft(this._hist_data.map(a => new complex(a.y, 0)))
+        this._power_data = fft(this._hist_data.map(a => new Complex(a.y, 0)))
             .map((y, x) => new Cartesian(kspace(x), y.norm2() * Math.PI / N));
 //        console.log(this.histogram[0].dx);
 
