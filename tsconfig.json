@@ -1,16 +1,20 @@
 {
+    "compileOnSave": false,
     "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "declaration": false,
-        "noImplicitAny": false,
-        "removeComments": true,
-        "noLib": false,
-        "inlineSourceMap": true,
-        "inlineSources": true
+        "forceConsistentCasingInFileNames": true,
+        "jsx": "preserve",
+        "module": "es6",
+        "moduleResolution": "node",
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strictNullChecks": true,
+        "target": "es6"
     },
-    "files": [
-        "src/index.ts",
-        "src/fourier.ts"
+    "exclude": [
+        "node_modules/**/*"
     ]
 }
