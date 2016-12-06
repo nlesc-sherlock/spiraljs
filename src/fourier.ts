@@ -1,5 +1,24 @@
+/** The RFFT or Rather Fast Fourier Transform.
+ * @module fourier
+ *
+ * This module has the forward as well as inverse transform. See
+ * https://en.wikipedia.org/wiki/Discrete_Fourier_transform for more information
+ * on the discrete Fourier transform.
+ * To answer the question on everyone's mind: the inverse transform is
+ * normalised such that it returns the original series (barring round-off
+ * errors).
+ */
+
 import { Complex } from './Complex';
 
+/**
+ * Forward Fourier transform (1d). This uses the Cooley–Tukey algorithm
+ * in a recursive fashion. This is not an optimal implementation, but it
+ * is fast enough for our purposes.
+ *
+ * @param s list of complex numbers.
+ * @returns discrete Fourier sum of the series.
+ */
 export function fft(s: Complex[]): Complex[] {
     let N: number = s.length;
 
@@ -29,8 +48,13 @@ export function fft(s: Complex[]): Complex[] {
     return y;
 }
 
+/**
+ * Inverse Fourier transform
+ *
+ * @param s list of complex numbers
+ * @returns the inverse discrete Fourier sum of the series.
+ */
 export function ifft(s: Complex[]): Complex[] {
     let y = fft(s.map(z => z.conjugate));
     return y.map(z => z.conjugate.times_real(1.0 / s.length));
 }
-
