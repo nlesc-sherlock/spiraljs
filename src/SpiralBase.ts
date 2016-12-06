@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 
 import { Base }       from './basechart';
 import { Polar }      from './basechart';
-import { Coordinate } from './basechart';
+import { ICoordinate } from './basechart';
 
 // (used to be in spiral.ts, module Chart)
 
@@ -33,13 +33,13 @@ export class SpiralBase<T> extends Base<T> {
     public color_map: (x: T) => string = null;
 
     private angular_map(x: number) {
-        return SpiralBase.modulo(x, this.period_fraction) /
+        return SpiralBase.MODULO(x, this.period_fraction) /
             this.period_fraction * 2 * Math.PI - Math.PI / 2;
     }
 
     public line_tics;
 
-    static modulo(x: number, y: number): number {
+    static MODULO(x: number, y: number): number {
         if (x >= 0) {
             return x % y;
         } else {
@@ -63,22 +63,22 @@ export class SpiralBase<T> extends Base<T> {
 
     public render_spiral_axis(
             plot: d3.Selection<any>) {
-        let pts: Coordinate[] = d3.range(1000).map(
+        let pts: ICoordinate[] = d3.range(1000).map(
             (i) => new Polar(
                 ((i / 1000) * 0.8 + 0.15) * this.radial_scale,
-                SpiralBase.modulo(i / 1000, this.period_fraction) /
+                SpiralBase.MODULO(i / 1000, this.period_fraction) /
                     this.period_fraction * 2 * Math.PI)
         );
 
-        let group = plot.append('g')
+        const group = plot.append('g')
             .attr('class', 'axis');
 
-        let line = d3.svg.line<Coordinate>()
+        const line = d3.svg.line<ICoordinate>()
             .x((d, i) => d.x)
             .y((d, i) => d.y)
             .interpolate('basis');
 
-        let axis = group.append('path')
+        group.append('path')
             .datum(pts)
             .attr('class', 'line')
             .attr('d', line)
@@ -92,12 +92,12 @@ export class SpiralBase<T> extends Base<T> {
     public add_axis(
             selection: d3.Selection<any>,
             angle: number[], label: string[]) {
-        let start = (a) => new Polar(0.2 * this.radial_scale, a);
-        let end = (a) => new Polar(1.0 * this.radial_scale, a);
+        const start = (a) => new Polar(0.2 * this.radial_scale, a);
+        const end = (a) => new Polar(1.0 * this.radial_scale, a);
 
-        let group = selection.append('g').attr('class', 'axes');
+        const group = selection.append('g').attr('class', 'axes');
 
-        let axes = group.selectAll('g.axis')
+        const axes = group.selectAll('g.axis')
             .data(angle).enter().append('g').attr('class', 'axis');
 
         axes.append('line')
