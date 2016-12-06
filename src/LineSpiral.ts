@@ -7,6 +7,12 @@ import { Polar }           from './basechart';
 
 // (used to be in spiral.ts, module Chart)
 
+/**
+ * Charts data table as a filled curve on a spiral. We first create a histogram
+ * of the data items, then plot the histogram as the thickness of a line (or
+ * (filled curve). The number of points in the histogram is currently set by the
+ * private member `n_points`.
+ */
 export class LineSpiral<T> extends SpiralBase<T> {
     private hist_data: HistogramOutput[];
     private hist_fn: d3.layout.Histogram<T>;

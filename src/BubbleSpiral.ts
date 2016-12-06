@@ -1,6 +1,11 @@
 import  * as d3 from 'd3';
 import { SpiralBase } from './SpiralBase';
 
+/**
+ * Chart data using bubbles on  a spiral. Each entry in a table is visualised
+ * as a bubble; size and color may be varied using the methods `radius_map`
+ * and `color_map`.
+ */
 export class BubbleSpiral<T> extends SpiralBase<T> {
     constructor (element: d3.Selection<any>) {
         super(element);
