@@ -4,6 +4,8 @@
   "description": "Spiralchart visualization using TypeScript and D3.js",
   "main": "./dist/spiral.min.js",
   "scripts": {
+    "check-style": "semistandard",
+    "check": "semistandard && npm run test",
     "clean-build": "trash build/",
     "clean-cover": "trash docs/sites/coverage/",
     "clean-dist": "trash dist/",
@@ -45,6 +47,12 @@
     "type": "git",
     "url": "https://github.com/nlesc-sherlock/spiraljs.git"
   },
+  "semistandard": {
+    "ignore": [
+      "/dist/",
+      "/docs/"
+    ]
+  },
   "devDependencies": {
     "@types/d3": "^3.5.36",
     "browserify": "^13.1.0",
@@ -76,7 +84,8 @@
   "dependencies": {
     "crossfilter": "^1.3.12",
     "d3": "^3.5.17",
-    "moment": "^2.14.1"
+    "moment": "^2.14.1",
+    "semistandard": "^9.2.1"
   },
   "browser": {
     "crossfilter": "node_modules/crossfilter/crossfilter.js",
