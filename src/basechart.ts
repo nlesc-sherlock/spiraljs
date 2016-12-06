@@ -1,16 +1,29 @@
-import 'd3';
+import * as d3 from 'd3';
 
-export interface Coordinate {
+export interface ICoordinate {
     x: number;
     y: number;
 }
 
-export class Cartesian implements Coordinate {
-    constructor(public x: number, public y: number) {}
+export class Cartesian implements ICoordinate {
+    public x: number;
+    public y: number;
+
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
 }
 
-export class Polar implements Coordinate {
-    constructor (public r: number, public phi: number) {}
+export class Polar implements ICoordinate {
+    public r: number;
+    public phi: number;
+
+    constructor (r: number, phi: number) {
+        this.r = r;
+        this.phi = phi;
+    }
+
     get x() { return this.r * Math.cos(this.phi); }
     get y() { return this.r * Math.sin(this.phi); }
 
@@ -19,14 +32,14 @@ export class Polar implements Coordinate {
     }
 }
 
-export interface Margin {
+export interface IMargin {
     top: number;
     right: number;
     bottom: number;
     left: number;
 }
 
-export interface HistogramOutput {
+export interface IHistogramOutput {
     x: number;
     dx: number;
     y: number;
@@ -45,4 +58,3 @@ export abstract class Base<T> {
         return null;
     }
 }
-
