@@ -45,4 +45,14 @@ describe('fourier transforms', () => {
 			expect(a[i].imag).toBeCloseTo(c[i].imag, 15);
 		}
 	});
+
+	let d = _.range(256).map((a) => new complex(Math.random(), 0.0));
+	let e = FFT.fft(d);
+
+	it('symmetry of fourier transform of real valued array.', () => {
+		for (var i = 1; i < 128; i++) {
+			expect(e[i].real).toBeCloseTo(e[256 - i].real, 12);
+			expect(e[i].imag).toBeCloseTo(-e[256 - i].imag, 12);
+		}
+	});
 });
