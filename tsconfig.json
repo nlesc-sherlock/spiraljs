@@ -6,7 +6,6 @@
         "noImplicitAny": false,
         "removeComments": true,
         "noLib": false,
-        "outFile": "build/js/spiral.js",
         "inlineSourceMap": true,
         "inlineSources": true
     },
