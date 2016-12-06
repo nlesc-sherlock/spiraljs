@@ -1,5 +1,8 @@
-/// <reference path="../../../typings/d3/d3.d.ts" />
-/// <reference path="basechart.ts" />
+import * as d3 from 'd3';
+
+import { Base }       from './basechart';
+import { Coordinate } from './basechart';
+import { Margin }     from './basechart';
 
 export class LineChart extends Base<Coordinate> {
     public margin: Margin;

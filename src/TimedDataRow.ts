@@ -1,3 +1,6 @@
+// maybe use TimedRecord instead of IDataRow
+import { TimedRecord } from './TimedRecord';
+
 class TimedDataRow implements TimedRecord<IDataRow> {
     private _row: IDataRow;
 

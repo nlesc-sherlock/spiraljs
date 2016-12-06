@@ -3,6 +3,16 @@
  * Complex number class
  */
 export class Complex {
+
+    static exp(a: Complex): Complex {
+        let s: number = Math.exp(a.real);
+        return new Complex(s * Math.cos(a.imag), s * Math.sin(a.imag));
+    }
+
+    static expi(a: number): Complex {
+        return new Complex(Math.cos(a), Math.sin(a));
+    }
+
     constructor (public real: number, public imag: number) {}
 
     // the complex conjugate: (a + ib) -> (a - ib)
@@ -52,15 +62,6 @@ export class Complex {
             this.real - a.real, this.imag - a.imag
         );
     }
-}
-
-export function exp(a: Complex): Complex {
-    let s: number = Math.exp(a.real);
-    return new Complex(s * Math.cos(a.imag), s * Math.sin(a.imag));
-}
-
-export function expi(a: number): Complex {
-    return new Complex(Math.cos(a), Math.sin(a));
 }
 
 
