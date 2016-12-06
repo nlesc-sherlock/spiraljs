@@ -50,22 +50,22 @@ export class SpiralBase<T> extends Base<T> {
 
     public render_spiral_axis(
             plot: d3.Selection<any>) {
-        var pts: Coordinate[] = d3.range(1000).map(
+        let pts: Coordinate[] = d3.range(1000).map(
             (i) => new Polar(
                 ((i / 1000) * 0.8 + 0.15) * this.radial_scale,
                 SpiralBase.modulo(i / 1000, this.period_fraction) /
                     this.period_fraction * 2 * Math.PI)
         );
 
-        var group = plot.append('g')
+        let group = plot.append('g')
             .attr('class', 'axis');
 
-        var line = d3.svg.line<Coordinate>()
+        let line = d3.svg.line<Coordinate>()
             .x((d, i) => d.x)
             .y((d, i) => d.y)
             .interpolate('basis');
 
-        var axis = group.append('path')
+        let axis = group.append('path')
             .datum(pts)
             .attr('class', 'line')
             .attr('d', line)
@@ -79,12 +79,12 @@ export class SpiralBase<T> extends Base<T> {
     public add_axis(
             selection: d3.Selection<any>,
             angle: number[], label: string[]) {
-        var start = (a) => new Polar(0.2 * this.radial_scale, a);
-        var end = (a) => new Polar(1.0 * this.radial_scale, a);
+        let start = (a) => new Polar(0.2 * this.radial_scale, a);
+        let end = (a) => new Polar(1.0 * this.radial_scale, a);
 
-        var group = selection.append('g').attr('class', 'axes');
+        let group = selection.append('g').attr('class', 'axes');
 
-        var axes = group.selectAll('g.axis')
+        let axes = group.selectAll('g.axis')
             .data(angle).enter().append('g').attr('class', 'axis');
 
         axes.append('line')
@@ -103,4 +103,3 @@ export class SpiralBase<T> extends Base<T> {
         return group;
     }
 }
-

@@ -13,8 +13,8 @@ class TimedDataRow implements TimedRecord<IDataRow> {
         this._row = r;
 
         if (!(r.primary in TimedDataRow.color_map)) {
-            var i = Object.keys(TimedDataRow.color_map).length;
-            var j = TimedDataRow.colors.length;
+            let i = Object.keys(TimedDataRow.color_map).length;
+            let j = TimedDataRow.colors.length;
             TimedDataRow.color_map[r.primary] = TimedDataRow.colors[i % j];
     //        console.log(r.primary + ' -> ' + TimedDataRow.colors[i % j]);
         }
