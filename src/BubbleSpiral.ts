@@ -12,16 +12,16 @@ export class BubbleSpiral<T> extends SpiralBase<T> {
     }
 
     public render(data: T[]): d3.Selection<any> {
-        var svg = this.element.append('svg')
+        let svg = this.element.append('svg')
                     .attr('height', this.chartHeight)
                     .attr('width', this.chartWidth);
 
-        var plot = svg.append('g')
+        let plot = svg.append('g')
             .attr('transform', 'translate(400 300)');
 
         this.render_spiral_axis(plot);
 
-        var bubble_groups = plot.append('g').selectAll('g.bubble')
+        let bubble_groups = plot.append('g').selectAll('g.bubble')
             .data(data)
             .enter().append('g')
             .attr('class', 'bubble');

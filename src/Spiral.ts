@@ -34,7 +34,7 @@ class Spiral {
             .bins(2049);
 
         // constructor function
-        var that = this;
+        let that = this;
         d3.select('#spiral-slider').on('input', function() {
             let s = 1. / this.value;
             that.chart.period_seconds = s * 3600 * 24;
@@ -51,8 +51,8 @@ class Spiral {
         // function used to bind data to this object
         this._data = d.map((d) => new TimedDataRow(d));
 //        console.log(TimedDataRow.color_map);
-        var min_date = Math.min.apply(null, this._data.map((d) => d.date));
-        var max_date = Math.max.apply(null, this._data.map((d) => d.date));
+        let min_date = Math.min.apply(null, this._data.map((d) => d.date));
+        let max_date = Math.max.apply(null, this._data.map((d) => d.date));
 //        console.log(new Date(min_date));
         this.chart.time_scale = d3.time.scale().range([0, 1]).domain([min_date, max_date]);
         this.chart.radius_map = (d: TimedDataRow) => 5;

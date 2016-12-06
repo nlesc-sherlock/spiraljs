@@ -36,11 +36,11 @@ export class LineSpiral<T> extends SpiralBase<T> {
     }
 
     public render(): d3.Selection<any> {
-        var svg = this.element.append('svg')
+        let svg = this.element.append('svg')
                     .attr('height', this.chartHeight)
                     .attr('width', this.chartWidth);
 
-        var plot = svg.append('g')
+        let plot = svg.append('g')
             .attr('transform', 'translate(400 300)');
 
         // this.render_spiral_axis(plot);
@@ -48,14 +48,14 @@ export class LineSpiral<T> extends SpiralBase<T> {
         let polar_data = this.hist_data.slice(1).map<[Polar, number]>(
             a => [this.get_polar(a.x + a.dx / 2), a.y]);
 
-        var line = d3.svg.line<Polar>()
+        let line = d3.svg.line<Polar>()
             .x(a => a.x) // * this.radial_scale)
             .y(a => a.y); // * this.radial_scale);
 
         // console.log(polar_data);
         // chop the graph in many pieces
         let piece_size = this.n_points / 256;
-        for (var i = 0; i < 256; ++i) {
+        for (let i = 0; i < 256; ++i) {
             let piece = polar_data.slice(piece_size * i, piece_size * (i + 1));
             let top_part = piece.map(
                 a => a[0].inc_r(a[1] * (this.period_fraction * 3)));

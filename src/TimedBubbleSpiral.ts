@@ -26,7 +26,7 @@ class TimedBubbleSpiral<T> extends LineSpiral<TimedRecord<T>> {
     set period(p: d3.time.Interval) {
         this._period = p;
 
-        var zero = this.time_scale.invert(0);
+        let zero = this.time_scale.invert(0);
         this.period_fraction = this.time_scale(p.offset(zero, 1));
     }
 
@@ -45,7 +45,7 @@ class TimedBubbleSpiral<T> extends LineSpiral<TimedRecord<T>> {
     }
 
     public render(): d3.Selection<any> {
-        var plot = super.render();
+        let plot = super.render();
         this.add_axis(plot,
             d3.range(16).map((i) => i / 8 * Math.PI - Math.PI / 2),
             d3.range(16).map((i) => (i / 8).toString() + 'π'));
