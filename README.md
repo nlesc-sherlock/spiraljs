@@ -1,28 +1,8 @@
-TypeDoc here: http://nlesc-sherlock.github.io/spiraljs/sites/tsdoc/
-
-Install dependencies
-====================
-
-Install dependencies locally
-
-    npm install
-
-Build documentation
-===================
-
-Run `typedoc`
-
-    typedoc --out docs src
-
-Roadmap
-=======
-![png](https://github.com/nlesc-sherlock/spiraljs/blob/389050f29e8337e4b67cc4325e5b07f1dfce5c0e/docs/specification.png)
-
-
-- [![dependencies Status](https://david-dm.org/nlesc-sherlock/punchcardjs/status.svg)](https://david-dm.org/nlesc-sherlock/punchcardjs)
-- [![devDependencies Status](https://david-dm.org/nlesc-sherlock/punchcardjs/dev-status.svg)](https://david-dm.org/nlesc-sherlock/punchcardjs?type=dev)
-- [![Build Status](https://travis-ci.org/nlesc-sherlock/punchcardjs.svg?branch=master)](https://travis-ci.org/nlesc-sherlock/punchcardjs)
 _this library is still a work in progress_
+
+# General workflow
+
+![png](https://github.com/nlesc-sherlock/spiraljs/blob/389050f29e8337e4b67cc4325e5b07f1dfce5c0e/docs/specification.png)
 
 # Documentation for users
 
