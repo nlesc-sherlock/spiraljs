@@ -46,6 +46,7 @@
     "url": "https://github.com/nlesc-sherlock/spiraljs.git"
   },
   "devDependencies": {
+    "@nlesc/tslint-config-react-app": "^1.1.1",
     "browserify": "^13.1.0",
     "browserify-shim": "^3.8.12",
     "csslint": "^1.0.2",
