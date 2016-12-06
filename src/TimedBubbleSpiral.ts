@@ -1,7 +1,7 @@
-import 'd3';
+import * as d3 from 'd3';
 
 import { LineSpiral } from './LineSpiral';
-import { TimedRecord } from './TimeRecord';
+import { TimedRecord } from './TimedRecord';
 
 
 class TimedBubbleSpiral<T> extends LineSpiral<TimedRecord<T>> {
@@ -52,4 +52,3 @@ class TimedBubbleSpiral<T> extends LineSpiral<TimedRecord<T>> {
         return plot;
     }
 }
-

@@ -6,12 +6,11 @@
         "noImplicitAny": false,
         "removeComments": true,
         "noLib": false,
-        "outFile": "build/js/spiral.js",
         "inlineSourceMap": true,
         "inlineSources": true
     },
     "files": [
-        "src/index.ts"
+        "src/index.ts",
+        "src/fourier.ts"
     ]
 }
-

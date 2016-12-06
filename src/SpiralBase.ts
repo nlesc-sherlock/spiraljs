@@ -6,6 +6,19 @@ import { Coordinate } from './basechart';
 
 // (used to be in spiral.ts, module Chart)
 
+/**
+ * This is the base class to other charts on a spiral.
+ *
+ * @member radial_map A function mapping a record of type T to a number,
+ *     indicating time. A candidate for this function is
+ *     `d3.time.Scale<number,number>`.
+ * @member radial_scale An extra scaling factor to the output of `radial_map`.
+ * @member period_fraction One over the number of windings on the spiral.
+ * @member radius_map A function giving the radius of a bubble or weight of a
+ *     data point.
+ * @member color_map Returns a color-string given a record.
+ * @member angular_map Maps a number (as output by radial_scale) to an angle.
+ */
 export class SpiralBase<T> extends Base<T> {
 
     public radial_map: (x: T) => number;
@@ -103,4 +116,3 @@ export class SpiralBase<T> extends Base<T> {
         return group;
     }
 }
-
