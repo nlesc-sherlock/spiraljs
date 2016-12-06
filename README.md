@@ -1,5 +1,5 @@
 [![devDependency Status](https://david-dm.org/nlesc-sherlock/chicago/dev-status.svg)](https://david-dm.org/nlesc-sherlock/chicago#info=devDependencies)
-
+[![Build Status](https://travis-ci.org/nlesc-sherlock/spiraljs.svg?branch=develop)](https://travis-ci.org/nlesc-sherlock/spiraljs)
 
 # Setting up the development environment (Linux Ubuntu)
 
@@ -155,7 +155,3 @@ gulp dev-watch
 ```
 If a browser window does not pop up automatically, open one yourself and browse
 to http://localhost:3000/ to inspect the website. You've been served!
-
-
-
-
