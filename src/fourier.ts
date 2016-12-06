@@ -1,5 +1,4 @@
 /** The RFFT or Rather Fast Fourier Transform.
- * @module fourier
  *
  * This module has the forward as well as inverse transform. See
  * https://en.wikipedia.org/wiki/Discrete_Fourier_transform for more information
@@ -9,6 +8,9 @@
  * errors).
  */
 
+/**
+ * class Complex
+ */
 import { Complex } from './Complex';
 
 /**

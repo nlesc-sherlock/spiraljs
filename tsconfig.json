@@ -10,7 +10,7 @@
         "inlineSources": true
     },
     "files": [
-        "src/index.ts"
+        "src/index.ts",
+        "src/fourier.ts"
     ]
 }
-

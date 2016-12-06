@@ -2,6 +2,23 @@
  * Complex number class
  */
 export class Complex {
+    /**
+     * @param a complex number
+     * @returns exp(a + ib) -> exp(a) (cos(b) + i sin(b))
+     */
+    static exp(a: Complex): Complex {
+        let s: number = Math.exp(a.real);
+        return new Complex(s * Math.cos(a.imag), s * Math.sin(a.imag));
+    }
+
+    /**
+     * @param a real number
+     * @returns exp(ia)
+     */
+    static expi(a: number): Complex {
+        return new Complex(Math.cos(a), Math.sin(a));
+    }
+
     constructor (public real: number, public imag: number) {}
 
     /**
