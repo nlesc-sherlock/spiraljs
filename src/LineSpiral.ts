@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
 
-import { SpiralBase }      from './SpiralBase';
-import { HistogramOutput } from './basechart';
-import { Polar }           from './basechart';
+import { SpiralBase }       from './SpiralBase';
+import { IHistogramOutput } from './basechart';
+import { Polar }            from './basechart';
 
 
 // (used to be in spiral.ts, module Chart)
@@ -14,7 +14,7 @@ import { Polar }           from './basechart';
  * private member `n_points`.
  */
 export class LineSpiral<T> extends SpiralBase<T> {
-    private hist_data: HistogramOutput[];
+    private hist_data: IHistogramOutput[];
     private hist_fn: d3.layout.Histogram<T>;
     private n_points = 10000;
     private hist_x = d3.scale.linear().range([0, 1]);

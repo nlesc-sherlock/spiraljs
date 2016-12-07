@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
 
-import { Base }       from './basechart';
-import { Polar }      from './basechart';
-import { Coordinate } from './basechart';
+import { Base }        from './basechart';
+import { Polar }       from './basechart';
+import { ICoordinate } from './basechart';
 
 // (used to be in spiral.ts, module Chart)
 
@@ -63,7 +63,7 @@ export class SpiralBase<T> extends Base<T> {
 
     public render_spiral_axis(
             plot: d3.Selection<any>) {
-        let pts: Coordinate[] = d3.range(1000).map(
+        let pts: ICoordinate[] = d3.range(1000).map(
             (i) => new Polar(
                 ((i / 1000) * 0.8 + 0.15) * this.radial_scale,
                 SpiralBase.modulo(i / 1000, this.period_fraction) /
@@ -73,7 +73,7 @@ export class SpiralBase<T> extends Base<T> {
         let group = plot.append('g')
             .attr('class', 'axis');
 
-        let line = d3.svg.line<Coordinate>()
+        let line = d3.svg.line<ICoordinate>()
             .x((d, i) => d.x)
             .y((d, i) => d.y)
             .interpolate('basis');

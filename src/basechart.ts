@@ -1,15 +1,15 @@
 import 'd3';
 
-export interface Coordinate {
+export interface ICoordinate {
     x: number;
     y: number;
 }
 
-export class Cartesian implements Coordinate {
+export class Cartesian implements ICoordinate {
     constructor(public x: number, public y: number) {}
 }
 
-export class Polar implements Coordinate {
+export class Polar implements ICoordinate {
     constructor (public r: number, public phi: number) {}
     get x() { return this.r * Math.cos(this.phi); }
     get y() { return this.r * Math.sin(this.phi); }
@@ -19,14 +19,14 @@ export class Polar implements Coordinate {
     }
 }
 
-export interface Margin {
+export interface IMargin {
     top: number;
     right: number;
     bottom: number;
     left: number;
 }
 
-export interface HistogramOutput {
+export interface IHistogramOutput {
     x: number;
     dx: number;
     y: number;
