@@ -4,7 +4,7 @@ import { TimedDataRow}       from './TimedDataRow';
 import { TimedBubbleSpiral } from './TimedBubbleSpiral';
 // IDataRow probably should be TimedRecord or something
 import { LineChart }         from './LineChart';
-import { Coordinate }        from './basechart';
+import { ICoordinate }       from './basechart';
 import { Cartesian }         from './basechart';
 import { fft }               from './fourier';
 import { Complex }           from './Complex';
@@ -18,8 +18,8 @@ class Spiral {
 
     private histogram: any;
     private _hist_fn: d3.layout.Histogram<TimedDataRow>;
-    private _hist_data: Coordinate[];
-    private _power_data: Coordinate[];
+    private _hist_data: ICoordinate[];
+    private _power_data: ICoordinate[];
 
     constructor (id_tag: string) {
         this.chart = new TimedBubbleSpiral<IDataRow>(d3.select('#' + id_tag));

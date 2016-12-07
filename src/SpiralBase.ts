@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 
-import { Base }       from './basechart';
-import { Polar }      from './basechart';
+import { Base }        from './basechart';
+import { Polar }       from './basechart';
 import { ICoordinate } from './basechart';
 
 // (used to be in spiral.ts, module Chart)

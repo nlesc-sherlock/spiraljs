@@ -19,7 +19,13 @@ export class Complex {
         return new Complex(Math.cos(a), Math.sin(a));
     }
 
-    constructor (public real: number, public imag: number) {}
+    public real: number;
+    public imag: number;
+
+    constructor (real: number, imag: number) {
+        this.real = real;
+        this.imag = imag;
+    }
 
     /**
     * @returns the complex conjugate: (a + ib) -> (a - ib)
