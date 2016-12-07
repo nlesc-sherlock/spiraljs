@@ -1,12 +1,12 @@
 import * as d3 from 'd3';
 
+import { ITimedRecord } from './ITimedRecord';
 import { LineSpiral } from './LineSpiral';
-import { ITimedRecord } from './TimedRecord';
 
-class TimedBubbleSpiral<T> extends LineSpiral<ITimedRecord<T>> {
+export class TimedBubbleSpiral<T> extends LineSpiral<ITimedRecord<T>> {
     private _period: d3.time.Interval;
     public time_scale: d3.time.Scale<number, number>;
-    public color_map = (d: TimedRecord<T>) => {
+    public color_map = (d: ITimedRecord<T>) => {
         if (d.color) {
             return d.color;
         } else {

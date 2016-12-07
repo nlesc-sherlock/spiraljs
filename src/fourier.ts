@@ -28,7 +28,7 @@ export function fft(s: Complex[]): Complex[] {
 
     if (N % 2 !== 0) { throw new Error('FFT: Size of array must be power of 2.'); }
 
-    const r: [Complex] = [];
+    const r: Complex[] = [];
     for (let j = 0; j < N / 2; j += 1) {
         r[j] = s[j * 2];
     }
@@ -39,9 +39,9 @@ export function fft(s: Complex[]): Complex[] {
     }
     const q = fft(r);
 
-    const y: [Complex] = [];
+    const y: Complex[] = [];
     for (let k = 0; k < N / 2; k += 1) {
-        const wk = Complex.expi(-2 * k * Math.PI / N);
+        const wk = Complex.EXPI(-2 * k * Math.PI / N);
         const qk = wk.times(q[k]);
         y[k]         = p[k].plus(qk);
         y[k + N / 2] = p[k].minus(qk);
