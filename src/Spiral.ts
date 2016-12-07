@@ -1,4 +1,4 @@
-import 'd3';
+import * as d3 from 'd3';
 
 import { Cartesian }         from './basechart';
 import { ICoordinate }       from './basechart';
