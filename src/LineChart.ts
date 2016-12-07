@@ -20,11 +20,11 @@ export class LineChart extends Base<ICoordinate> {
     }
 
     public render(data: ICoordinate[]): d3.Selection<any> {
-        let x = d3.scale.linear().range([0, this.width]);
-        let y = d3.scale.linear().range([this.height, 0]);
-        let xAxis = d3.svg.axis().scale(x).orient('bottom');
-        let yAxis = d3.svg.axis().scale(y).orient('left');
-        let svg = this.element.append('svg')
+        const x = d3.scale.linear().range([0, this.width]);
+        const y = d3.scale.linear().range([this.height, 0]);
+        const xAxis = d3.svg.axis().scale(x).orient('bottom');
+        const yAxis = d3.svg.axis().scale(y).orient('left');
+        const svg = this.element.append('svg')
             .attr('width', this.chartWidth)
             .attr('height', this.chartHeight)
             .append('g')
