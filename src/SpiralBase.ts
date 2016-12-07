@@ -63,7 +63,7 @@ export class SpiralBase<T> extends Base<T> {
 
     public render_spiral_axis(
             plot: d3.Selection<any>) {
-        let pts: ICoordinate[] = d3.range(1000).map(
+        const pts: ICoordinate[] = d3.range(1000).map(
             (i) => new Polar(
                 ((i / 1000) * 0.8 + 0.15) * this.radial_scale,
                 SpiralBase.MODULO(i / 1000, this.period_fraction) /
