@@ -1,13 +1,12 @@
 import * as d3 from 'd3';
 
+import { ITimedRecord } from './ITimedRecord';
 import { LineSpiral } from './LineSpiral';
-import { TimedRecord } from './TimedRecord';
 
-
-class TimedBubbleSpiral<T> extends LineSpiral<TimedRecord<T>> {
+export class TimedBubbleSpiral<T> extends LineSpiral<ITimedRecord<T>> {
     private _period: d3.time.Interval;
     public time_scale: d3.time.Scale<number, number>;
-    public color_map = function (d: TimedRecord<T>) {
+    public color_map = (d: ITimedRecord<T>) => {
         if (d.color) {
             return d.color;
         } else {
@@ -19,14 +18,14 @@ class TimedBubbleSpiral<T> extends LineSpiral<TimedRecord<T>> {
         super(element);
     }
 
-    public radial_map = function (x: TimedRecord<T>) {
+    public radial_map = function (x: ITimedRecord<T>) {
         return this.time_scale(x.date);
     };
 
     set period(p: d3.time.Interval) {
         this._period = p;
 
-        let zero = this.time_scale.invert(0);
+        const zero = this.time_scale.invert(0);
         this.period_fraction = this.time_scale(p.offset(zero, 1));
     }
 
@@ -35,18 +34,19 @@ class TimedBubbleSpiral<T> extends LineSpiral<TimedRecord<T>> {
     }
 
     set period_seconds(p: number) {
-        let zero = this.time_scale.invert(0);
-        let iv = d3.time.second.offset(zero, p);
+        const zero = this.time_scale.invert(0);
+        const iv = d3.time.second.offset(zero, p);
         this.period_fraction = this.time_scale(iv);
     }
 
-    public get_label(d: TimedRecord<T>): string {
+    public get_label(d: ITimedRecord<T>): string {
         return d.date.toDateString();
     }
 
     public render(): d3.Selection<any> {
-        let plot = super.render();
-        this.add_axis(plot,
+        const plot = super.render();
+        this.add_axis(
+            plot,
             d3.range(16).map((i) => i / 8 * Math.PI - Math.PI / 2),
             d3.range(16).map((i) => (i / 8).toString() + 'π'));
         return plot;
