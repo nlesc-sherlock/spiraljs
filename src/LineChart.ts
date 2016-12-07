@@ -33,7 +33,7 @@ export class LineChart extends Base<ICoordinate> {
         x.domain(d3.extent(data, a => a.x));
         y.domain(d3.extent(data, a => a.y));
 
-        let line = d3.svg.line<ICoordinate>()
+        const line = d3.svg.line<ICoordinate>()
             .x(a => x(a.x))
             .y(a => y(a.y));
 
