@@ -1,5 +1,5 @@
-import  * as d3 from 'd3';
 import { SpiralBase } from './SpiralBase';
+import  * as d3 from 'd3';
 
 /**
  * Chart data using bubbles on  a spiral. Each entry in a table is visualised
@@ -12,16 +12,16 @@ export class BubbleSpiral<T> extends SpiralBase<T> {
     }
 
     public render(data: T[]): d3.Selection<any> {
-        let svg = this.element.append('svg')
+        const svg = this.element.append('svg')
                     .attr('height', this.chartHeight)
                     .attr('width', this.chartWidth);
 
-        let plot = svg.append('g')
+        const plot = svg.append('g')
             .attr('transform', 'translate(400 300)');
 
         this.render_spiral_axis(plot);
 
-        let bubble_groups = plot.append('g').selectAll('g.bubble')
+        const bubble_groups = plot.append('g').selectAll('g.bubble')
             .data(data)
             .enter().append('g')
             .attr('class', 'bubble');
