@@ -11,7 +11,7 @@
         "noImplicitReturns": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "strictNullChecks": true,
+        "strictNullChecks": false,
         "target": "es6"
     },
     "exclude": [

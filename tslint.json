@@ -1,3 +1,6 @@
 {
-    "extends": "@nlesc/tslint-config-react-app"
+    "extends": "@nlesc/tslint-config-react-app",
+    "rules": {
+        "insecure-random": false
+    }
 }
