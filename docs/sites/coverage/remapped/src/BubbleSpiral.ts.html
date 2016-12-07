@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/BubbleSpiral.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> BubbleSpiral.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">34.78% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>8/23</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">11.11% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">31.58% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>6/19</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { SpiralBase } from './SpiralBase';
+import  * as d3 from 'd3';
+&nbsp;
+/**
+ * Chart data using bubbles on  a spiral. Each entry in a table is visualised
+ * as a bubble; size and color may be varied using the methods `radius_map`
+ * and `color_map`.
+ */
+export class BubbleSpiral&lt;T&gt; extends SpiralBase&lt;T&gt; {
+<span class="fstat-no" title="function not covered" >    constructor (element: d3.Selection&lt;any&gt;)</span> {
+<span class="cstat-no" title="statement not covered" >        super(element);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    public render(data: T[])</span>: d3.Selection&lt;any&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        const svg = this.element.append('svg')</span>
+                    .attr('height', this.chartHeight)
+                    .attr('width', this.chartWidth);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const plot = svg.append('g')</span>
+            .attr('transform', 'translate(400 300)');
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.render_spiral_axis(plot);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const bubble_groups = plot.append('g').selectAll('g.bubble')</span>
+            .data(data)
+            .enter().append('g')
+            .attr('class', 'bubble');
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        bubble_groups.append('circle')</span>
+            .attr('cx', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >this.get_polar(this.radial_map(d)).x)</span>
+            .attr('cy', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >this.get_polar(this.radial_map(d)).y)</span>
+            .attr('r', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >this.radius_map(d))</span>
+            .style('fill', this.color_map ? <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >this.color_map(d) </span>: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" ></span>'red')</span>
+            .style('fill-opacity', 0.1)
+            .style('stroke', 'black')
+            .style('stroke-width', 0.05);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return plot;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public update(data: T[])</span>: d3.Selection&lt;any&gt; {
+<span class="cstat-no" title="statement not covered" >        this.element.select('svg').remove();</span>
+<span class="cstat-no" title="statement not covered" >        return this.render(data);</span>
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 07 2016 18:01:01 GMT+0100 (CET)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

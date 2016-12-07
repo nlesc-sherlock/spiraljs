@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/LineChart.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> LineChart.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">33.33% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>10/30</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">50% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>1/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">11.11% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">30.77% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>8/26</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as d3 from 'd3';<span class="branch-1 cbranch-no" title="branch not covered" ></span>
+&nbsp;
+import { Base }        from './basechart';
+import { ICoordinate } from './basechart';
+import { IMargin }     from './basechart';
+&nbsp;
+export class LineChart extends Base&lt;ICoordinate&gt; {
+    public margin: IMargin;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    constructor (element: d3.Selection&lt;any&gt;)</span> {
+<span class="cstat-no" title="statement not covered" >        super(element);</span>
+<span class="cstat-no" title="statement not covered" >        this.margin = {top: 20, right: 20, bottom: 30, left: 50};</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public get width(): number {</span>
+<span class="cstat-no" title="statement not covered" >        return this.chartWidth - this.margin.left - this.margin.right;</span>
+    }
+<span class="fstat-no" title="function not covered" >    public get height(): number {</span>
+<span class="cstat-no" title="statement not covered" >        return this.chartHeight - this.margin.top - this.margin.bottom;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public render(data: ICoordinate[])</span>: d3.Selection&lt;any&gt; {
+<span class="cstat-no" title="statement not covered" >        const x = d3.scale.linear().range([0, this.width]);</span>
+<span class="cstat-no" title="statement not covered" >        const y = d3.scale.linear().range([this.height, 0]);</span>
+<span class="cstat-no" title="statement not covered" >        const xAxis = d3.svg.axis().scale(x).orient('bottom');</span>
+<span class="cstat-no" title="statement not covered" >        const yAxis = d3.svg.axis().scale(y).orient('left');</span>
+<span class="cstat-no" title="statement not covered" >        const svg = this.element.append('svg')</span>
+            .attr('width', this.chartWidth)
+            .attr('height', this.chartHeight)
+            .append('g')
+            .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        x.domain(d3.extent(data, <span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.x)</span>);</span>
+<span class="cstat-no" title="statement not covered" >        y.domain(d3.extent(data, <span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.y)</span>);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const line = d3.svg.line&lt;ICoordinate&gt;()</span>
+            .x(<span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >x(a.x))</span>
+            .y(<span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >y(a.y))</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        svg.append('g')</span>
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(0,' + this.height + ')')
+            .call(xAxis);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        svg.append('g')</span>
+            .attr('class', 'y axis')
+            .call(yAxis);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        svg.append('path')</span>
+            .datum(data)
+            .attr('class', 'line')
+            .attr('d', line);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return svg;</span>
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 07 2016 18:01:01 GMT+0100 (CET)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
