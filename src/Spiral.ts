@@ -1,14 +1,12 @@
 import 'd3';
 
-import { TimedDataRow}       from './TimedDataRow';
-import { TimedBubbleSpiral } from './TimedBubbleSpiral';
-// IDataRow probably should be TimedRecord or something
-import { LineChart }         from './LineChart';
-import { ICoordinate }       from './basechart';
 import { Cartesian }         from './basechart';
-import { fft }               from './fourier';
+import { ICoordinate }       from './basechart';
 import { Complex }           from './Complex';
-
+import { fft }               from './fourier';
+import { LineChart }         from './LineChart';
+import { TimedBubbleSpiral } from './TimedBubbleSpiral';
+import { TimedDataRow}       from './TimedDataRow';
 
 class Spiral {
     public _data: TimedDataRow[];
@@ -34,12 +32,12 @@ class Spiral {
             .bins(2049);
 
         // constructor function
-        let that = this;
+        const chart = this.chart;
         d3.select('#spiral-slider').on('input', function() {
-            let s = 1. / this.value;
-            that.chart.period_seconds = s * 3600 * 24;
-            that.chart.update(that._data);
-            d3.select('#spiral-value').html('Period: ' + s.toString() + 'days');
+            const s: number = 1. / this.value;
+            chart.period_seconds = s * 3600 * 24;
+            chart.update(that._data);
+            d3.select('#spiral-value').text('Period: ' + s.toString() + 'days');
         });
 
         d3.select('#spiral-slider')
@@ -47,15 +45,15 @@ class Spiral {
             .style('margin-left', '50px');
     }
 
-    public set data(d: IDataRow[]) {
+    public set data(newdata: IDataRow[]) {
         // function used to bind data to this object
-        this._data = d.map((d) => new TimedDataRow(d));
+        this._data = newdata.map((row) => new TimedDataRow(row));
 //        console.log(TimedDataRow.color_map);
-        let min_date = Math.min.apply(null, this._data.map((d) => d.date));
-        let max_date = Math.max.apply(null, this._data.map((d) => d.date));
+        const min_date = Math.min.apply(null, this._data.map((row) => row.date));
+        const max_date = Math.max.apply(null, this._data.map((row) => row.date));
 //        console.log(new Date(min_date));
         this.chart.time_scale = d3.time.scale().range([0, 1]).domain([min_date, max_date]);
-        this.chart.radius_map = (d: TimedDataRow) => 5;
+        this.chart.radius_map = (row: TimedDataRow) => 5;
         //this.chart.period_fraction = 1 / 5;
         this.chart.period = d3.time.day;
 
@@ -63,10 +61,10 @@ class Spiral {
         this._hist_data = this.histogram.map(
             a => new Cartesian((a.x + a.dx / 2) / (1000 * 3600 * 24), a.y));
 
-        let N = this._hist_data.length;
-        let L = (this.histogram[this.histogram.length - 1].x - this.histogram[0].x)
+        const N = this._hist_data.length;
+        const L = (this.histogram[this.histogram.length - 1].x - this.histogram[0].x)
             / (1000 * 3600 * 24);
-        let kspace = function(i: number): number {
+        const kspace = (i: number) => {
             if (i <= N / 2) {
                 return i / L;
             } else {
