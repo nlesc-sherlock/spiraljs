@@ -48,11 +48,13 @@
   "devDependencies": {
     "@nlesc/tslint-config-react-app": "^1.1.1",
     "@types/d3": "^3.5.36",
+    "@types/jasmine": "^2.5.38",
     "browserify": "^13.1.0",
     "browserify-shim": "^3.8.12",
     "csslint": "^1.0.2",
     "exorcist": "^0.4.0",
     "istanbul": "^0.4.4",
+    "jasmine": "^2.5.2",
     "jasmine-core": "^2.4.1",
     "jshint": "^2.9.3",
     "jslint": "^0.10.3",
