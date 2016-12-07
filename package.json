@@ -29,7 +29,7 @@
     "remap-istanbul-html": "remap-istanbul --input docs/sites/coverage/coverage-remapped.json --output docs/sites/coverage/remapped --type html --exclude node_modules",
     "remap-istanbul-json": "remap-istanbul --input docs/sites/coverage/coverage.json --output docs/sites/coverage/coverage-remapped.json",
     "test": "karma start karma.conf.js",
-    "tsdoc": "typedoc --out docs/sites/tsdoc/ .",
+    "tsdoc":  "typedoc --mode modules --out docs/sites/tsdoc/ src/index.ts",
     "tslint": "tslint --config tslint.json ./src/**/*.ts",
     "uglifycss": "uglifycss dist/spiral.css > dist/spiral.min.css",
     "uglifyjs": "uglifyjs dist/spiral.js --output dist/spiral.min.js --source-map dist/spiral.min.js.map --screw-ie8 --in-source-map dist/spiral.js.map --source-map-url spiral.min.js.map"
