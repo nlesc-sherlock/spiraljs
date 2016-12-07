@@ -6,11 +6,23 @@ export interface ICoordinate {
 }
 
 export class Cartesian implements ICoordinate {
-    constructor(public x: number, public y: number) {}
+    public x: number;
+    public y: number;
+
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
 }
 
 export class Polar implements ICoordinate {
-    constructor (public r: number, public phi: number) {}
+    public r: number;
+    public phi: number;
+
+    constructor (r: number, phi: number) {
+        this.r = r;
+        this.phi = phi;
+    }
     get x() { return this.r * Math.cos(this.phi); }
     get y() { return this.r * Math.sin(this.phi); }
 
@@ -45,4 +57,3 @@ export abstract class Base<T> {
         return null;
     }
 }
-
