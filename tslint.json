@@ -1,6 +1,7 @@
 {
     "extends": "@nlesc/tslint-config-react-app",
     "rules": {
-        "insecure-random": false
+        "insecure-random": false,
+        "no-console": false
     }
 }

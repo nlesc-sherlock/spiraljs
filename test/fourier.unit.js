@@ -10,8 +10,10 @@ var fft = spiral.fft;
 var ifft = spiral.ifft;
 
 describe('testing infrastructure', function () {
-    it('true is true', function () { expect(true).toEqual(true) });
-    it('null is not the same thing as undefined', function () { expect(null).not.toEqual(undefined); });
+    it('true is true', function () {
+        return expect(true).toEqual(true) });
+    it('null is not the same thing as undefined', function () {
+        return expect(null).not.toEqual(undefined); });
 });
 
 describe('complex numbers', function () {
@@ -21,8 +23,10 @@ describe('complex numbers', function () {
         z1 = new Complex(6, 7);
         z2 = Complex.EXPI(Math.PI);
     });
-    it('get real part', function () { expect(z1.real).toEqual(6); });
-    it('get imaginary part', function () { expect(z1.imag).toEqual(7); });
+    it('get real part', function () {
+        return expect(z1.real).toEqual(6); });
+    it('get imaginary part', function () {
+        return expect(z1.imag).toEqual(7); });
     it('Euler\'s identity', function () {
         expect(z2.real).toBeCloseTo(-1, 15);
         expect(z2.imag).toBeCloseTo(0, 15);
@@ -38,7 +42,7 @@ describe('fourier transforms', function () {
     var a;
     beforeEach(function () {
         a = _.range(256).map(function () {
-            new Complex(Math.random(), Math.random()); });
+            return new Complex(Math.random(), Math.random()); });
     });
     it('inverse of forward transform equals original.', function () {
         const b = fft(a);
@@ -50,7 +54,7 @@ describe('fourier transforms', function () {
     });
     it('symmetry of fourier transform of real valued array.', function () {
         const d = _.range(256).map(function () {
-            new Complex(Math.random(), 0.0); });
+            return new Complex(Math.random(), 0.0); });
         const e = fft(d);
         for (var i = 1; i < 128; i += 1) {
             expect(e[i].real).toBeCloseTo(e[256 - i].real, 12);

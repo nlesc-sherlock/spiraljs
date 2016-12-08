@@ -41,7 +41,7 @@ export function fft(s: Complex[]): Complex[] {
     const q = fft(r);
 
     const y: Complex[] = [];
-    r.length = N;
+    y.length = N;
     for (let k = 0; k < N / 2; k += 1) {
         const wk = Complex.EXPI(-2 * k * Math.PI / N);
         const qk = wk.times(q[k]);

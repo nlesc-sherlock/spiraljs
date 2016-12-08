@@ -15,7 +15,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
         {pattern: 'node_modules/d3/d3.js', included: true},
-        {pattern: 'node_modules/lodash/index.js', included: true}, 
+        {pattern: 'node_modules/lodash/index.js', included: true},
         {pattern: 'dist/spiral.js', included: true},
         {pattern: 'test/*.unit.js', included: true}
     ],
