@@ -31,7 +31,7 @@ See also:
 
 ## Setting up, building and running
 
-Get a local copy of the punchcardjs repository using ``git``:
+Get a local copy of the spiraljs repository using ``git``:
 
 ```bash
 # use package manager to install git
@@ -40,7 +40,7 @@ sudo apt-get install git
 # make a local copy of this repository
 git clone https://github.com/nlesc-sherlock/spiraljs.git
 
-# change into punchcardjs directory
+# change into spiraljs directory
 cd spiraljs
 ```
 
@@ -101,15 +101,15 @@ Here is a visual representation of our build process:
 
 TODO fix link
 
-![visual-description-of-setup.png](https://github.com/nlesc-sherlock/punchcardjs/raw/master/docs/visual-description-of-setup.png "visual-description-of-setup.png")
+![visual-description-of-setup.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/visual-description-of-setup.png "visual-description-of-setup.png")
 
 TODO fix link
 
-and here is a callgraph generated from [package.json](https://github.com/nlesc-sherlock/punchcardjs/blob/master/package.json) using [https://github.com/jspaaks/npm-scripts-callgraph](https://github.com/jspaaks/npm-scripts-callgraph):
+and here is a callgraph generated from [package.json](https://github.com/nlesc-sherlock/spiraljs/blob/master/package.json) using [https://github.com/jspaaks/npm-scripts-callgraph](https://github.com/jspaaks/npm-scripts-callgraph):
 
 TODO fix link
 
-![punchcardjs-callgraph.png](https://github.com/nlesc-sherlock/punchcardjs/raw/master/docs/punchcardjs-callgraph.png "punchcardjs-callgraph.png")
+![spiraljs-callgraph.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/spiraljs-callgraph.png "spiraljs-callgraph.png")
 
 
 
