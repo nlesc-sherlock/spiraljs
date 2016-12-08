@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -78,7 +78,7 @@
          sodipodi:role="line"
          id="tspan3046"
          x="1349.0946"
-         y="674.79895">dist/punchcards.js</tspan></text>
+         y="674.79895">dist/spiral.js</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:20px;line-height:125%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
@@ -89,7 +89,7 @@
          sodipodi:role="line"
          id="tspan3050"
          x="1784.5189"
-         y="674.79895">dist/punchcards.min.js</tspan></text>
+         y="674.79895">dist/spiral.min.js</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:20px;line-height:125%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
@@ -100,7 +100,7 @@
          sodipodi:role="line"
          id="tspan3054"
          x="1349.0946"
-         y="718.3125">dist/punchcards.js.map</tspan></text>
+         y="718.3125">dist/spiral.js.map</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:20px;line-height:125%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
@@ -111,7 +111,7 @@
          sodipodi:role="line"
          id="tspan3058"
          x="1784.5189"
-         y="718.3125">dist/punchcards.min.js.map</tspan></text>
+         y="718.3125">dist/spiral.min.js.map</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:200;font-stretch:normal;font-size:20px;line-height:125%;font-family:Akkurat-Light;-inkscape-font-specification:'Akkurat-Light Ultra-Light';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
@@ -122,7 +122,7 @@
          sodipodi:role="line"
          id="tspan3062"
          x="704.70929"
-         y="697.75171">build/punchcards-with-source-maps.js</tspan></text>
+         y="697.75171">build/spiral-with-source-maps.js</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:20px;line-height:125%;font-family:Akkurat-Bold;-inkscape-font-specification:'Akkurat-Bold Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
