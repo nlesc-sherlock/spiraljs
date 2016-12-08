@@ -64,6 +64,15 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
+				<ul>
+					<li><a href="https://david-dm.org/nlesc-sherlock/spiraljs"><img src="https://david-dm.org/nlesc-sherlock/spiraljs/status.svg" alt="dependencies Status"></a></li>
+					<li><a href="https://david-dm.org/nlesc-sherlock/spiraljs?type=dev"><img src="https://david-dm.org/nlesc-sherlock/spiraljs/dev-status.svg" alt="devDependencies Status"></a></li>
+					<li><a href="https://travis-ci.org/nlesc-sherlock/spiraljs"><img src="https://travis-ci.org/nlesc-sherlock/spiraljs.svg?branch=master" alt="Build Status"></a></li>
+					<li><a href="https://www.bithound.io/github/nlesc-sherlock/spiraljs"><img src="https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/score.svg" alt="bitHound Overall Score"></a></li>
+					<li><a href="https://www.bithound.io/github/nlesc-sherlock/spiraljs/master/dependencies/npm"><img src="https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/dependencies.svg" alt="bitHound Dependencies"></a></li>
+					<li><a href="https://www.bithound.io/github/nlesc-sherlock/spiraljs/master/dependencies/npm"><img src="https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/devDependencies.svg" alt="bitHound Dev Dependencies"></a></li>
+					<li><a href="https://www.bithound.io/github/nlesc-sherlock/spiraljs"><img src="https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/code.svg" alt="bitHound Code"></a></li>
+				</ul>
 				<p><em>this library is still a work in progress</em></p>
 				<h1 id="general-workflow">General workflow</h1>
 				<p><img src="https://github.com/nlesc-sherlock/spiraljs/blob/389050f29e8337e4b67cc4325e5b07f1dfce5c0e/docs/specification.png" alt="png"></p>
@@ -79,14 +88,14 @@
 				<h1 id="documentation-for-developers">Documentation for developers</h1>
 				<p>(this section describes the complete repository on GitHub, only part of which is included in the package on <a href="https://www.npmjs.com/package/spiraljs">https://www.npmjs.com/package/spiraljs</a>).</p>
 				<h2 id="setting-up-building-and-running">Setting up, building and running</h2>
-				<p>Get a local copy of the punchcardjs repository using <code>git</code>:</p>
+				<p>Get a local copy of the spiraljs repository using <code>git</code>:</p>
 				<pre><code class="lang-bash"><span class="hljs-comment"># use package manager to install git</span>
 sudo apt-get install git
 
 <span class="hljs-comment"># make a local copy of this repository</span>
 git <span class="hljs-built_in">clone</span> https://github.com/nlesc-sherlock/spiraljs.git
 
-<span class="hljs-comment"># change into punchcardjs directory</span>
+<span class="hljs-comment"># change into spiraljs directory</span>
 <span class="hljs-built_in">cd</span> spiraljs
 </code></pre>
 				<p>Download dependencies:</p>
@@ -132,12 +141,9 @@ npm run cover
 					<li>We generate code coverage in different formats using <a href="https://www.npmjs.com/package/karma-coverage"><code>karma-coverage</code></a>. However, this gives us code coverage of the (generated) JavaScript, which is not really what we&#39;re interested in. So we have <a href="https://www.npmjs.com/package/remap-istanbul"><code>remap-istanbul</code></a> figure out which parts of the generated JavaScript correspond with which parts of the (written) TypeScript.</li>
 				</ul>
 				<p>Here is a visual representation of our build process:</p>
-				<p>TODO fix link</p>
-				<p><img src="https://github.com/nlesc-sherlock/punchcardjs/raw/master/docs/visual-description-of-setup.png" alt="visual-description-of-setup.png" title="visual-description-of-setup.png"></p>
-				<p>TODO fix link</p>
-				<p>and here is a callgraph generated from <a href="https://github.com/nlesc-sherlock/punchcardjs/blob/master/package.json">package.json</a> using <a href="https://github.com/jspaaks/npm-scripts-callgraph">https://github.com/jspaaks/npm-scripts-callgraph</a>:</p>
-				<p>TODO fix link</p>
-				<p><img src="https://github.com/nlesc-sherlock/punchcardjs/raw/master/docs/punchcardjs-callgraph.png" alt="punchcardjs-callgraph.png" title="punchcardjs-callgraph.png"></p>
+				<p><img src="https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/visual-description-of-setup.png" alt="visual-description-of-setup.png" title="visual-description-of-setup.png"></p>
+				<p>and here is a callgraph generated from <a href="https://github.com/nlesc-sherlock/spiraljs/blob/master/package.json">package.json</a> using <a href="https://github.com/jspaaks/npm-scripts-callgraph">https://github.com/jspaaks/npm-scripts-callgraph</a>:</p>
+				<p><img src="https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/callgraph.png" alt="callgraph.png" title="callgraph.png"></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -159,6 +165,9 @@ npm run cover
 						<a href="modules/_bubblespiral_.html">"<wbr>Bubble<wbr>Spiral"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_complex_.html">"<wbr>Complex"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_itimedrecord_.html">"ITimed<wbr>Record"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
@@ -175,6 +184,9 @@ npm run cover
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_basechart_.html">"basechart"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_fourier_.html">"fourier"</a>
 					</li>
 				</ul>
 			</nav>
