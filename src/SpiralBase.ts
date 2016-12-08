@@ -66,8 +66,10 @@ export class SpiralBase<T> extends Base<T> {
         const pts: ICoordinate[] = d3.range(1000).map(
             (i) => new Polar(
                 ((i / 1000) * 0.8 + 0.15) * this.radial_scale,
-                SpiralBase.MODULO(i / 1000, this.period_fraction) /
-                    this.period_fraction * 2 * Math.PI)
+                this.angular_map(i / 1000)
+            )
+            // SpiralBase.MODULO(i / 1000, this.period_fraction) /
+            //    this.period_fraction * 2 * Math.PI)
         );
 
         const group = plot.append('g')
