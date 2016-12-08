@@ -99,17 +99,11 @@ So you wrote some **source code**. A **distributable** can be created from the s
 
 Here is a visual representation of our build process:
 
-TODO fix link
-
 ![visual-description-of-setup.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/visual-description-of-setup.png "visual-description-of-setup.png")
-
-TODO fix link
 
 and here is a callgraph generated from [package.json](https://github.com/nlesc-sherlock/spiraljs/blob/master/package.json) using [https://github.com/jspaaks/npm-scripts-callgraph](https://github.com/jspaaks/npm-scripts-callgraph):
 
-TODO fix link
-
-![spiraljs-callgraph.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/spiraljs-callgraph.png "spiraljs-callgraph.png")
+![callgraph.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/callgraph.png "callgraph.png")
 
 
 
