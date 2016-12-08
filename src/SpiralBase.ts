@@ -37,7 +37,7 @@ export class SpiralBase<T> extends Base<T> {
             this.period_fraction * 2 * Math.PI - Math.PI / 2;
     }
 
-    public line_tics;
+    public line_tics: any;
 
     static MODULO(x: number, y: number): number {
         if (x >= 0) {
@@ -52,7 +52,7 @@ export class SpiralBase<T> extends Base<T> {
         this.radial_scale = this.chartHeight * 0.45;
     }
 
-    public get_label(d: T): string {
+    public get_label(_: any): string {
         return '';
     }
 
@@ -74,8 +74,8 @@ export class SpiralBase<T> extends Base<T> {
             .attr('class', 'axis');
 
         const line = d3.svg.line<ICoordinate>()
-            .x((d, i) => d.x)
-            .y((d, i) => d.y)
+            .x((d) => d.x)
+            .y((d) => d.y)
             .interpolate('basis');
 
         group.append('path')
@@ -92,8 +92,8 @@ export class SpiralBase<T> extends Base<T> {
     public add_axis(
             selection: d3.Selection<any>,
             angle: number[], label: string[]) {
-        const start = (a) => new Polar(0.2 * this.radial_scale, a);
-        const end = (a) => new Polar(1.0 * this.radial_scale, a);
+        const start = (a: any) => new Polar(0.2 * this.radial_scale, a);
+        const end = (a: any) => new Polar(1.0 * this.radial_scale, a);
 
         const group = selection.append('g').attr('class', 'axes');
 
@@ -101,16 +101,16 @@ export class SpiralBase<T> extends Base<T> {
             .data(angle).enter().append('g').attr('class', 'axis');
 
         axes.append('line')
-            .attr('x1', (d, i) => start(d).x).attr('y1', (d, i) => start(d).y)
-            .attr('x2', (d, i) => end(d).x).attr('y2', (d, i) => end(d).y)
+            .attr('x1', (d) => start(d).x).attr('y1', (d) => start(d).y)
+            .attr('x2', (d) => end(d).x).attr('y2', (d) => end(d).y)
             .style('stroke', 'black')
             .style('stroke-width', 0.5);
 
         axes.append('text')
-            .attr('x', (d, i) => end(d).inc_r(15).x)
-            .attr('y', (d, i) => end(d).inc_r(15).y)
+            .attr('x', (d) => end(d).inc_r(15).x)
+            .attr('y', (d) => end(d).inc_r(15).y)
             .attr('text-anchor', 'middle').attr('dy', 5)
-            .text((d, i) => label[i])
+            .text((_, i) => label[i])
             .style('font-size', 16);
 
         return group;

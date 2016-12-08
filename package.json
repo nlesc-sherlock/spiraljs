@@ -29,7 +29,7 @@
     "remap-istanbul-html": "remap-istanbul --input docs/sites/coverage/coverage-remapped.json --output docs/sites/coverage/remapped --type html --exclude node_modules",
     "remap-istanbul-json": "remap-istanbul --input docs/sites/coverage/coverage.json --output docs/sites/coverage/coverage-remapped.json",
     "test": "karma start karma.conf.js",
-    "tsdoc": "typedoc --out docs/sites/tsdoc/ .",
+    "tsdoc":  "typedoc --mode modules --out docs/sites/tsdoc/ src/index.ts",
     "tslint": "tslint --config tslint.json ./src/**/*.ts",
     "uglifycss": "uglifycss dist/spiral.css > dist/spiral.min.css",
     "uglifyjs": "uglifyjs dist/spiral.js --output dist/spiral.min.js --source-map dist/spiral.min.js.map --screw-ie8 --in-source-map dist/spiral.js.map --source-map-url spiral.min.js.map"
@@ -48,11 +48,13 @@
   "devDependencies": {
     "@nlesc/tslint-config-react-app": "^1.1.1",
     "@types/d3": "^3.5.36",
+    "@types/jasmine": "^2.5.38",
     "browserify": "^13.1.0",
     "browserify-shim": "^3.8.12",
     "csslint": "^1.0.2",
     "exorcist": "^0.4.0",
     "istanbul": "^0.4.4",
+    "jasmine": "^2.5.2",
     "jasmine-core": "^2.4.1",
     "jshint": "^2.9.3",
     "jslint": "^0.10.3",
@@ -66,8 +68,8 @@
     "karma-spec-reporter": "0.0.26",
     "mkdirp": "^0.5.1",
     "remap-istanbul": "^0.6.4",
-    "trash-cli": "^1.3.0",
-    "tsify": "^1.0.3",
+    "trash-cli": "^1.4.0",
+    "tsify": "^2.0.3",
     "tslint": "^3.15.1",
     "typedoc": "^0.5.1",
     "typescript": "^2.0.10",
@@ -75,10 +77,10 @@
     "uglifycss": "0.0.21"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.42",
     "crossfilter": "^1.3.12",
     "d3": "^3.5.17",
-    "moment": "^2.14.1",
-    "trash-cli": "^1.4.0"
+    "moment": "^2.14.1"
   },
   "browser": {
     "crossfilter": "node_modules/crossfilter/crossfilter.js",

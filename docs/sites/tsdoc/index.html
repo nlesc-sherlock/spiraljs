@@ -64,19 +64,80 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<p>TODO</p>
-				<h1 id="install-dependencies">Install dependencies</h1>
-				<p>If you haven&#39;t installed <a href="https://www.typescriptlang.org">Typescript 2</a> yet:</p>
-				<pre><code>npm install -g typescript<span class="hljs-symbol">@2</span>
-</code></pre><p>Install local dependencies</p>
-				<pre><code>npm <span class="hljs-keyword">install</span> .
-</code></pre><h1 id="build-documentation">Build documentation</h1>
-				<p>Install <code>typedoc</code></p>
-				<pre><code>npm <span class="hljs-keyword">install</span> -g typedoc
-</code></pre><p>Run <code>typedoc</code></p>
-				<pre><code>typedoc <span class="hljs-comment">--out docs src</span>
-</code></pre><h1 id="roadmap">Roadmap</h1>
+				<p><em>this library is still a work in progress</em></p>
+				<h1 id="general-workflow">General workflow</h1>
 				<p><img src="https://github.com/nlesc-sherlock/spiraljs/blob/389050f29e8337e4b67cc4325e5b07f1dfce5c0e/docs/specification.png" alt="png"></p>
+				<h1 id="documentation-for-users">Documentation for users</h1>
+				<p>Installation of the library through <code>npm</code> in the normal way:</p>
+				<pre><code>npm <span class="hljs-keyword">install</span> spiraljs
+</code></pre><p>See also:</p>
+				<ul>
+					<li>GitHub <a href="http://github.com/nlesc-sherlock/spiraljs-demo">repo</a> with a website illustrating spiraljs;</li>
+					<li><a href="http://nlesc-sherlock.github.io/spiraljs/sites/coverage/remapped/src/index.html">code coverage</a>;</li>
+					<li><a href="http://nlesc-sherlock.github.io/spiraljs/sites/tsdoc/">documentation</a>;</li>
+				</ul>
+				<h1 id="documentation-for-developers">Documentation for developers</h1>
+				<p>(this section describes the complete repository on GitHub, only part of which is included in the package on <a href="https://www.npmjs.com/package/spiraljs">https://www.npmjs.com/package/spiraljs</a>).</p>
+				<h2 id="setting-up-building-and-running">Setting up, building and running</h2>
+				<p>Get a local copy of the punchcardjs repository using <code>git</code>:</p>
+				<pre><code class="lang-bash"><span class="hljs-comment"># use package manager to install git</span>
+sudo apt-get install git
+
+<span class="hljs-comment"># make a local copy of this repository</span>
+git <span class="hljs-built_in">clone</span> https://github.com/nlesc-sherlock/spiraljs.git
+
+<span class="hljs-comment"># change into punchcardjs directory</span>
+<span class="hljs-built_in">cd</span> spiraljs
+</code></pre>
+				<p>Download dependencies:</p>
+				<pre><code class="lang-bash"><span class="hljs-comment"># Assuming you already have ``npm`` installed on your system, install with:</span>
+npm install
+</code></pre>
+				<p>We use <code>npm</code> for the various build tasks (see <code>scripts</code> in <code>packages.json</code> for the complete list and their definitions). Here&#39;s a summary of the most relevant tasks (see also below for the dependency graph):</p>
+				<pre><code class="lang-bash"><span class="hljs-comment"># make a distributable js file, spiral.js</span>
+npm run dist
+
+<span class="hljs-comment"># run the unit tests against the distributable</span>
+npm run <span class="hljs-built_in">test</span>
+
+<span class="hljs-comment"># do all types of linting:</span>
+<span class="hljs-comment"># tslint on the TypeScript from src/</span>
+<span class="hljs-comment"># csslint on the CSS from src/</span>
+<span class="hljs-comment"># jslint and jshint on the JS from test/</span>
+npm run lint
+
+<span class="hljs-comment"># clean up generated files</span>
+npm run clean
+
+<span class="hljs-comment"># do an npm run clean and additionally throw away any downloaded files</span>
+npm run purge
+
+<span class="hljs-comment"># generate the TypeDoc, inspect afterwards in a browser (output will be at &lt;projectroot&gt;/docs/sites/tsdoc)</span>
+npm run tsdoc
+
+<span class="hljs-comment"># generate code coverage in various formats. output will be at &lt;projectroot&gt;/docs/sites/coverage/, e.g.</span>
+<span class="hljs-comment"># &lt;projectroot&gt;/docs/sites/coverage/remapped/ts/spiraljs/index.html</span>
+npm run cover
+</code></pre>
+				<h2 id="how-it-all-fits-together">How it all fits together</h2>
+				<h3 id="general">General</h3>
+				<p>So you wrote some <strong>source code</strong>. A <strong>distributable</strong> can be created from the source code. Distributables are great, because that&#39;s what people can use in their own websites later. However, distributables are only good if they work --you don&#39;t want to break other people&#39;s websites, now do you? So, the distributable needs to be tested using <strong>unit tests</strong>. For this you typically need to do two things: first, you need to be able to do <strong>assertions</strong>. Assertions help you test different kinds of equality (&#39;&#39;is the test result what it is supposed to be?&#39;&#39;). Secondly, you need a  <strong>test runner</strong>, i.e. something that runs the tests (and then, typically, reports on their results). Now that you have tests, you also want to generate <strong>code coverage</strong> reports. Code coverage helps to make transparent which parts of the code are covered by tests.</p>
+				<h3 id="in-our-case">In our case</h3>
+				<ul>
+					<li>Our <strong>source code</strong> lives at <code>src</code>. The meat of it is written in TypeScript 2.</li>
+					<li>We create the <strong>distributable</strong> using <code>npm run</code> scripting, so there are no Gulp or Grunt files.</li>
+					<li>We use <strong>unit tests</strong> written in the style of <a href="http://jasmine.github.io/2.0/introduction.html"><code>Jasmine</code></a> (i.e. <code>describe()</code> and <code>it()</code>).</li>
+					<li>Our <strong>assertion</strong> library is also <a href="http://jasmine.github.io/2.0/introduction.html"><code>Jasmine</code></a> (e.g. <code>expect(actual).toEqual(expected)</code>).</li>
+					<li><a href="https://karma-runner.github.io/1.0/index.html">Karma</a> is our <strong>test runner</strong>.</li>
+					<li>We generate code coverage in different formats using <a href="https://www.npmjs.com/package/karma-coverage"><code>karma-coverage</code></a>. However, this gives us code coverage of the (generated) JavaScript, which is not really what we&#39;re interested in. So we have <a href="https://www.npmjs.com/package/remap-istanbul"><code>remap-istanbul</code></a> figure out which parts of the generated JavaScript correspond with which parts of the (written) TypeScript.</li>
+				</ul>
+				<p>Here is a visual representation of our build process:</p>
+				<p>TODO fix link</p>
+				<p><img src="https://github.com/nlesc-sherlock/punchcardjs/raw/master/docs/visual-description-of-setup.png" alt="visual-description-of-setup.png" title="visual-description-of-setup.png"></p>
+				<p>TODO fix link</p>
+				<p>and here is a callgraph generated from <a href="https://github.com/nlesc-sherlock/punchcardjs/blob/master/package.json">package.json</a> using <a href="https://github.com/jspaaks/npm-scripts-callgraph">https://github.com/jspaaks/npm-scripts-callgraph</a>:</p>
+				<p>TODO fix link</p>
+				<p><img src="https://github.com/nlesc-sherlock/punchcardjs/raw/master/docs/punchcardjs-callgraph.png" alt="punchcardjs-callgraph.png" title="punchcardjs-callgraph.png"></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -89,9 +150,6 @@
 						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_fourier_.html">"fourier"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
 						<a href="modules/_index_.html">"index"</a>
 					</li>
 					<li class="label tsd-is-external">
@@ -101,13 +159,19 @@
 						<a href="modules/_bubblespiral_.html">"<wbr>Bubble<wbr>Spiral"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_complex_.html">"<wbr>Complex"</a>
+						<a href="modules/_itimedrecord_.html">"ITimed<wbr>Record"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_linechart_.html">"<wbr>Line<wbr>Chart"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_linespiral_.html">"<wbr>Line<wbr>Spiral"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_spiralbase_.html">"<wbr>Spiral<wbr>Base"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_timedbubblespiral_.html">"<wbr>Timed<wbr>Bubble<wbr>Spiral"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_basechart_.html">"basechart"</a>

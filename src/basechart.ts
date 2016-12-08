@@ -54,7 +54,7 @@ export abstract class Base<T> {
         this.element = element;
     }
 
-    public render(data: T[]): d3.Selection<any> {
+    public render(_: T[]): d3.Selection<any> {
         return null;
     }
 }

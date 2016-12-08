@@ -3,7 +3,7 @@
     "compilerOptions": {
         "forceConsistentCasingInFileNames": true,
         "jsx": "preserve",
-        "module": "es6",
+        "module": "commonjs",
         "moduleResolution": "node",
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
@@ -11,8 +11,8 @@
         "noImplicitReturns": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "strictNullChecks": true,
-        "target": "es6"
+        "strictNullChecks": false,
+        "target": "es5"
     },
     "exclude": [
         "node_modules/**/*"

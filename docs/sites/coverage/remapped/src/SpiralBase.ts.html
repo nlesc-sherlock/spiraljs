@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/SpiralBase.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> SpiralBase.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">28.57% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>14/49</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>1/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">5% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">29.27% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>12/41</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as d3 from 'd3';<span class="branch-1 cbranch-no" title="branch not covered" ></span>
+&nbsp;
+import { Base }        from './basechart';
+import { Polar }       from './basechart';
+import { ICoordinate } from './basechart';
+&nbsp;
+// (used to be in spiral.ts, module Chart)
+&nbsp;
+/**
+ * This is the base class to other charts on a spiral.
+ *
+ * @member radial_map A function mapping a record of type T to a number,
+ *     indicating time. A candidate for this function is
+ *     `d3.time.Scale&lt;number,number&gt;`.
+ * @member radial_scale An extra scaling factor to the output of `radial_map`.
+ * @member period_fraction One over the number of windings on the spiral.
+ * @member radius_map A function giving the radius of a bubble or weight of a
+ *     data point.
+ * @member color_map Returns a color-string given a record.
+ * @member angular_map Maps a number (as output by radial_scale) to an angle.
+ */
+export class SpiralBase&lt;T&gt; extends Base&lt;T&gt; {
+&nbsp;
+    public radial_map: (x: T) =&gt; number;
+&nbsp;
+    public radial_scale: number;
+&nbsp;
+    // the fraction of one turn against the entire range
+    public period_fraction: number;
+&nbsp;
+    public radius_map: (x: T) =&gt; number;
+&nbsp;
+    public <span class="cstat-no" title="statement not covered" >color_map: (x: T) =&gt; string = null;</span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >    private angular_map(x: number)</span> {
+<span class="cstat-no" title="statement not covered" >        return SpiralBase.MODULO(x, this.period_fraction) /</span>
+            this.period_fraction * 2 * Math.PI - Math.PI / 2;
+    }
+&nbsp;
+    public line_tics: any;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    static MODULO(x: number, y: number)</span>: number {
+<span class="cstat-no" title="statement not covered" >        if (x &gt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >            return x % y;</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            return y - (x % y);</span>
+        }
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    constructor (element: d3.Selection&lt;any&gt;)</span> {
+<span class="cstat-no" title="statement not covered" >        super(element);</span>
+<span class="cstat-no" title="statement not covered" >        this.radial_scale = this.chartHeight * 0.45;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public get_label(_: any)</span>: string {
+<span class="cstat-no" title="statement not covered" >        return '';</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public get_polar(d: number)</span>: Polar {
+<span class="cstat-no" title="statement not covered" >        return new Polar((d * 0.8 + 0.15) * this.radial_scale,</span>
+                         this.angular_map(d));
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    public render_spiral_axis(</span></span>
+            plot: d3.Selection&lt;any&gt;) {
+<span class="cstat-no" title="statement not covered" >        const pts: ICoordinate[] = d3.range(1000).map(</span>
+<span class="fstat-no" title="function not covered" >            (i)</span> =&gt; <span class="cstat-no" title="statement not covered" >new Polar(</span>
+                ((i / 1000) * 0.8 + 0.15) * this.radial_scale,
+                SpiralBase.MODULO(i / 1000, this.period_fraction) /
+                    this.period_fraction * 2 * Math.PI)
+        );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const group = plot.append('g')</span>
+            .attr('class', 'axis');
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const line = d3.svg.line&lt;ICoordinate&gt;()</span>
+            .x(<span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >d.x)</span>
+            .y(<span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >d.y)</span>
+            .interpolate('basis');
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        group.append('path')</span>
+            .datum(pts)
+            .attr('class', 'line')
+            .attr('d', line)
+            .style('fill', 'none')
+            .style('stroke', '#000')
+            .style('stroke-width', 0.5);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return group;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    public add_axis(</span></span>
+            selection: d3.Selection&lt;any&gt;,
+            angle: number[], label: string[]) {
+<span class="cstat-no" title="statement not covered" >        const start = <span class="fstat-no" title="function not covered" >(a: any)</span> =&gt; <span class="cstat-no" title="statement not covered" >new Polar(0.2 * this.radial_scale, a);</span></span>
+<span class="cstat-no" title="statement not covered" >        const end = <span class="fstat-no" title="function not covered" >(a: any)</span> =&gt; <span class="cstat-no" title="statement not covered" >new Polar(1.0 * this.radial_scale, a);</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const group = selection.append('g').attr('class', 'axes');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const axes = group.selectAll('g.axis')</span>
+            .data(angle).enter().append('g').attr('class', 'axis');
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        axes.append('line')</span>
+            .attr('x1', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >start(d).x)</span>.attr('y1', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >start(d).y)</span>
+            .attr('x2', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >end(d).x)</span>.attr('y2', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >end(d).y)</span>
+            .style('stroke', 'black')
+            .style('stroke-width', 0.5);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        axes.append('text')</span>
+            .attr('x', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >end(d).inc_r(15).x)</span>
+            .attr('y', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >end(d).inc_r(15).y)</span>
+            .attr('text-anchor', 'middle').attr('dy', 5)
+            .text(<span class="fstat-no" title="function not covered" >(_, i)</span> =&gt; <span class="cstat-no" title="statement not covered" >label[i])</span>
+            .style('font-size', 16);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return group;</span>
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 07 2016 18:01:01 GMT+0100 (CET)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
