@@ -1,3 +1,11 @@
+- [![dependencies Status](https://david-dm.org/nlesc-sherlock/spiraljs/status.svg)](https://david-dm.org/nlesc-sherlock/spiraljs)
+- [![devDependencies Status](https://david-dm.org/nlesc-sherlock/spiraljs/dev-status.svg)](https://david-dm.org/nlesc-sherlock/spiraljs?type=dev)
+- [![Build Status](https://travis-ci.org/nlesc-sherlock/spiraljs.svg?branch=master)](https://travis-ci.org/nlesc-sherlock/spiraljs)
+- [![bitHound Overall Score](https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/score.svg)](https://www.bithound.io/github/nlesc-sherlock/spiraljs)
+- [![bitHound Dependencies](https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/dependencies.svg)](https://www.bithound.io/github/nlesc-sherlock/spiraljs/master/dependencies/npm)
+- [![bitHound Dev Dependencies](https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/devDependencies.svg)](https://www.bithound.io/github/nlesc-sherlock/spiraljs/master/dependencies/npm)
+- [![bitHound Code](https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/code.svg)](https://www.bithound.io/github/nlesc-sherlock/spiraljs)
+
 _this library is still a work in progress_
 
 # General workflow
