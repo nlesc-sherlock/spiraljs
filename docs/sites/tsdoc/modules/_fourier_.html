@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;BubbleSpiral&quot; | spiraljs</title>
+	<title>&quot;fourier&quot; | spiraljs</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,27 +56,110 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_bubblespiral_.html">&quot;BubbleSpiral&quot;</a>
+					<a href="_fourier_.html">&quot;fourier&quot;</a>
 				</li>
 			</ul>
-			<h1>External module &quot;BubbleSpiral&quot;</h1>
+			<h1>External module &quot;fourier&quot;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The RFFT or Rather Fast Fourier Transform.</p>
+					</div>
+					<p>This module has the forward as well as inverse transform. See
+						<a href="https://en.wikipedia.org/wiki/Discrete_Fourier_transform">https://en.wikipedia.org/wiki/Discrete_Fourier_transform</a> for more information
+						on the discrete Fourier transform.
+						To answer the question on everyone&#39;s mind: the inverse transform is
+						normalised such that it returns the original series (barring round-off
+					errors).</p>
+				</div>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-external">
-							<h3>Classes</h3>
+							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="../classes/_bubblespiral_.bubblespiral.html" class="tsd-kind-icon">Bubble<wbr>Spiral</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-external"><a href="_fourier_.html#fft" class="tsd-kind-icon">fft</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-external"><a href="_fourier_.html#ifft" class="tsd-kind-icon">ifft</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-external">
+					<a name="fft" class="tsd-anchor"></a>
+					<h3>fft</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">fft<span class="tsd-signature-symbol">(</span>s<span class="tsd-signature-symbol">: </span><a href="../classes/_complex_.complex.html" class="tsd-signature-type">Complex</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/_complex_.complex.html" class="tsd-signature-type">Complex</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nlesc-sherlock/spiraljs/blob/338ae44/src/fourier.ts#L24">fourier.ts:24</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Forward Fourier transform (1d). This uses the Cooley–Tukey algorithm
+										in a recursive fashion. This is not an optimal implementation, but it
+									is fast enough for our purposes.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>s: <a href="../classes/_complex_.complex.html" class="tsd-signature-type">Complex</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>list of complex numbers.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/_complex_.complex.html" class="tsd-signature-type">Complex</a><span class="tsd-signature-symbol">[]</span></h4>
+							<p>discrete Fourier sum of the series.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-external">
+					<a name="ifft" class="tsd-anchor"></a>
+					<h3>ifft</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">ifft<span class="tsd-signature-symbol">(</span>s<span class="tsd-signature-symbol">: </span><a href="../classes/_complex_.complex.html" class="tsd-signature-type">Complex</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/_complex_.complex.html" class="tsd-signature-type">Complex</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/nlesc-sherlock/spiraljs/blob/338ae44/src/fourier.ts#L61">fourier.ts:61</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Inverse Fourier transform</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>s: <a href="../classes/_complex_.complex.html" class="tsd-signature-type">Complex</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>list of complex numbers</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/_complex_.complex.html" class="tsd-signature-type">Complex</a><span class="tsd-signature-symbol">[]</span></h4>
+							<p>the inverse discrete Fourier sum of the series.</p>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -95,7 +178,7 @@
 					<li class="label tsd-is-external">
 						<span>Externals</span>
 					</li>
-					<li class="current tsd-kind-external-module tsd-is-external">
+					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="_bubblespiral_.html">"<wbr>Bubble<wbr>Spiral"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
@@ -119,15 +202,18 @@
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="_basechart_.html">"basechart"</a>
 					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
+					<li class="current tsd-kind-external-module tsd-is-external">
 						<a href="_fourier_.html">"fourier"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
-						<a href="../classes/_bubblespiral_.bubblespiral.html" class="tsd-kind-icon">Bubble<wbr>Spiral</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-external">
+						<a href="_fourier_.html#fft" class="tsd-kind-icon">fft</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-external">
+						<a href="_fourier_.html#ifft" class="tsd-kind-icon">ifft</a>
 					</li>
 				</ul>
 			</nav>
