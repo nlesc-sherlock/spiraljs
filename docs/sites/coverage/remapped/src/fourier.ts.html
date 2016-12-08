@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/fourier.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> fourier.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">96.43% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>27/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>3/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>24/24</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1533×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1533×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">765×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">765×</span>
+<span class="cline-any cline-yes">765×</span>
+<span class="cline-any cline-yes">765×</span>
+<span class="cline-any cline-yes">3072×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">765×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">765×</span>
+<span class="cline-any cline-yes">3072×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">765×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">765×</span>
+<span class="cline-any cline-yes">765×</span>
+<span class="cline-any cline-yes">765×</span>
+<span class="cline-any cline-yes">3072×</span>
+<span class="cline-any cline-yes">3072×</span>
+<span class="cline-any cline-yes">3072×</span>
+<span class="cline-any cline-yes">3072×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">765×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">256×</span>
+<span class="cline-any cline-yes">256×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/** The RFFT or Rather Fast Fourier Transform.
+ *
+ * This module has the forward as well as inverse transform. See
+ * https://en.wikipedia.org/wiki/Discrete_Fourier_transform for more information
+ * on the discrete Fourier transform.
+ * To answer the question on everyone's mind: the inverse transform is
+ * normalised such that it returns the original series (barring round-off
+ * errors).
+ */
+&nbsp;
+/**
+ * class Complex
+ */
+import { Complex } from './Complex';
+&nbsp;
+/**
+ * Forward Fourier transform (1d). This uses the Cooley–Tukey algorithm
+ * in a recursive fashion. This is not an optimal implementation, but it
+ * is fast enough for our purposes.
+ *
+ * @param s list of complex numbers.
+ * @returns discrete Fourier sum of the series.
+ */
+export function fft(s: Complex[]): Complex[] {
+    const N: number = s.length;
+&nbsp;
+    if (N === 1) { return [s[0]]; }
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (N % 2 !== 0) { <span class="cstat-no" title="statement not covered" >throw new Error('FFT: Size of array must be power of 2.'); </span>}
+&nbsp;
+    const r: Complex[] = [];
+    r.length = N / 2;
+    for (let j = 0; j &lt; N / 2; j += 1) {
+        r[j] = s[j * 2];
+    }
+    const p = fft(r);
+&nbsp;
+    for (let j = 0; j &lt; N / 2; j += 1) {
+        r[j] = s[j * 2 + 1];
+    }
+    const q = fft(r);
+&nbsp;
+    const y: Complex[] = [];
+    y.length = N;
+    for (let k = 0; k &lt; N / 2; k += 1) {
+        const wk = Complex.EXPI(-2 * k * Math.PI / N);
+        const qk = wk.times(q[k]);
+        y[k]         = p[k].plus(qk);
+        y[k + N / 2] = p[k].minus(qk);
+    }
+&nbsp;
+    return y;
+}
+&nbsp;
+/**
+ * Inverse Fourier transform
+ *
+ * @param s list of complex numbers
+ * @returns the inverse discrete Fourier sum of the series.
+ */
+export function ifft(s: Complex[]): Complex[] {
+    const y = fft(s.map(z =&gt; z.conjugate));
+    return y.map(z =&gt; z.conjugate.times_real(1.0 / s.length));
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 08 2016 13:48:09 GMT+0100 (CET)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
