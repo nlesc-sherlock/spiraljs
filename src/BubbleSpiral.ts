@@ -27,10 +27,10 @@ export class BubbleSpiral<T> extends SpiralBase<T> {
             .attr('class', 'bubble');
 
         bubble_groups.append('circle')
-            .attr('cx', (d, i) => this.get_polar(this.radial_map(d)).x)
-            .attr('cy', (d, i) => this.get_polar(this.radial_map(d)).y)
-            .attr('r', (d, i) => this.radius_map(d))
-            .style('fill', this.color_map ? (d, i) => this.color_map(d) : (d, i) => 'red')
+            .attr('cx', (d) => this.get_polar(this.radial_map(d)).x)
+            .attr('cy', (d) => this.get_polar(this.radial_map(d)).y)
+            .attr('r', (d) => this.radius_map(d))
+            .style('fill', this.color_map ? (d) => this.color_map(d) : () => 'red')
             .style('fill-opacity', 0.1)
             .style('stroke', 'black')
             .style('stroke-width', 0.05);

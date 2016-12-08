@@ -18,7 +18,7 @@ export class TimedBubbleSpiral<T> extends LineSpiral<ITimedRecord<T>> {
         super(element);
     }
 
-    public radial_map = function (x: ITimedRecord<T>) {
+    public radial_map = (x: ITimedRecord<T>) => {
         return this.time_scale(x.date);
     };
 

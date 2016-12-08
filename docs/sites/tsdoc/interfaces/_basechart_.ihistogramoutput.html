@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Coordinate | spiraljs</title>
+	<title>IHistogramOutput | spiraljs</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/_basechart_.html">&quot;basechart&quot;</a>
 				</li>
 				<li>
-					<a href="_basechart_.coordinate.html">Coordinate</a>
+					<a href="_basechart_.ihistogramoutput.html">IHistogramOutput</a>
 				</li>
 			</ul>
-			<h1>Interface Coordinate</h1>
+			<h1>Interface IHistogramOutput</h1>
 		</div>
 	</div>
 </header>
@@ -73,15 +73,8 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Coordinate</span>
+						<span class="target">IHistogramOutput</span>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implemented by</h3>
-				<ul class="tsd-hierarchy">
-					<li><a href="../classes/_basechart_.cartesian.html" class="tsd-signature-type">Cartesian</a></li>
-					<li><a href="../classes/_basechart_.polar.html" class="tsd-signature-type">Polar</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -91,8 +84,9 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_basechart_.coordinate.html#x" class="tsd-kind-icon">x</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_basechart_.coordinate.html#y" class="tsd-kind-icon">y</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_basechart_.ihistogramoutput.html#dx" class="tsd-kind-icon">dx</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_basechart_.ihistogramoutput.html#x" class="tsd-kind-icon">x</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_basechart_.ihistogramoutput.html#y" class="tsd-kind-icon">y</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,12 +95,22 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="dx" class="tsd-anchor"></a>
+					<h3>dx</h3>
+					<div class="tsd-signature tsd-kind-icon">dx<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/nlesc-sherlock/spiraljs/blob/bb6f1eb/src/basechart.ts#L44">basechart.ts:44</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="x" class="tsd-anchor"></a>
 					<h3>x</h3>
 					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nlesc-sherlock/spiraljs/blob/069cfff/src/basechart.ts#L4">basechart.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/nlesc-sherlock/spiraljs/blob/bb6f1eb/src/basechart.ts#L43">basechart.ts:43</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -116,7 +120,7 @@
 					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/nlesc-sherlock/spiraljs/blob/069cfff/src/basechart.ts#L5">basechart.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/nlesc-sherlock/spiraljs/blob/bb6f1eb/src/basechart.ts#L45">basechart.ts:45</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -132,9 +136,6 @@
 						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_fourier_.html">"fourier"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
 						<a href="../modules/_index_.html">"index"</a>
 					</li>
 					<li class="label tsd-is-external">
@@ -144,13 +145,19 @@
 						<a href="../modules/_bubblespiral_.html">"<wbr>Bubble<wbr>Spiral"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_complex_.html">"<wbr>Complex"</a>
+						<a href="../modules/_itimedrecord_.html">"ITimed<wbr>Record"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_linechart_.html">"<wbr>Line<wbr>Chart"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="../modules/_linespiral_.html">"<wbr>Line<wbr>Spiral"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="../modules/_spiralbase_.html">"<wbr>Spiral<wbr>Base"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="../modules/_timedbubblespiral_.html">"<wbr>Timed<wbr>Bubble<wbr>Spiral"</a>
 					</li>
 					<li class="current tsd-kind-external-module tsd-is-external">
 						<a href="../modules/_basechart_.html">"basechart"</a>
@@ -168,26 +175,29 @@
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-external">
 						<a href="../classes/_basechart_.polar.html" class="tsd-kind-icon">Polar</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-external">
+						<a href="_basechart_.icoordinate.html" class="tsd-kind-icon">ICoordinate</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-is-external">
-						<a href="_basechart_.coordinate.html" class="tsd-kind-icon">Coordinate</a>
+						<a href="_basechart_.ihistogramoutput.html" class="tsd-kind-icon">IHistogram<wbr>Output</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="_basechart_.coordinate.html#x" class="tsd-kind-icon">x</a>
+								<a href="_basechart_.ihistogramoutput.html#dx" class="tsd-kind-icon">dx</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="_basechart_.coordinate.html#y" class="tsd-kind-icon">y</a>
+								<a href="_basechart_.ihistogramoutput.html#x" class="tsd-kind-icon">x</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="_basechart_.ihistogramoutput.html#y" class="tsd-kind-icon">y</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-external">
-						<a href="_basechart_.histogramoutput.html" class="tsd-kind-icon">Histogram<wbr>Output</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-external">
-						<a href="_basechart_.margin.html" class="tsd-kind-icon">Margin</a>
+						<a href="_basechart_.imargin.html" class="tsd-kind-icon">IMargin</a>
 					</li>
 				</ul>
 			</nav>
