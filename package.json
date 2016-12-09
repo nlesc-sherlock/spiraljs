@@ -1,6 +1,6 @@
 {
   "name": "spiraljs",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Spiralchart visualization using TypeScript and D3.js",
   "main": "./dist/spiral.min.js",
   "types": "./dist/spiral.d.ts",
