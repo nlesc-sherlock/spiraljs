@@ -3,6 +3,7 @@
   "version": "1.0.0-alpha.1",
   "description": "Spiralchart visualization using TypeScript and D3.js",
   "main": "./dist/spiral.min.js",
+  "types": "./dist/spiral.d.ts",
   "scripts": {
     "clean-build": "trash build/",
     "clean-cover": "trash docs/sites/coverage/",
@@ -14,7 +15,7 @@
     "cover": "npm run test && npm run remap-istanbul-json && npm run remap-istanbul-html",
     "csslint": "cat src/*.css > dist/spiral.css && csslint --config=.csslintrc --format=compact dist/spiral.css",
     "dist": "browserify src/index.ts --debug --standalone spiral -p [ tsify --project . ] > build/spiral-with-source-maps.js",
-    "dts": "tsc -p . -d --outDir build && dts-bundle --name spiraljs --main build/index.d.ts",
+    "dts": "tsc -p . -d --outDir build && dts-bundle --name spiral --main build/index.d.ts",
     "everything": "npm run tsdoc && npm run cover",
     "exorcist": "<build/spiral-with-source-maps.js exorcist dist/spiral.js.map > dist/spiral.js",
     "jshint": "jshint test/*.js",
