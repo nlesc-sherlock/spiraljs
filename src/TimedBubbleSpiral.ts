@@ -39,7 +39,7 @@ export class TimedBubbleSpiral<T> extends LineSpiral<ITimedRecord<T>> {
         this.period_fraction = this.time_scale(iv);
     }
 
-    public get_label(d: ITimedRecord<T>): string {
+    public label_map(d: ITimedRecord<T>): string {
         return d.date.toDateString();
     }
 

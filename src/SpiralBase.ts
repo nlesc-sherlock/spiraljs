@@ -7,31 +7,54 @@ import { ICoordinate } from './basechart';
 // (used to be in spiral.ts, module Chart)
 
 /**
- * This is the base class to other charts on a spiral.
+ * This is the base class to other charts on a spiral. It gives a low level
+ * interface on top of which we can implement several type of spiral charts.
  *
- * @member radial_map A function mapping a record of type T to a number,
- *     indicating time. A candidate for this function is
- *     `d3.time.Scale<number,number>`.
- * @member radial_scale An extra scaling factor to the output of `radial_map`.
- * @member period_fraction One over the number of windings on the spiral.
- * @member radius_map A function giving the radius of a bubble or weight of a
- *     data point.
- * @member color_map Returns a color-string given a record.
- * @member angular_map Maps a number (as output by radial_scale) to an angle.
+ * Several members have the `_map` suffix. This means that these members are
+ * functions that map a data element to some value used in plotting the spiral.
  */
 export class SpiralBase<T> extends Base<T> {
-
+    /**
+     * Maps a data element to a number in the range [0, 1]. The returned number
+     * then indicates the place on the spiral that the data element should be
+     * given. Such a map can be created using `d3.scale`, setting the range
+     * to [0, 1] and the domain to the domain of your data.
+     */
     public radial_map: (x: T) => number;
 
+    /**
+     * A multiplier for the output of `radial_map`. This determines the scale
+     * at which the spiral is being plotted. It defaults to
+     * `this.chartHeight * 0.45`.
+     */
     public radial_scale: number;
 
-    // the fraction of one turn against the entire range
+    /**
+     * The fraction of one turn against the entire range. This is one over the
+     * number of windings in the spiral. Suppose you have a spiral mapping a
+     * time range of a few months and want to study periodicity over one day,
+     * then `period_fraction` should be set to one day over the entire time
+     * domain.
+     */
     public period_fraction: number;
 
-    public radius_map: (x: T) => number;
+    /**
+     * Get the weight of a data element. This weight will function as indication
+     * of radius in the `BubbleSpiral`, but can also be leveraged as a weight
+     * when generating a histogram for the `LineSpiral` and `ArcSpiral` charts.
+     */
+    public weight_map: (x: T) => number;
 
+    /**
+     * Get the color by which a data element is plotted. This is currently only
+     * used in the `BubbleSpiral`.
+     */
     public color_map: (x: T) => string = null;
 
+    /**
+     * (private) Computes the angle at which a point is plotted, given the
+     * output of `radial_map`.
+     */
     private angular_map(x: number) {
         return SpiralBase.MODULO(x, this.period_fraction) /
             this.period_fraction * 2 * Math.PI - Math.PI / 2;
@@ -39,6 +62,9 @@ export class SpiralBase<T> extends Base<T> {
 
     public line_tics: any;
 
+    /**
+     * Computes `x` modulo `y` correctly, also for negative numbers.
+     */
     static MODULO(x: number, y: number): number {
         if (x >= 0) {
             return x % y;
@@ -52,25 +78,28 @@ export class SpiralBase<T> extends Base<T> {
         this.radial_scale = this.chartHeight * 0.45;
     }
 
-    public get_label(_: any): string {
+    /**
+     * Get a label given a data element; used for labeling tics.
+     */
+    public label_map(_: T): string {
         return '';
     }
 
+    /**
+     * Return polar coordinates on the plot given a number in the range [0, 1].
+     */
     public get_polar(d: number): Polar {
         return new Polar((d * 0.8 + 0.15) * this.radial_scale,
                          this.angular_map(d));
     }
 
+    /**
+     * Render the line on top of which the data points should be plotted.
+     */
     public render_spiral_axis(
             plot: d3.Selection<any>) {
         const pts: ICoordinate[] = d3.range(1000).map(
-            (i) => new Polar(
-                ((i / 1000) * 0.8 + 0.15) * this.radial_scale,
-                this.angular_map(i / 1000)
-            )
-            // SpiralBase.MODULO(i / 1000, this.period_fraction) /
-            //    this.period_fraction * 2 * Math.PI)
-        );
+                (i) => this.get_polar(i / 1000));
 
         const group = plot.append('g')
             .attr('class', 'axis');
@@ -91,6 +120,9 @@ export class SpiralBase<T> extends Base<T> {
         return group;
     }
 
+    /**
+     * Draw an axis at a certain angle (radians), with a given label.
+     */
     public add_axis(
             selection: d3.Selection<any>,
             angle: number[], label: string[]) {

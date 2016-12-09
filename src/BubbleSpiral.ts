@@ -11,6 +11,26 @@ export class BubbleSpiral<T> extends SpiralBase<T> {
         super(element);
     }
 
+    /**
+     * Rescale the output of `weight_map` to create a decent size for the
+     * bubbles.
+     */
+    public bubble_scale_fn(x: number): number {
+        return x;
+    }
+
+    /**
+     * Scale the size of bubbles using this map. This defaults to using
+     * `weight_map` and scaling that using `bubble_scale_fn`. It is not
+     * recommended to change this function directly.
+     */
+    public bubble_scale_map(x: T): number {
+        return this.bubble_scale_fn(this.weight_map(x));
+    }
+
+    /**
+     * Render given data as bubbles.
+     */
     public render(data: T[]): d3.Selection<any> {
         const svg = this.element.append('svg')
                     .attr('height', this.chartHeight)
@@ -29,7 +49,7 @@ export class BubbleSpiral<T> extends SpiralBase<T> {
         bubble_groups.append('circle')
             .attr('cx', (d) => this.get_polar(this.radial_map(d)).x)
             .attr('cy', (d) => this.get_polar(this.radial_map(d)).y)
-            .attr('r', (d) => this.radius_map(d))
+            .attr('r', (d) => this.bubble_scale_map(d))
             .style('fill', this.color_map ? (d) => this.color_map(d) : () => 'red')
             .style('fill-opacity', 0.1)
             .style('stroke', 'black')
@@ -38,6 +58,9 @@ export class BubbleSpiral<T> extends SpiralBase<T> {
         return plot;
     }
 
+    /**
+     * Update the view. Currently clears the SVG and rerenders everything.
+     */
     public update(data: T[]): d3.Selection<any> {
         this.element.select('svg').remove();
         return this.render(data);
