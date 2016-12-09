@@ -7,7 +7,8 @@ import { ICoordinate } from './basechart';
 // (used to be in spiral.ts, module Chart)
 
 /**
- * This is the base class to other charts on a spiral.
+ * This is the base class to other charts on a spiral. It gives a low level
+ * interface on top of which we can implement several type of spiral charts.
  *
  * @member radial_map A function mapping a record of type T to a number,
  *     indicating time. A candidate for this function is
@@ -20,7 +21,9 @@ import { ICoordinate } from './basechart';
  * @member angular_map Maps a number (as output by radial_scale) to an angle.
  */
 export class SpiralBase<T> extends Base<T> {
-
+    /**
+     * Maps a data element to a number in the range [0, 1].
+     */
     public radial_map: (x: T) => number;
 
     public radial_scale: number;
