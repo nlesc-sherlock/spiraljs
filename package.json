@@ -104,12 +104,13 @@
   },
   "files": [
     "CHANGELOG",
-    "dist/spiral.js",
-    "dist/spiral.js.map",
-    "dist/spiral.min.js",
-    "dist/spiral.min.js.map",
     "dist/spiral.css",
+    "dist/spiral.d.ts",
+    "dist/spiral.js.map",
+    "dist/spiral.js",
     "dist/spiral.min.css",
+    "dist/spiral.min.js.map",
+    "dist/spiral.min.js",
     "LICENSE",
     "package.json",
     "README"
