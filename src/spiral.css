@@ -1,9 +1,2 @@
+/*  put spiral styles here */
 
-#spiral-control {
-}
-
-#spiral-control .line {
-    fill: none;
-    stroke: steelblue;
-    stroke-width: 1.5px;
-}
