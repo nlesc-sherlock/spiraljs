@@ -7,7 +7,7 @@ import  * as d3 from 'd3';
  * and `color_map`.
  */
 export class BubbleSpiral<T> extends SpiralBase<T> {
-    constructor (element: d3.Selection<any>) {
+    constructor (element: d3.Selection<any, any, any, any>) {
         super(element);
     }
 
@@ -31,7 +31,7 @@ export class BubbleSpiral<T> extends SpiralBase<T> {
     /**
      * Render given data as bubbles.
      */
-    public render(data: T[]): d3.Selection<any> {
+    public render(data: T[]): d3.Selection<any, any, any, any> {
         const svg = this.element.append('svg')
                     .attr('height', this.chartHeight)
                     .attr('width', this.chartWidth);
@@ -61,7 +61,7 @@ export class BubbleSpiral<T> extends SpiralBase<T> {
     /**
      * Update the view. Currently clears the SVG and rerenders everything.
      */
-    public update(data: T[]): d3.Selection<any> {
+    public update(data: T[]): d3.Selection<any, any, any, any> {
         this.element.select('svg').remove();
         return this.render(data);
     }

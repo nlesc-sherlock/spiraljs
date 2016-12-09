@@ -40,15 +40,15 @@ export interface IMargin {
 }
 
 export interface IHistogramOutput {
-    x: number;
-    dx: number;
+    x0: number;
+    x1: number;
     y: number;
 }
 
 export abstract class Base<T> {
     public chartWidth = 800;
     public chartHeight = 600;
-    public element: d3.Selection<any>;
+    public element: d3.Selection<any, any, any, any>;
 
     constructor (element: d3.Selection<any>) {
         this.element = element;

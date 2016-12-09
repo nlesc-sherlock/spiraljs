@@ -2,6 +2,7 @@
     "extends": "@nlesc/tslint-config-react-app",
     "rules": {
         "insecure-random": false,
-        "no-console": false
+        "no-console": false,
+        "ordered-imports": false
     }
 }

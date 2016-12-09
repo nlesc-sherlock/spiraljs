@@ -7,7 +7,7 @@ import { IMargin }     from './basechart';
 export class LineChart extends Base<ICoordinate> {
     public margin: IMargin;
 
-    constructor (element: d3.Selection<any>) {
+    constructor (element: d3.Selection<any, any, any, any>) {
         super(element);
         this.margin = {top: 20, right: 20, bottom: 30, left: 50};
     }
@@ -19,11 +19,12 @@ export class LineChart extends Base<ICoordinate> {
         return this.chartHeight - this.margin.top - this.margin.bottom;
     }
 
-    public render(data: ICoordinate[]): d3.Selection<any> {
-        const x = d3.scale.linear().range([0, this.width]);
-        const y = d3.scale.linear().range([this.height, 0]);
-        const xAxis = d3.svg.axis().scale(x).orient('bottom');
-        const yAxis = d3.svg.axis().scale(y).orient('left');
+    public render(data: ICoordinate[]): d3.Selection<any, any, any, any> {
+        const x = d3.scaleLinear().range([0, this.width]);
+        const y = d3.scaleLinear().range([this.height, 0]);
+        const xAxis = d3.axisBottom(x);
+        const yAxis = d3.axisLeft(y);
+
         const svg = this.element.append('svg')
             .attr('width', this.chartWidth)
             .attr('height', this.chartHeight)
@@ -33,7 +34,7 @@ export class LineChart extends Base<ICoordinate> {
         x.domain(d3.extent(data, a => a.x));
         y.domain(d3.extent(data, a => a.y));
 
-        const line = d3.svg.line<ICoordinate>()
+        const line = d3.line<ICoordinate>()
             .x(a => x(a.x))
             .y(a => y(a.y));
 

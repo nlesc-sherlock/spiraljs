@@ -14,18 +14,18 @@ import { SpiralBase }       from './SpiralBase';
  */
 export class LineSpiral<T> extends SpiralBase<T> {
     private hist_data: IHistogramOutput[];
-    private hist_fn: d3.layout.Histogram<T>;
+    private hist_fn: d3.histogram<T>;
     private n_points = 10000;
-    private hist_x = d3.scale.linear().range([0, 1]);
-    private hist_y = d3.scale.linear().range([0, 1]);
+    private hist_x = d3.scaleLinear().range([0, 1]);
+    private hist_y = d3.scaleLinear().range([0, 1]);
 
-    constructor (element: d3.Selection<any>) {
+    constructor (element: d3.Selection<any, any, any, any>) {
         super(element);
         // this.radial_map = d => 1;
     }
 
     public set data(data: T[]) {
-        this.hist_fn = d3.layout.histogram<T>()
+        this.hist_fn = d3.histogram<T>()
             .value(this.radial_map)
             .bins(this.n_points + 1);
 
@@ -34,7 +34,7 @@ export class LineSpiral<T> extends SpiralBase<T> {
         this.hist_y.domain(d3.extent(this.hist_data, a => a.y));
     }
 
-    public render(): d3.Selection<any> {
+    public render(): d3.Selection<any, any, any, any> {
         const svg = this.element.append('svg')
                     .attr('height', this.chartHeight)
                     .attr('width', this.chartWidth);
@@ -47,7 +47,7 @@ export class LineSpiral<T> extends SpiralBase<T> {
         const polar_data = this.hist_data.slice(1).map<[Polar, number]>(
             a => [this.get_polar(a.x + a.dx / 2), a.y]);
 
-        const line = d3.svg.line<Polar>()
+        const line = d3.line<Polar>()
             .x(a => a.x) // * this.radial_scale)
             .y(a => a.y); // * this.radial_scale);
 
@@ -74,7 +74,7 @@ export class LineSpiral<T> extends SpiralBase<T> {
         return plot;
     }
 
-    public update(data: T[]): d3.Selection<any> {
+    public update(data: T[]): d3.Selection<any, any, any, any> {
         this.element.select('svg').remove();
         this.data = data;
         return this.render();
