@@ -48,6 +48,11 @@ export interface IHistogramOutput {
 export abstract class Base<T> {
     public chartWidth = 800;
     public chartHeight = 600;
+
+    /**
+     * Refers to the `d3.Selection` containing the element that is being
+     * drawn to.
+     */
     public element: d3.Selection<any>;
 
     constructor (element: d3.Selection<any>) {

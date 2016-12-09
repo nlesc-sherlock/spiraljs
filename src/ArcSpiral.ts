@@ -1,7 +1,6 @@
 import * as d3 from 'd3';
 
 import { IHistogramOutput } from './basechart';
-import { Polar }            from './basechart';
 import { SpiralBase }       from './SpiralBase';
 
 // (used to be in spiral.ts, module Chart)
@@ -47,14 +46,14 @@ export class ArcSpiral<T> extends SpiralBase<T> {
      */
     public arc(x0: number, x1: number, r_inner: number, r_outer: number) {
         const dr = this.period_fraction * this.radial_scale;
-        const inner_left = this.get_polar(x0)
-            .inc_r(dr * r_inner);
-        const inner_right = this.get_polar(x1)
-            .inc_r(dr * r_inner);
-        const outer_left = this.get_polar(x0)
-            .inc_r(dr * r_outer);
-        const outer_right = this.get_polar(x1)
-            .inc_r(dr * r_outer);
+        const p0 = this.get_polar(x0);
+        const p1 = this.get_polar(x1);
+        const r_mid = (p0.r + p1.r) / 2;
+        return d3.svg.arc()
+            .innerRadius(r_mid + dr * r_inner)
+            .outerRadius(r_mid + dr * r_outer)
+            .startAngle(p0.phi)
+            .endAngle(p1.phi);
     }
 
     public render(): d3.Selection<any> {
@@ -67,32 +66,15 @@ export class ArcSpiral<T> extends SpiralBase<T> {
         const plot = svg.append('g')
             .attr('transform', 'translate(400 300)');
 
-        // this.render_spiral_axis(plot);
-        const polar_data = this.hist_data.slice(1).map<[Polar, number]>(
-            a => [this.get_polar(a.x + a.dx / 2), a.y]);
-
-        const line = d3.svg.line<Polar>()
-            .x(a => a.x) // * this.radial_scale)
-            .y(a => a.y); // * this.radial_scale);
-
-        // console.log(polar_data);
-        // chop the graph in many pieces
-        const piece_size = this.n_points / 256;
-        for (let i = 0; i < 256; i += 1) {
-            const piece = polar_data.slice(
-                piece_size * i, piece_size * (i + 1));
-            const top_part = piece.map(
-                a => a[0].inc_r(a[1] * (this.period_fraction * 3)));
-            const bottom_part = piece.map(
-                a => a[0].inc_r(- a[1] * (this.period_fraction * 3)))
-                .reverse();
-
+        for (let i = 0; i < this.n_points; i += 1) {
+            const d = this.hist_data[i];
+            const arc = this.arc(
+                this.hist_x(d.x), this.hist_x(d.x + d.dx), 0, 1);
             plot.append('path')
-                .datum(top_part.concat(bottom_part))
-                .attr('class', 'blob')
-                .attr('d', line)
-                .style('fill', 'blue')
-                .style('fill-opacity', 0.7);
+                .attr('class', 'arc')
+                .attr('d', arc)
+                .style('fill', 'red')
+                .style('fill-opacity', this.hist_y(d.y));
         }
 
         return plot;
