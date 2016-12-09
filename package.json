@@ -1,6 +1,6 @@
 {
   "name": "spiraljs",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.1",
   "description": "Spiralchart visualization using TypeScript and D3.js",
   "main": "./dist/spiral.min.js",
   "types": "./dist/spiral.d.ts",
@@ -71,6 +71,7 @@
     "karma-json-fixtures-preprocessor": "0.0.6",
     "karma-phantomjs-launcher": "^1.0.1",
     "karma-spec-reporter": "0.0.26",
+    "karma-webpack": "^1.8.0",
     "mkdirp": "^0.5.1",
     "remap-istanbul": "^0.6.4",
     "trash-cli": "^1.4.0",
@@ -79,17 +80,18 @@
     "typedoc": "^0.5.1",
     "typescript": "^2.0.10",
     "uglify-js": "^2.7.3",
-    "uglifycss": "0.0.25"
+    "uglifycss": "0.0.25",
+    "webpack": "^2.1.0-beta.27"
   },
   "dependencies": {
     "@types/lodash": "^4.14.42",
     "crossfilter": "^1.3.12",
-    "d3": "^3.5.17",
+    "d3": "^4.4.0",
     "moment": "^2.14.1"
   },
   "browser": {
     "crossfilter": "node_modules/crossfilter/crossfilter.js",
-    "d3": "node_modules/d3/d3.js",
+    "d3": "node_modules/d3/index.js",
     "moment": "node_modules/moment/moment.js"
   },
   "browserify-shim": {

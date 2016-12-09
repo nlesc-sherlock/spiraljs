@@ -14,7 +14,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        {pattern: 'node_modules/d3/d3.js', included: true},
+        {pattern: 'node_modules/d3/index.js', included: true},
         {pattern: 'node_modules/lodash/index.js', included: true},
         {pattern: 'dist/spiral.js', included: true},
         {pattern: 'test/*.unit.js', included: true}
@@ -31,7 +31,9 @@ module.exports = function(config) {
     preprocessors: {
         '**/*.html': ['html2js'],
         '**/*.json': ['json_fixtures'],
-        'dist/spiral.js': ['coverage']
+        'dist/spiral.js': ['coverage'],
+        'node_modules/d3/index.js': ['webpack'],
+        'node_modules/lodash/index.js': ['webpack']
     },
 
     // I think this next property is a custom field (not part of the default
@@ -84,5 +86,6 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
+
   });
 };
