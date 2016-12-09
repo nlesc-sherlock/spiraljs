@@ -15,7 +15,7 @@ import { SpiralBase }       from './SpiralBase';
 export class LineSpiral<T> extends SpiralBase<T> {
     private hist_data: IHistogramOutput[];
     private hist_fn: d3.layout.Histogram<T>;
-    private n_points = 10000;
+    private n_points = 5000;
     private hist_x = d3.scale.linear().range([0, 1]);
     private hist_y = d3.scale.linear().range([0, 1]);
 
@@ -42,10 +42,11 @@ export class LineSpiral<T> extends SpiralBase<T> {
         const plot = svg.append('g')
             .attr('transform', 'translate(400 300)');
 
-        // this.render_spiral_axis(plot);
+        this.render_spiral_axis(plot);
 
-        const polar_data = this.hist_data.slice(1).map<[Polar, number]>(
-            a => [this.get_polar(a.x + a.dx / 2), a.y]);
+        const polar_data = this.hist_data.slice(1)
+            .map<[Polar, number]>(
+                a => [this.get_polar(a.x + a.dx / 2), a.y]);
 
         const line = d3.svg.line<Polar>()
             .x(a => a.x) // * this.radial_scale)

@@ -50,10 +50,12 @@ export class ArcSpiral<T> extends SpiralBase<T> {
         const p1 = this.get_polar(x1);
         const r_mid = (p0.r + p1.r) / 2;
         return d3.svg.arc()
-            .innerRadius(r_mid + dr * r_inner)
-            .outerRadius(r_mid + dr * r_outer)
-            .startAngle(p0.phi)
-            .endAngle(p1.phi);
+            .innerRadius(r_mid + dr * r_inner * 0.8)
+            .outerRadius(r_mid + dr * r_outer * 0.8)
+            .startAngle(p0.phi + 1 * Math.PI / 2)
+            .endAngle(p1.phi > p0.phi
+                ? p1.phi + 1 * Math.PI / 2
+                : p1.phi + 5 * Math.PI / 2);
     }
 
     public render(): d3.Selection<any> {
@@ -66,10 +68,12 @@ export class ArcSpiral<T> extends SpiralBase<T> {
         const plot = svg.append('g')
             .attr('transform', 'translate(400 300)');
 
+        this.render_spiral_axis(plot);
+
         for (let i = 0; i < this.n_points; i += 1) {
             const d = this.hist_data[i];
             const arc = this.arc(
-                this.hist_x(d.x), this.hist_x(d.x + d.dx), 0, 1);
+                this.hist_x(d.x), this.hist_x(d.x + d.dx), 0, 1.0);
             plot.append('path')
                 .attr('class', 'arc')
                 .attr('d', arc)
