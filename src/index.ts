@@ -1,3 +1,4 @@
+export { ArcSpiral }         from './ArcSpiral';
 export { Complex }           from './Complex';
 export { fft, ifft }         from './fourier';
 export { BubbleSpiral }      from './BubbleSpiral';
