@@ -22,7 +22,7 @@
     "jslint": "jslint test/*.js",
     "lint": "npm run tslint && npm run jshint && npm run jslint && npm run csslint",
     "postdist": "npm run exorcist && npm run uglifyjs && npm run uglifycss && npm run dts",
-    "postdts": "mkdirp dist && mv build/spiraljs.d.ts dist/",
+    "postdts": "mkdirp dist && mv build/spiral.d.ts dist/",
     "postversion": "git log --pretty=oneline --max-count 10",
     "precover": "trash docs/sites/coverage/ && npm run jslint && npm run jshint && npm run dist",
     "predist": "trash build/ && mkdirp build && trash dist/ && mkdirp dist && npm run tslint && npm run csslint",
