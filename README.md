@@ -10,7 +10,7 @@ _this library is still a work in progress_
 
 # ``codepen.io`` live examples
 
-- [BubleSpiral](http://codepen.io/jspaaks/pen/mOjeda)
+- [``BubleSpiral``](http://codepen.io/jspaaks/pen/mOjeda)
 
 
 # General workflow
