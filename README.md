@@ -8,11 +8,27 @@
 
 _this library is still a work in progress_
 
+[This repository](https://github.com/nlesc-sherlock/spiraljs-demo) contains various examples of how spiraljs can be used.
+
 # codepen.io live examples
 
 - [``BubleSpiral``](http://codepen.io/jspaaks/pen/mOjeda)
 
 # Gallery (static images)
+
+## ArcSpiral
+
+TODO
+
+## BubbleSpiral
+
+![BubbleSpiral-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/BubbleSpiral-example.png "BubbleSpiral-example.png")
+
+## LineSpiral
+
+TODO
+
+## TimedBubbleSpiral
 
 TODO
 
