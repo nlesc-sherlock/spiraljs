@@ -81,8 +81,7 @@
     "uglifycss": "0.0.25"
   },
   "dependencies": {
-    "d3": "^3.5.17",
-    "moment": "^2.14.1"
+    "d3": "^3.5.17"
   },
   "browser": {
     "crossfilter": "node_modules/crossfilter/crossfilter.js",
