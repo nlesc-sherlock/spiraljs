@@ -50,11 +50,11 @@ export abstract class Base<T> {
     public chartHeight = 600;
     public element: d3.Selection<any, any, any, any>;
 
-    constructor (element: d3.Selection<any>) {
+    constructor (element: d3.Selection<any, any, any, any>) {
         this.element = element;
     }
 
-    public render(_: T[]): d3.Selection<any> {
+    public render(_: T[]): d3.Selection<any, any, any, any> {
         return null;
     }
 }

@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-
+import * as d3Array from 'd3-array';
 import { IHistogramOutput } from './basechart';
 import { Polar }            from './basechart';
 import { SpiralBase }       from './SpiralBase';
@@ -14,24 +14,30 @@ import { SpiralBase }       from './SpiralBase';
  */
 export class LineSpiral<T> extends SpiralBase<T> {
     private hist_data: IHistogramOutput[];
-    private hist_fn: d3.histogram<T>;
+    //private hist_fn: d3.histogram<T>;
     private n_points = 10000;
-    private hist_x = d3.scaleLinear().range([0, 1]);
+    private hist_x0 = d3.scaleLinear().range([0, 1]);
+    private hist_x1 = d3.scaleLinear().range([0, 1]);
     private hist_y = d3.scaleLinear().range([0, 1]);
+    //private hist_fn : any;
+
+    public radial_map: any;
 
     constructor (element: d3.Selection<any, any, any, any>) {
         super(element);
-        // this.radial_map = d => 1;
     }
 
     public set data(data: T[]) {
-        this.hist_fn = d3.histogram<T>()
-            .value(this.radial_map)
-            .bins(this.n_points + 1);
+        const test = d3Array.histogram().thresholds(this.n_points + 1).value(this.radial_map);
+        console.log(d3.histogram);
+        console.log(test);
 
-        this.hist_data = this.hist_fn(data);
-        this.hist_x.domain(d3.extent(this.hist_data, a => a.x));
+        this.hist_data = test(data);
+        this.hist_x0.domain(d3.extent(this.hist_data, a => a.x0));
+        this.hist_x1.domain(d3.extent(this.hist_data, a => a.x1));
         this.hist_y.domain(d3.extent(this.hist_data, a => a.y));
+
+        console.log('LineSpriral: data:: 38', data);
     }
 
     public render(): d3.Selection<any, any, any, any> {
@@ -45,13 +51,15 @@ export class LineSpiral<T> extends SpiralBase<T> {
         // this.render_spiral_axis(plot);
 
         const polar_data = this.hist_data.slice(1).map<[Polar, number]>(
-            a => [this.get_polar(a.x + a.dx / 2), a.y]);
+            a => [this.get_polar(a.x0 + a.x1 / 2), a.y]);
 
         const line = d3.line<Polar>()
-            .x(a => a.x) // * this.radial_scale)
-            .y(a => a.y); // * this.radial_scale);
+            .x(a => a.x)
+            .y(a => a.y);
 
-        // console.log(polar_data);
+        console.log(line);
+        console.log(polar_data);
+
         // chop the graph in many pieces
         const piece_size = this.n_points / 256;
         for (let i = 0; i < 256; i += 1) {

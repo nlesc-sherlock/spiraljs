@@ -21,7 +21,7 @@
     "jshint": "jshint test/*.js",
     "jslint": "jslint test/*.js",
     "lint": "npm run tslint && npm run jshint && npm run jslint && npm run csslint",
-    "postdist": "npm run exorcist && npm run uglifyjs && npm run uglifycss && npm run dts",
+    "postdist": "npm run exorcist && npm run uglifyjs && npm run uglifycss && echo 'npm run dts'",
     "postdts": "mkdirp dist && mv build/spiral.d.ts dist/",
     "postversion": "git log --pretty=oneline --max-count 10",
     "precover": "trash docs/sites/coverage/ && npm run jslint && npm run jshint && npm run dist",
@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@nlesc/tslint-config-react-app": "^1.1.1",
+    "@types/d3": "^4.4.0",
     "@types/jasmine": "^2.5.38",
     "browserify": "^13.1.0",
     "browserify-shim": "^3.8.12",
@@ -83,7 +84,6 @@
     "webpack": "^2.1.0-beta.27"
   },
   "dependencies": {
-    "@types/d3": "^4.4.0",
     "@types/lodash": "^4.14.42",
     "crossfilter": "^1.3.12",
     "d3": "^4.4.0",
