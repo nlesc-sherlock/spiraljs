@@ -14,6 +14,20 @@ _this library is still a work in progress_
 
 # Gallery (static images)
 
+## ArcSpiral
+
+TODO
+
+## BubbleSpiral
+
+![BubbleSpiral-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/BubbleSpiral-example.png "BubbleSpiral-example.png")
+
+## LineSpiral
+
+TODO
+
+## TimedBubbleSpiral
+
 TODO
 
 # Documentation for users
