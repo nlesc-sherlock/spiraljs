@@ -8,7 +8,7 @@
 
 _this library is still a work in progress_
 
-[This repository](https://github.com/nlesc-sherlock/spiraljs-demo) contains various examples of how spiraljs can be used.
+The sibling repository [https://github.com/nlesc-sherlock/spiraljs-demo](https://github.com/nlesc-sherlock/spiraljs-demo) contains various examples of how spiraljs can be used.
 
 # codepen.io live examples
 
