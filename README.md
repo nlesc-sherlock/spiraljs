@@ -8,7 +8,7 @@
 
 _this library is still a work in progress_
 
-# ``codepen.io`` live examples
+# codepen.io live examples
 
 - [``BubleSpiral``](http://codepen.io/jspaaks/pen/mOjeda)
 
