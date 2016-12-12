@@ -3,64 +3,70 @@ digraph spiraljs{
 1 [label="clean-build", tooltip="trash build/"]
 2 [label="clean-cover", tooltip="trash docs/sites/coverage/"]
 3 [label="clean-dist", tooltip="trash dist/"]
-4 [label="clean-downloaded", tooltip="trash typings/ node_modules/"]
+4 [label="clean-downloaded", tooltip="trash node_modules/"]
 5 [label="clean-sites", tooltip="npm run clean-cover & npm run clean-tsdoc"]
 6 [label="clean-tsdoc", tooltip="trash docs/sites/tsdoc/"]
 7 [label="cover", tooltip="npm run test && npm run remap-istanbul-json && npm run remap-istanbul-html"]
 8 [label="csslint", tooltip="cat src/*.css > dist/spiral.css && csslint --config=.csslintrc --format=compact dist/spiral.css"]
 9 [label="dist", tooltip="browserify src/index.ts --debug --standalone spiral -p [ tsify --project . ] > build/spiral-with-source-maps.js"]
-10 [label="everything", tooltip="npm run tsdoc && npm run cover"]
-11 [label="exorcist", tooltip="<build/spiral-with-source-maps.js exorcist dist/spiral.js.map > dist/spiral.js"]
-12 [label="jshint", tooltip="jshint test/*.js"]
-13 [label="jslint", tooltip="jslint test/*.js"]
-14 [label="lint", tooltip="npm run tslint && npm run jshint && npm run jslint && npm run csslint"]
-15 [label="postdist", tooltip="npm run exorcist && npm run uglifyjs && npm run uglifycss"]
-16 [label="postversion", tooltip="git log --pretty=oneline --max-count 10", fillcolor="#fff2be", style="filled"]
-17 [label="precover", tooltip="trash docs/sites/coverage/ && npm run jslint && npm run jshint && npm run dist"]
-18 [label="predist", tooltip="trash build/ && mkdirp build && trash dist/ && mkdirp dist && npm run tslint && npm run csslint"]
-19 [label="pretsdoc", tooltip="npm run clean-tsdoc && mkdirp docs/sites/tsdoc"]
-20 [label="preversion", tooltip="npm run purge && npm install && typings install && npm run dist && npm run test", fillcolor="#fff2be", style="filled"]
-21 [label="purge", tooltip="npm run clean & npm run clean-downloaded"]
-22 [label="remap-istanbul-html", tooltip="remap-istanbul --input docs/sites/coverage/coverage-remapped.json --output docs/sites/coverage/remapped --type html --exclude node_modules"]
-23 [label="remap-istanbul-json", tooltip="remap-istanbul --input docs/sites/coverage/coverage.json --output docs/sites/coverage/coverage-remapped.json"]
-24 [label="test", tooltip="karma start karma.conf.js", fillcolor="#fff2be", style="filled"]
-25 [label="tsdoc", tooltip="typedoc --mode modules --out docs/sites/tsdoc/ src/index.ts"]
-26 [label="tslint", tooltip="tslint --config tslint.json ./src/**/*.ts"]
-27 [label="uglifycss", tooltip="uglifycss dist/spiral.css > dist/spiral.min.css"]
-28 [label="uglifyjs", tooltip="uglifyjs dist/spiral.js --output dist/spiral.min.js --source-map dist/spiral.min.js.map --screw-ie8 --in-source-map dist/spiral.js.map --source-map-url spiral.min.js.map"]
-29 [label="version", fillcolor="#fff2be", style="filled"]
+10 [label="dts", tooltip="tsc -p . -d --outDir build && dts-bundle --name spiral --main build/index.d.ts"]
+11 [label="everything", tooltip="npm run tsdoc && npm run cover"]
+12 [label="exorcist", tooltip="<build/spiral-with-source-maps.js exorcist dist/spiral.js.map > dist/spiral.js"]
+13 [label="jshint", tooltip="jshint test/*.js"]
+14 [label="jslint", tooltip="jslint test/*.js"]
+15 [label="lint", tooltip="npm run tslint && npm run jshint && npm run jslint && npm run csslint"]
+16 [label="postdist", tooltip="npm run exorcist && npm run uglifyjs && npm run uglifycss && npm run dts"]
+17 [label="postdts", tooltip="mkdirp dist && mv build/spiral.d.ts dist/"]
+18 [label="postversion", tooltip="git log --pretty=oneline --max-count 10", fillcolor="#fff2be", style="filled"]
+19 [label="precover", tooltip="trash docs/sites/coverage/ && npm run jslint && npm run jshint && npm run dist"]
+20 [label="predist", tooltip="trash build/ && mkdirp build && trash dist/ && mkdirp dist && npm run tslint && npm run csslint"]
+21 [label="predts", tooltip="trash build/"]
+22 [label="pretsdoc", tooltip="npm run clean-tsdoc && mkdirp docs/sites/tsdoc"]
+23 [label="preversion", tooltip="npm run purge && npm install && npm run dist && npm run test", fillcolor="#fff2be", style="filled"]
+24 [label="purge", tooltip="npm run clean & npm run clean-downloaded"]
+25 [label="remap-istanbul-html", tooltip="remap-istanbul --input docs/sites/coverage/coverage-remapped.json --output docs/sites/coverage/remapped --type html --exclude node_modules"]
+26 [label="remap-istanbul-json", tooltip="remap-istanbul --input docs/sites/coverage/coverage.json --output docs/sites/coverage/coverage-remapped.json"]
+27 [label="test", tooltip="karma start karma.conf.js", fillcolor="#fff2be", style="filled"]
+28 [label="tsdoc", tooltip="typedoc --mode modules --out docs/sites/tsdoc/ src/index.ts"]
+29 [label="tslint", tooltip="tslint --config tslint.json ./src/**/*.ts"]
+30 [label="uglifycss", tooltip="uglifycss dist/spiral.css > dist/spiral.min.css"]
+31 [label="uglifyjs", tooltip="uglifyjs dist/spiral.js --output dist/spiral.min.js --source-map dist/spiral.min.js.map --screw-ie8 --in-source-map dist/spiral.js.map --source-map-url spiral.min.js.map"]
+32 [label="version", fillcolor="#fff2be", style="filled"]
 0 -> 1
 0 -> 3
 0 -> 5
 5 -> 2
 5 -> 6
-7 -> 24
-7 -> 23
-7 -> 22
-10 -> 25
-10 -> 7
-14 -> 26
-14 -> 12
-14 -> 13
-14 -> 8
-15 -> 11
-15 -> 28
-15 -> 27
-17 -> 13
-17 -> 12
-17 -> 9
-18 -> 26
-18 -> 8
-19 -> 6
-20 -> 21
-20 -> 9
-20 -> 24
-21 -> 0
-21 -> 4
-9 -> 15
-29 -> 16
-7 -> 17
-9 -> 18
-25 -> 19
-29 -> 20
+7 -> 27
+7 -> 26
+7 -> 25
+11 -> 28
+11 -> 7
+15 -> 29
+15 -> 13
+15 -> 14
+15 -> 8
+16 -> 12
+16 -> 31
+16 -> 30
+16 -> 10
+19 -> 14
+19 -> 13
+19 -> 9
+20 -> 29
+20 -> 8
+22 -> 6
+23 -> 24
+23 -> 9
+23 -> 27
+24 -> 0
+24 -> 4
+9 -> 16
+10 -> 17
+32 -> 18
+7 -> 19
+9 -> 20
+10 -> 21
+28 -> 22
+32 -> 23
 }
