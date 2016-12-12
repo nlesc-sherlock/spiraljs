@@ -14,7 +14,7 @@ export class TimedBubbleSpiral<T> extends LineSpiral<ITimedRecord<T>> {
         }
     };
 
-    constructor (element: d3.Selection<any>) {
+    constructor (element: d3.Selection<any, any, any, any>) {
         super(element);
     }
 
@@ -43,7 +43,7 @@ export class TimedBubbleSpiral<T> extends LineSpiral<ITimedRecord<T>> {
         return d.date.toDateString();
     }
 
-    public render(): d3.Selection<any> {
+    public render(): d3.Selection<any, any, any, any> {
         const plot = super.render();
         this.add_axis(
             plot,

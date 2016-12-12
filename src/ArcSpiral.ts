@@ -1,9 +1,11 @@
-import * as d3 from 'd3';
+import { extent }             from 'd3-array';
+import { HistogramGenerator } from 'd3-array';
+import { histogram }          from 'd3-array';
+import { scaleLinear }        from 'd3-scale';
+import { arc }                from 'd3-shape';
 
-import { IHistogramOutput } from './basechart';
-import { SpiralBase }       from './SpiralBase';
-
-// (used to be in spiral.ts, module Chart)
+import { IHistogramOutput }   from './basechart';
+import { SpiralBase }         from './SpiralBase';
 
 /**
  * Charts data table as a filled curve on a spiral. We first create a histogram
@@ -13,24 +15,24 @@ import { SpiralBase }       from './SpiralBase';
  */
 export class ArcSpiral<T> extends SpiralBase<T> {
     private hist_data: IHistogramOutput[];
-    private hist_fn: d3.layout.Histogram<T>;
+    private hist_fn: HistogramGenerator<any, any>;
     private n_points = 1000;
-    private hist_x = d3.scale.linear().range([0, 1]);
-    private hist_y = d3.scale.linear().range([0, 1]);
+    private hist_x = scaleLinear().range([0, 1]);
+    private hist_y = scaleLinear().range([0, 1]);
 
-    constructor (element: d3.Selection<any>) {
+    constructor (element: d3.Selection<any, any, any, any>) {
         super(element);
         // this.radial_map = d => 1;
     }
 
     public set data(data: T[]) {
-        this.hist_fn = d3.layout.histogram<T>()
+        this.hist_fn = histogram()
             .value(this.radial_map)
             .bins(this.n_points + 1);
 
         this.hist_data = this.hist_fn(data);
-        this.hist_x.domain(d3.extent(this.hist_data, a => a.x));
-        this.hist_y.domain(d3.extent(this.hist_data, a => a.y));
+        this.hist_x.domain(extent(this.hist_data, a => a.x));
+        this.hist_y.domain(extent(this.hist_data, a => a.y));
     }
 
     /**
@@ -49,7 +51,7 @@ export class ArcSpiral<T> extends SpiralBase<T> {
         const p0 = this.get_polar(x0);
         const p1 = this.get_polar(x1);
         const r_mid = (p0.r + p1.r) / 2;
-        return d3.svg.arc()
+        return arc()
             .innerRadius(r_mid + dr * r_inner * 0.8)
             .outerRadius(r_mid + dr * r_outer * 0.8)
             .startAngle(p0.phi + 1 * Math.PI / 2)
@@ -58,7 +60,7 @@ export class ArcSpiral<T> extends SpiralBase<T> {
                 : p1.phi + 5 * Math.PI / 2);
     }
 
-    public render(): d3.Selection<any> {
+    public render(): d3.Selection<any, any, any, any> {
         // create SVG
         const svg = this.element.append('svg')
                     .attr('height', this.chartHeight)
@@ -84,7 +86,7 @@ export class ArcSpiral<T> extends SpiralBase<T> {
         return plot;
     }
 
-    public update(data: T[]): d3.Selection<any> {
+    public update(data: T[]): d3.Selection<any, any, any, any> {
         this.element.select('svg').remove();
         this.data = data;
         return this.render();

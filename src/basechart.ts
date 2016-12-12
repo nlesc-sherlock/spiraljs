@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+import { Selection } from 'd3-selection';
 
 export interface ICoordinate {
     x: number;
@@ -53,13 +53,13 @@ export abstract class Base<T> {
      * Refers to the `d3.Selection` containing the element that is being
      * drawn to.
      */
-    public element: d3.Selection<any>;
+    public element: Selection<any, any, any, any>;
 
-    constructor (element: d3.Selection<any>) {
+    constructor (element: Selection<any, any, any, any>) {
         this.element = element;
     }
 
-    public render(_: T[]): d3.Selection<any> {
+    public render(_: T[]): Selection<any, any, any, any> {
         return null;
     }
 }

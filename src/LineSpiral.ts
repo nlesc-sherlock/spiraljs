@@ -1,10 +1,12 @@
-import * as d3 from 'd3';
+import { extent }      from 'd3-array';
+import { histogram }   from 'd3-array';
+import { scaleLinear } from 'd3-scale';
+import { Selection }   from 'd3-selection';
+import { line }        from 'd3-shape';
 
 import { IHistogramOutput } from './basechart';
 import { Polar }            from './basechart';
 import { SpiralBase }       from './SpiralBase';
-
-// (used to be in spiral.ts, module Chart)
 
 /**
  * Charts data table as a filled curve on a spiral. We first create a histogram
@@ -14,27 +16,27 @@ import { SpiralBase }       from './SpiralBase';
  */
 export class LineSpiral<T> extends SpiralBase<T> {
     private hist_data: IHistogramOutput[];
-    private hist_fn: d3.layout.Histogram<T>;
+    private hist_fn: any;
     private n_points = 5000;
-    private hist_x = d3.scale.linear().range([0, 1]);
-    private hist_y = d3.scale.linear().range([0, 1]);
+    private hist_x = scaleLinear().range([0, 1]);
+    private hist_y = scaleLinear().range([0, 1]);
 
-    constructor (element: d3.Selection<any>) {
+    constructor (element: Selection<any, any, any, any>) {
         super(element);
         // this.radial_map = d => 1;
     }
 
     public set data(data: T[]) {
-        this.hist_fn = d3.layout.histogram<T>()
+        this.hist_fn = histogram()
             .value(this.radial_map)
             .bins(this.n_points + 1);
 
         this.hist_data = this.hist_fn(data);
-        this.hist_x.domain(d3.extent(this.hist_data, a => a.x));
-        this.hist_y.domain(d3.extent(this.hist_data, a => a.y));
+        this.hist_x.domain(extent(this.hist_data, a => a.x));
+        this.hist_y.domain(extent(this.hist_data, a => a.y));
     }
 
-    public render(): d3.Selection<any> {
+    public render(): Selection<any, any, any, any> {
         const svg = this.element.append('svg')
                     .attr('height', this.chartHeight)
                     .attr('width', this.chartWidth);
@@ -48,9 +50,9 @@ export class LineSpiral<T> extends SpiralBase<T> {
             .map<[Polar, number]>(
                 a => [this.get_polar(a.x + a.dx / 2), a.y]);
 
-        const line = d3.svg.line<Polar>()
-            .x(a => a.x) // * this.radial_scale)
-            .y(a => a.y); // * this.radial_scale);
+        const theline = line<Polar>()
+            .x((a: any) => { return a.x; }) // * this.radial_scale)
+            .y((a: any) => { return a.y; }); // * this.radial_scale);
 
         // console.log(polar_data);
         // chop the graph in many pieces
@@ -67,7 +69,7 @@ export class LineSpiral<T> extends SpiralBase<T> {
             plot.append('path')
                 .datum(top_part.concat(bottom_part))
                 .attr('class', 'blob')
-                .attr('d', line)
+                .attr('d', theline)
                 .style('fill', 'blue')
                 .style('fill-opacity', 0.7);
         }
@@ -75,7 +77,7 @@ export class LineSpiral<T> extends SpiralBase<T> {
         return plot;
     }
 
-    public update(data: T[]): d3.Selection<any> {
+    public update(data: T[]): Selection<any, any, any, any> {
         this.element.select('svg').remove();
         this.data = data;
         return this.render();

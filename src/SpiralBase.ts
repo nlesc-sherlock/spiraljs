@@ -1,10 +1,11 @@
-import * as d3 from 'd3';
+import { range }       from 'd3-array';
+import { Selection }   from 'd3-selection';
+import { curveBasis }  from 'd3-shape';
+import { line }        from 'd3-shape';
 
 import { Base }        from './basechart';
 import { Polar }       from './basechart';
 import { ICoordinate } from './basechart';
-
-// (used to be in spiral.ts, module Chart)
 
 /**
  * This is the base class to other charts on a spiral. It gives a low level
@@ -73,7 +74,7 @@ export class SpiralBase<T> extends Base<T> {
         }
     }
 
-    constructor (element: d3.Selection<any>) {
+    constructor (element: Selection<any, any, any, any>) {
         super(element);
         this.radial_scale = this.chartHeight * 0.45;
     }
@@ -97,22 +98,22 @@ export class SpiralBase<T> extends Base<T> {
      * Render the line on top of which the data points should be plotted.
      */
     public render_spiral_axis(
-            plot: d3.Selection<any>) {
-        const pts: ICoordinate[] = d3.range(1000).map(
+            plot: Selection<any, any, any, any>) {
+        const pts: ICoordinate[] = range(1000).map(
                 (i) => this.get_polar(i / 1000));
 
         const group = plot.append('g')
             .attr('class', 'axis');
 
-        const line = d3.svg.line<ICoordinate>()
-            .x((d) => d.x)
-            .y((d) => d.y)
-            .interpolate('basis');
+        const theline = line<ICoordinate>()
+            .x((d: any) => d.x)
+            .y((d: any) => d.y)
+            .curve(curveBasis);
 
         group.append('path')
             .datum(pts)
             .attr('class', 'line')
-            .attr('d', line)
+            .attr('d', theline)
             .style('fill', 'none')
             .style('stroke', '#000')
             .style('stroke-width', 0.5);
@@ -124,7 +125,7 @@ export class SpiralBase<T> extends Base<T> {
      * Draw an axis at a certain angle (radians), with a given label.
      */
     public add_axis(
-            selection: d3.Selection<any>,
+            selection: Selection<any, any, any, any>,
             angle: number[], label: string[]) {
         const start = (a: any) => new Polar(0.2 * this.radial_scale, a);
         const end = (a: any) => new Polar(1.0 * this.radial_scale, a);

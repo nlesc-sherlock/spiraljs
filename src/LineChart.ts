@@ -1,4 +1,8 @@
-import * as d3 from 'd3';
+import { extent }      from 'd3-array';
+import { axisBottom }  from 'd3-axis';
+import { axisLeft }    from 'd3-axis';
+import { scaleLinear } from 'd3-scale';
+import { line }        from 'd3-shape';
 
 import { Base }        from './basechart';
 import { ICoordinate } from './basechart';
@@ -7,7 +11,7 @@ import { IMargin }     from './basechart';
 export class LineChart extends Base<ICoordinate> {
     public margin: IMargin;
 
-    constructor (element: d3.Selection<any>) {
+    constructor (element: d3.Selection<any, any, any, any>) {
         super(element);
         this.margin = {top: 20, right: 20, bottom: 30, left: 50};
     }
@@ -19,37 +23,38 @@ export class LineChart extends Base<ICoordinate> {
         return this.chartHeight - this.margin.top - this.margin.bottom;
     }
 
-    public render(data: ICoordinate[]): d3.Selection<any> {
-        const x = d3.scale.linear().range([0, this.width]);
-        const y = d3.scale.linear().range([this.height, 0]);
-        const xAxis = d3.svg.axis().scale(x).orient('bottom');
-        const yAxis = d3.svg.axis().scale(y).orient('left');
+    public render(data: ICoordinate[]): d3.Selection<any, any, any, any> {
+        const x = scaleLinear()
+            .range([0, this.width])
+            .domain(extent(data, a => a.x));
+
+        const y = scaleLinear()
+            .range([this.height, 0])
+            .domain(extent(data, a => a.y));
+
         const svg = this.element.append('svg')
             .attr('width', this.chartWidth)
             .attr('height', this.chartHeight)
             .append('g')
             .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
-        x.domain(d3.extent(data, a => a.x));
-        y.domain(d3.extent(data, a => a.y));
-
-        const line = d3.svg.line<ICoordinate>()
+        const theline = line<ICoordinate>()
             .x(a => x(a.x))
             .y(a => y(a.y));
 
         svg.append('g')
             .attr('class', 'x axis')
             .attr('transform', 'translate(0,' + this.height + ')')
-            .call(xAxis);
+            .call(axisBottom(x));
 
         svg.append('g')
             .attr('class', 'y axis')
-            .call(yAxis);
+            .call(axisLeft(y));
 
         svg.append('path')
             .datum(data)
             .attr('class', 'line')
-            .attr('d', line);
+            .attr('d', theline);
 
         return svg;
     }

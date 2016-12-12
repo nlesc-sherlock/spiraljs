@@ -33,7 +33,7 @@
     "remap-istanbul-html": "remap-istanbul --input docs/sites/coverage/coverage-remapped.json --output docs/sites/coverage/remapped --type html --exclude node_modules",
     "remap-istanbul-json": "remap-istanbul --input docs/sites/coverage/coverage.json --output docs/sites/coverage/coverage-remapped.json",
     "test": "karma start karma.conf.js",
-    "tsdoc": "typedoc --mode modules --out docs/sites/tsdoc/ src/index.ts",
+    "tsdoc": "echo DISABLED: typedoc --mode modules --out docs/sites/tsdoc/ src/index.ts",
     "tslint": "tslint --config tslint.json ./src/**/*.ts",
     "uglifycss": "uglifycss dist/spiral.css > dist/spiral.min.css",
     "uglifyjs": "uglifyjs dist/spiral.js --output dist/spiral.min.js --source-map dist/spiral.min.js.map --screw-ie8 --in-source-map dist/spiral.js.map --source-map-url spiral.min.js.map"
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@nlesc/tslint-config-react-app": "^1.1.1",
-    "@types/d3": "^3.5.36",
+    "@types/d3": "^4.4.0",
     "@types/jasmine": "^2.5.38",
     "browserify": "^13.1.0",
     "browserify-shim": "^3.8.12",
@@ -84,7 +84,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.42",
     "crossfilter": "^1.3.12",
-    "d3": "^3.5.17",
+    "d3": "^4.4.0",
     "moment": "^2.14.1"
   },
   "browser": {
