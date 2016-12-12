@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">25.64% </span>
+        <span class="strong">22.92% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>10/39</span>
+        <span class='fraction'>11/48</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">25% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>1/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">8.33% </span>
+        <span class="strong">7.69% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/12</span>
+        <span class='fraction'>1/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">23.53% </span>
+        <span class="strong">21.43% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/34</span>
+        <span class='fraction'>9/42</span>
       </div>
     </div>
   </div>
@@ -125,9 +125,15 @@
 80
 81
 82
-83</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+83
+84
+85
+86
+87
+88
+89
+90</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -145,11 +151,27 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -157,16 +179,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -178,6 +190,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -208,8 +222,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as d3 from 'd3';<span class="branch-1 cbranch-no" title="branch not covered" ></span>
-&nbsp;
-import { IHistogramOutput } from './basechart';
+import * as d3Array from 'd3-array';
 import { Polar }            from './basechart';
 import { SpiralBase }       from './SpiralBase';
 &nbsp;
@@ -222,28 +235,34 @@ import { SpiralBase }       from './SpiralBase';
  * private member `n_points`.
  */
 export class LineSpiral&lt;T&gt; extends SpiralBase&lt;T&gt; {
-    private hist_data: IHistogramOutput[];
-    private hist_fn: d3.layout.Histogram&lt;T&gt;;
+    private hist_data: d3Array.Bin&lt;T, number&gt;[];
+    private hist_fn: d3Array.HistogramGenerator&lt;T, number&gt;;
     private <span class="cstat-no" title="statement not covered" >n_points = 10000;</span>
-    private <span class="cstat-no" title="statement not covered" >hist_x = d3.scale.linear().range([0, 1]);</span>
-    private <span class="cstat-no" title="statement not covered" >hist_y = d3.scale.linear().range([0, 1]);</span>
+    private <span class="cstat-no" title="statement not covered" >hist_x0 = d3.scaleLinear().range([0, 1]);</span>
+    private <span class="cstat-no" title="statement not covered" >hist_x1 = d3.scaleLinear().range([0, 1]);</span>
+    private <span class="cstat-no" title="statement not covered" >hist_y = d3.scaleLinear().range([0, 1]);</span>
+    //private hist_fn : any;
 &nbsp;
-<span class="fstat-no" title="function not covered" >    constructor (element: d3.Selection&lt;any&gt;)</span> {
+    public radial_map: any;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    constructor (element: d3.Selection&lt;any, any, any, any&gt;)</span> {
         super(element);
-        // this.radial_map = d =&gt; 1;
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    public set data(data: T[])</span> {
-<span class="cstat-no" title="statement not covered" >        this.hist_fn = d3.layout.histogram&lt;T&gt;()</span>
-            .value(this.radial_map)
-            .bins(this.n_points + 1);
+<span class="cstat-no" title="statement not covered" >        this.hist_fn = d3Array.histogram&lt;T, number&gt;();</span>
+<span class="cstat-no" title="statement not covered" >        this.hist_fn.thresholds(this.n_points);</span>
+<span class="cstat-no" title="statement not covered" >        this.hist_fn.value(this.radial_map);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        this.hist_data = this.hist_fn(data);</span>
-<span class="cstat-no" title="statement not covered" >        this.hist_x.domain(d3.extent(this.hist_data, <span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.x)</span>);</span>
-<span class="cstat-no" title="statement not covered" >        this.hist_y.domain(d3.extent(this.hist_data, <span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.y)</span>);</span>
+<span class="cstat-no" title="statement not covered" >        this.hist_x0.domain(d3.extent(this.hist_data, <span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.x0)</span>);</span>
+<span class="cstat-no" title="statement not covered" >        this.hist_x1.domain(d3.extent(this.hist_data, <span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.x1)</span>);</span>
+<span class="cstat-no" title="statement not covered" >        this.hist_y.domain(d3.extent(this.hist_data, <span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.length / data.length)</span>);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        console.log('LineSpriral: data:: 38', data);</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    public render(): d3.Selection&lt;any&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    public render(): d3.Selection&lt;any, any, any, any&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >        const svg = this.element.append('svg')</span>
                     .attr('height', this.chartHeight)
                     .attr('width', this.chartWidth);
@@ -254,13 +273,15 @@ export class LineSpiral&lt;T&gt; extends SpiralBase&lt;T&gt; {
         // this.render_spiral_axis(plot);
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        const polar_data = this.hist_data.slice(1).map&lt;[Polar, number]&gt;(</span>
-<span class="fstat-no" title="function not covered" >            a </span>=&gt; <span class="cstat-no" title="statement not covered" >[this.get_polar(a.x + a.dx / 2), a.y])</span>;
+<span class="fstat-no" title="function not covered" >            a </span>=&gt; <span class="cstat-no" title="statement not covered" >[this.get_polar(a.x0 + a.x1 / 2), a.length / this.data.length])</span>;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        const line = d3.svg.line&lt;Polar&gt;()</span>
-            .x(<span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.x)</span> // * this.radial_scale)
-            .y(<span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.y)</span>; // * this.radial_scale);
+<span class="cstat-no" title="statement not covered" >        const line = d3.line&lt;Polar&gt;()</span>
+            .x(<span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.x)</span>
+            .y(<span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.y)</span>;
 &nbsp;
-        // console.log(polar_data);
+<span class="cstat-no" title="statement not covered" >        console.log(line);</span>
+<span class="cstat-no" title="statement not covered" >        console.log(polar_data);</span>
+&nbsp;
         // chop the graph in many pieces
 <span class="cstat-no" title="statement not covered" >        const piece_size = this.n_points / 256;</span>
 <span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; 256; i += 1) {</span>
@@ -283,7 +304,7 @@ export class LineSpiral&lt;T&gt; extends SpiralBase&lt;T&gt; {
 <span class="cstat-no" title="statement not covered" >        return plot;</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    public update(data: T[])</span>: d3.Selection&lt;any&gt; {
+<span class="fstat-no" title="function not covered" >    public update(data: T[])</span>: d3.Selection&lt;any, any, any, any&gt; {
 <span class="cstat-no" title="statement not covered" >        this.element.select('svg').remove();</span>
 <span class="cstat-no" title="statement not covered" >        this.data = data;</span>
 <span class="cstat-no" title="statement not covered" >        return this.render();</span>
@@ -295,7 +316,7 @@ export class LineSpiral&lt;T&gt; extends SpiralBase&lt;T&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 08 2016 13:48:09 GMT+0100 (CET)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 12 2016 18:36:31 GMT+0100 (CET)
 </div>
 </div>
 <script src="../prettify.js"></script>

@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">36.67% </span>
+        <span class="strong">38.71% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>11/30</span>
+        <span class='fraction'>12/31</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">16.67% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/6</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">9.09% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>1/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">32.14% </span>
+        <span class="strong">34.48% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>9/28</span>
+        <span class='fraction'>10/29</span>
       </div>
     </div>
   </div>
@@ -97,7 +97,13 @@
 52
 53
 54
-55</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+55
+56
+57
+58</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -151,14 +157,17 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as d3 from 'd3';<span class="branch-1 cbranch-no" title="branch not covered" ></span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">//import * as d3 from 'd3';
+import * as d3Time from 'd3-time';
+import * as d3Scale from 'd3-scale';
+import * as d3Array from 'd3-array';
 &nbsp;
 import { ITimedRecord } from './ITimedRecord';
 import { LineSpiral } from './LineSpiral';
 &nbsp;
 export class TimedBubbleSpiral&lt;T&gt; extends LineSpiral&lt;ITimedRecord&lt;T&gt;&gt; {
-    private _period: d3.time.Interval;
-    public time_scale: d3.time.Scale&lt;number, number&gt;;
+    private _period: d3Time.TimeInterval;
+    public time_scale: d3Scale.ScaleTime&lt;number, number&gt;;
     public <span class="cstat-no" title="statement not covered" >color_map = <span class="fstat-no" title="function not covered" >(d: ITimedRecord&lt;T&gt;)</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        if (d.color) {</span>
 <span class="cstat-no" title="statement not covered" >            return d.color;</span>
@@ -167,7 +176,7 @@ export class TimedBubbleSpiral&lt;T&gt; extends LineSpiral&lt;ITimedRecord&lt;T&
         }
     };
 &nbsp;
-<span class="fstat-no" title="function not covered" >    constructor (element: d3.Selection&lt;any&gt;)</span> {
+<span class="fstat-no" title="function not covered" >    constructor (element: d3.Selection&lt;any, any, any, any&gt;)</span> {
         super(element);
     }
 &nbsp;
@@ -175,33 +184,33 @@ export class TimedBubbleSpiral&lt;T&gt; extends LineSpiral&lt;ITimedRecord&lt;T&
 <span class="cstat-no" title="statement not covered" >        return this.time_scale(x.date);</span>
     };
 &nbsp;
-<span class="fstat-no" title="function not covered" >    set period(p: d3.time.Interval)</span> {
+<span class="fstat-no" title="function not covered" >    set period(p: d3Time.TimeInterval)</span> {
 <span class="cstat-no" title="statement not covered" >        this._period = p;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        const zero = this.time_scale.invert(0);</span>
 <span class="cstat-no" title="statement not covered" >        this.period_fraction = this.time_scale(p.offset(zero, 1));</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    get period(): d3.time.Interval {</span>
+<span class="fstat-no" title="function not covered" >    get period(): d3Time.TimeInterval {</span>
 <span class="cstat-no" title="statement not covered" >        return this._period;</span>
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    set period_seconds(p: number)</span> {
 <span class="cstat-no" title="statement not covered" >        const zero = this.time_scale.invert(0);</span>
-<span class="cstat-no" title="statement not covered" >        const iv = d3.time.second.offset(zero, p);</span>
+<span class="cstat-no" title="statement not covered" >        const iv = d3Time.timeSecond.offset(zero, p);</span>
 <span class="cstat-no" title="statement not covered" >        this.period_fraction = this.time_scale(iv);</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    public get_label(d: ITimedRecord&lt;T&gt;)</span>: string {
+<span class="fstat-no" title="function not covered" >    public label_map(d: ITimedRecord&lt;T&gt;)</span>: string {
 <span class="cstat-no" title="statement not covered" >        return d.date.toDateString();</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    public render(): d3.Selection&lt;any&gt; {</span>
+<span class="fstat-no" title="function not covered" >    public render(): d3.Selection&lt;any, any, any, any&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        const plot = super.render();</span>
 <span class="cstat-no" title="statement not covered" >        this.add_axis(</span>
             plot,
-            d3.range(16).map(<span class="fstat-no" title="function not covered" >(i)</span> =&gt; <span class="cstat-no" title="statement not covered" >i / 8 * Math.PI - Math.PI / 2)</span>,
-            d3.range(16).map(<span class="fstat-no" title="function not covered" >(i)</span> =&gt; <span class="cstat-no" title="statement not covered" >(i / 8).toString() + 'π')</span>);
+            d3Array.range(16).map(<span class="fstat-no" title="function not covered" >(i)</span> =&gt; <span class="cstat-no" title="statement not covered" >i / 8 * Math.PI - Math.PI / 2)</span>,
+            d3Array.range(16).map(<span class="fstat-no" title="function not covered" >(i)</span> =&gt; <span class="cstat-no" title="statement not covered" >(i / 8).toString() + 'π')</span>);
 <span class="cstat-no" title="statement not covered" >        return plot;</span>
     }
 }
@@ -211,7 +220,7 @@ export class TimedBubbleSpiral&lt;T&gt; extends LineSpiral&lt;ITimedRecord&lt;T&
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 08 2016 13:48:09 GMT+0100 (CET)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 12 2016 18:36:31 GMT+0100 (CET)
 </div>
 </div>
 <script src="../prettify.js"></script>

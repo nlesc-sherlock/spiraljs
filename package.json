@@ -25,7 +25,7 @@
     "postdts": "mkdirp dist && mv build/spiral.d.ts dist/",
     "postversion": "git log --pretty=oneline --max-count 10",
     "precover": "trash docs/sites/coverage/ && npm run jslint && npm run jshint && npm run dist",
-    "predist": "trash build/ && mkdirp build && trash dist/ && mkdirp dist && npm run tslint && npm run csslint",
+    "predist": "trash build/ && mkdirp build && trash dist/ && mkdirp dist && npm run csslint",
     "predts": "trash build/",
     "pretsdoc": "npm run clean-tsdoc && mkdirp docs/sites/tsdoc",
     "preversion": "npm run purge && npm install && npm run dist && npm run test",

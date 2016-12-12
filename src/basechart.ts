@@ -39,12 +39,6 @@ export interface IMargin {
     left: number;
 }
 
-export interface IHistogramOutput {
-    x0: number;
-    x1: number;
-    y: number;
-}
-
 export abstract class Base<T> {
     public chartWidth = 800;
     public chartHeight = 600;
