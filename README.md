@@ -12,10 +12,9 @@ _this library is still a work in progress_
 
 - [``BubleSpiral``](http://codepen.io/jspaaks/pen/mOjeda)
 
+# Gallery (static images)
 
-# General workflow
-
-![png](https://github.com/nlesc-sherlock/spiraljs/blob/389050f29e8337e4b67cc4325e5b07f1dfce5c0e/docs/specification.png)
+TODO
 
 # Documentation for users
 
