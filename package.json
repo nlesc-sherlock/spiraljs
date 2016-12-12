@@ -88,14 +88,10 @@
     "moment": "^2.14.1"
   },
   "browser": {
-    "crossfilter": "node_modules/crossfilter/crossfilter.js",
-    "d3": "node_modules/d3/d3.js",
-    "moment": "node_modules/moment/moment.js"
+    "d3": "node_modules/d3/d3.js"
   },
   "browserify-shim": {
-    "crossfilter": "global:crossfilter",
-    "d3": "global:d3",
-    "moment": "global:moment"
+    "d3": "global:d3"
   },
   "browserify": {
     "transform": [
