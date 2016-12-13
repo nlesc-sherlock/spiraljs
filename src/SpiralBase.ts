@@ -98,7 +98,7 @@ export class SpiralBase<T> extends Base<T> {
      */
     public render_spiral_axis(
             plot: d3.Selection<any>) {
-        const pts: ICoordinate[] = d3.range(1000).map(
+        const pts: ICoordinate[] = d3.range(-1, 1001).map(
                 (i) => this.get_polar(i / 1000));
 
         const group = plot.append('g')
@@ -107,7 +107,7 @@ export class SpiralBase<T> extends Base<T> {
         const line = d3.svg.line<ICoordinate>()
             .x((d) => d.x)
             .y((d) => d.y)
-            .interpolate('basis');
+            .interpolate('basis-open');
 
         group.append('path')
             .datum(pts)
