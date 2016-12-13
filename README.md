@@ -16,15 +16,21 @@ The sibling repository [https://github.com/nlesc-sherlock/spiraljs-demo](https:/
 
 ## ArcSpiral
 
-TODO
+![ArcSpiral-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/ArcSpiral-example.png "ArcSpiral-example.png")
 
 ## BubbleSpiral
 
-![BubbleSpiral-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/BubbleSpiral-example.png "BubbleSpiral-example.png")
+### with ``color_map``
+
+![BubbleSpiral-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/BubbleSpiral-with-colormap-example.png "BubbleSpiral-example.png")
+
+### with ``radius_map``
+
+![BubbleSpiral-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/BubbleSpiral-with-radiusmap-example.png "BubbleSpiral-example.png")
 
 ## LineSpiral
 
-TODO
+![LineSpiral-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/LineSpiral-example.png "LineSpiral-example.png")
 
 ## TimedBubbleSpiral
 
