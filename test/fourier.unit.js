@@ -1,11 +1,6 @@
 /*jslint nomen:true */
 /*globals describe, it, spiral, expect, d3, _, beforeEach */
 
-// import range from 'lodash/range';
-// import { Complex } from '../src/Complex';
-// import { fft, ifft } from '../src/fourier';
-
-
 var Complex = spiral.Complex;
 var fft = spiral.fft;
 var ifft = spiral.ifft;
