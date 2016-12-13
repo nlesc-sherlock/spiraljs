@@ -22,11 +22,11 @@ The sibling repository [https://github.com/nlesc-sherlock/spiraljs-demo](https:/
 
 ### with ``color_map``
 
-![BubbleSpiral-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/BubbleSpiral-with-colormap-example.png "BubbleSpiral-example.png")
+![BubbleSpiral-with-colormap-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/BubbleSpiral-with-colormap-example.png "BubbleSpiral-with-colormap-example.png")
 
 ### with ``radius_map``
 
-![BubbleSpiral-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/BubbleSpiral-with-radiusmap-example.png "BubbleSpiral-example.png")
+![BubbleSpiral-with-radiusmap-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/BubbleSpiral-with-radiusmap-example.png "BubbleSpiral-with-radiusmap-example.png")
 
 ## LineSpiral
 
