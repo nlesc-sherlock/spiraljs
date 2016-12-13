@@ -8,6 +8,8 @@ _this library is still a work in progress_
 
 The sibling repository [https://github.com/nlesc-sherlock/spiraljs-demo](https://github.com/nlesc-sherlock/spiraljs-demo) contains various examples of how spiraljs can be used.
 
+Find the TypeDoc [here](http://nlesc-sherlock.github.io/spiraljs/sites/tsdoc/).
+
 # codepen.io live examples
 
 - [``BubbleSpiral``](http://codepen.io/jspaaks/pen/mOjeda)
