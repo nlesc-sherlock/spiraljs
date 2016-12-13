@@ -10,7 +10,7 @@ The sibling repository [https://github.com/nlesc-sherlock/spiraljs-demo](https:/
 
 # codepen.io live examples
 
-- [``BubleSpiral``](http://codepen.io/jspaaks/pen/mOjeda)
+- [``BubbleSpiral``](http://codepen.io/jspaaks/pen/mOjeda)
 
 # Gallery (static images)
 
