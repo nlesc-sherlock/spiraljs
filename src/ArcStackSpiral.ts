@@ -11,7 +11,7 @@ import { SpiralBase }       from './SpiralBase';
  * (filled curve). The number of points in the histogram is currently set by the
  * private member `n_points`.
  */
-export class ArcSpiral<T> extends SpiralBase<T> {
+export class ArcStackSpiral<T> extends SpiralBase<T> {
     private hist_data: IHistogramOutput[];
     private hist_fn: d3.layout.Histogram<T>;
     private n_points = 1000;
