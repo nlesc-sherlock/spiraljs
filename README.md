@@ -1,5 +1,3 @@
-- [![dependencies Status](https://david-dm.org/nlesc-sherlock/spiraljs/status.svg)](https://david-dm.org/nlesc-sherlock/spiraljs)
-- [![devDependencies Status](https://david-dm.org/nlesc-sherlock/spiraljs/dev-status.svg)](https://david-dm.org/nlesc-sherlock/spiraljs?type=dev)
 - [![Build Status](https://travis-ci.org/nlesc-sherlock/spiraljs.svg?branch=master)](https://travis-ci.org/nlesc-sherlock/spiraljs)
 - [![bitHound Overall Score](https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/score.svg)](https://www.bithound.io/github/nlesc-sherlock/spiraljs)
 - [![bitHound Dependencies](https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/dependencies.svg)](https://www.bithound.io/github/nlesc-sherlock/spiraljs/master/dependencies/npm)
@@ -8,9 +6,37 @@
 
 _this library is still a work in progress_
 
-# General workflow
+The sibling repository [https://github.com/nlesc-sherlock/spiraljs-demo](https://github.com/nlesc-sherlock/spiraljs-demo) contains various examples of how spiraljs can be used.
 
-![png](https://github.com/nlesc-sherlock/spiraljs/blob/389050f29e8337e4b67cc4325e5b07f1dfce5c0e/docs/specification.png)
+Find the TypeDoc [here](http://nlesc-sherlock.github.io/spiraljs/sites/tsdoc/).
+
+# codepen.io live examples
+
+- [``BubbleSpiral``](http://codepen.io/jspaaks/pen/mOjeda)
+
+# Gallery (static images)
+
+## ArcSpiral
+
+![ArcSpiral-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/ArcSpiral-example.png "ArcSpiral-example.png")
+
+## BubbleSpiral
+
+### with ``color_map``
+
+![BubbleSpiral-with-colormap-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/BubbleSpiral-with-colormap-example.png "BubbleSpiral-with-colormap-example.png")
+
+### with ``radius_map``
+
+![BubbleSpiral-with-radiusmap-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/BubbleSpiral-with-radiusmap-example.png "BubbleSpiral-with-radiusmap-example.png")
+
+## LineSpiral
+
+![LineSpiral-example.png](https://github.com/nlesc-sherlock/spiraljs/raw/master/docs/LineSpiral-example.png "LineSpiral-example.png")
+
+## TimedBubbleSpiral
+
+TODO
 
 # Documentation for users
 

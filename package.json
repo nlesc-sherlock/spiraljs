@@ -52,7 +52,6 @@
   "devDependencies": {
     "@nlesc/tslint-config-react-app": "^1.1.1",
     "@types/d3": "^3.5.36",
-    "@types/jasmine": "^2.5.38",
     "browserify": "^13.1.0",
     "browserify-shim": "^3.8.12",
     "csslint": "^1.0.2",
@@ -82,20 +81,13 @@
     "uglifycss": "0.0.25"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.42",
-    "crossfilter": "^1.3.12",
-    "d3": "^3.5.17",
-    "moment": "^2.14.1"
+    "d3": "^3.5.17"
   },
   "browser": {
-    "crossfilter": "node_modules/crossfilter/crossfilter.js",
-    "d3": "node_modules/d3/d3.js",
-    "moment": "node_modules/moment/moment.js"
+    "d3": "node_modules/d3/d3.js"
   },
   "browserify-shim": {
-    "crossfilter": "global:crossfilter",
-    "d3": "global:d3",
-    "moment": "global:moment"
+    "d3": "global:d3"
   },
   "browserify": {
     "transform": [
