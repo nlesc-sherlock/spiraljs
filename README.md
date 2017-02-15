@@ -1,8 +1,10 @@
+- [![npm version](https://badge.fury.io/js/spiraljs.svg)](https://badge.fury.io/js/spiraljs)
 - [![Build Status](https://travis-ci.org/nlesc-sherlock/spiraljs.svg?branch=master)](https://travis-ci.org/nlesc-sherlock/spiraljs)
 - [![bitHound Overall Score](https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/score.svg)](https://www.bithound.io/github/nlesc-sherlock/spiraljs)
 - [![bitHound Dependencies](https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/dependencies.svg)](https://www.bithound.io/github/nlesc-sherlock/spiraljs/master/dependencies/npm)
 - [![bitHound Dev Dependencies](https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/devDependencies.svg)](https://www.bithound.io/github/nlesc-sherlock/spiraljs/master/dependencies/npm)
 - [![bitHound Code](https://www.bithound.io/github/nlesc-sherlock/spiraljs/badges/code.svg)](https://www.bithound.io/github/nlesc-sherlock/spiraljs)
+- [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 _this library is still a work in progress_
 
