@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">36.36% </span>
+        <span class="strong">38.46% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>8/22</span>
+        <span class='fraction'>10/26</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">11.11% </span>
+        <span class="strong">9.09% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/9</span>
+        <span class='fraction'>1/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">33.33% </span>
+        <span class="strong">36.36% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/18</span>
+        <span class='fraction'>8/22</span>
       </div>
     </div>
   </div>
@@ -88,7 +88,30 @@
 43
 44
 45
-46</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -101,6 +124,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -126,6 +169,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -146,6 +192,26 @@ export class BubbleSpiral&lt;T&gt; extends SpiralBase&lt;T&gt; {
         super(element);
     }
 &nbsp;
+    /**
+     * Rescale the output of `weight_map` to create a decent size for the
+     * bubbles.
+     */
+<span class="fstat-no" title="function not covered" >    public bubble_scale_fn(x: number)</span>: number {
+<span class="cstat-no" title="statement not covered" >        return x;</span>
+    }
+&nbsp;
+    /**
+     * Scale the size of bubbles using this map. This defaults to using
+     * `weight_map` and scaling that using `bubble_scale_fn`. It is not
+     * recommended to change this function directly.
+     */
+<span class="fstat-no" title="function not covered" >    public bubble_scale_map(x: T)</span>: number {
+<span class="cstat-no" title="statement not covered" >        return this.bubble_scale_fn(this.weight_map(x));</span>
+    }
+&nbsp;
+    /**
+     * Render given data as bubbles.
+     */
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    public render(data: T[])</span>: d3.Selection&lt;any&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        const svg = this.element.append('svg')</span>
                     .attr('height', this.chartHeight)
@@ -164,7 +230,7 @@ export class BubbleSpiral&lt;T&gt; extends SpiralBase&lt;T&gt; {
 <span class="cstat-no" title="statement not covered" >        bubble_groups.append('circle')</span>
             .attr('cx', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >this.get_polar(this.radial_map(d)).x)</span>
             .attr('cy', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >this.get_polar(this.radial_map(d)).y)</span>
-            .attr('r', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >this.radius_map(d))</span>
+            .attr('r', <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >this.bubble_scale_map(d))</span>
             .style('fill', this.color_map ? <span class="fstat-no" title="function not covered" >(d)</span> =&gt; <span class="cstat-no" title="statement not covered" >this.color_map(d) </span>: <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" ></span>'red')</span>
             .style('fill-opacity', 0.1)
             .style('stroke', 'black')
@@ -173,6 +239,9 @@ export class BubbleSpiral&lt;T&gt; extends SpiralBase&lt;T&gt; {
 <span class="cstat-no" title="statement not covered" >        return plot;</span>
     }
 &nbsp;
+    /**
+     * Update the view. Currently clears the SVG and rerenders everything.
+     */
 <span class="fstat-no" title="function not covered" >    public update(data: T[])</span>: d3.Selection&lt;any&gt; {
 <span class="cstat-no" title="statement not covered" >        this.element.select('svg').remove();</span>
 <span class="cstat-no" title="statement not covered" >        return this.render(data);</span>
@@ -184,7 +253,7 @@ export class BubbleSpiral&lt;T&gt; extends SpiralBase&lt;T&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 08 2016 13:48:09 GMT+0100 (CET)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 15 2017 13:01:11 GMT+0100 (CET)
 </div>
 </div>
 <script src="../prettify.js"></script>
