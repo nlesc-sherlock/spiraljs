@@ -46,6 +46,13 @@ export class SpiralBase<T> extends Base<T> {
     public weight_map: (x: T) => number;
 
     /**
+     * Get the catagory of a data element.
+     */
+    public catagory_map: (x: T) => string = null;
+
+    public catagory_color: (x: string) => string = null;
+
+    /**
      * Get the color by which a data element is plotted. This is currently only
      * used in the `BubbleSpiral`.
      */
