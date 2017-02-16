@@ -42,7 +42,7 @@ export interface IMargin {
 export interface IHistogramOutput {
     x: number;
     dx: number;
-    y: number;
+    y: any;
 }
 
 export abstract class Base<T> {
@@ -62,4 +62,22 @@ export abstract class Base<T> {
     public render(_: T[]): d3.Selection<any> {
         return null;
     }
+}
+
+export function group_by<T>(f: (d: T) => string, data: T[]): {[key: string]: T[]} {
+    type Groups = {[key: string]: T[]};
+
+    return data.reduce(
+        (r: Groups, d: T): Groups => {
+            const k: string = f(d);
+
+            if (k in r) {
+                r[k].push(d);
+            } else {
+                r[k] = [d];
+            }
+
+            return r;
+        },
+        {});
 }

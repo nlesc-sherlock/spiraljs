@@ -1,9 +1,27 @@
 import * as d3 from 'd3';
 
-import { IHistogramOutput } from './basechart';
+import { group_by }         from './basechart';
 import { SpiralBase }       from './SpiralBase';
 
-// (used to be in spiral.ts, module Chart)
+interface IStackedHistogramOutput {
+    x: number;
+    dx: number;
+    y: number;
+    ys: {[key: string]: { y0: number, y1: number }};
+}
+
+// function object_map(f: (d: any) => any, obj: {[key: string]: any}): any {
+//     return Object.keys(obj).reduce(
+//         (r: any, k: string): any => {
+//             r[k] = f(obj[k]);
+//             return r;
+//         },
+//         {});
+// }
+
+// function zeros(n: number): number[] {
+//     return Array.apply(null, Array(n)).map(Number.prototype.valueOf, 0);
+// }
 
 /**
  * Charts data table as a filled curve on a spiral. We first create a histogram
@@ -11,8 +29,8 @@ import { SpiralBase }       from './SpiralBase';
  * (filled curve). The number of points in the histogram is currently set by the
  * private member `n_points`.
  */
-export class ArcSpiral<T> extends SpiralBase<T> {
-    private hist_data: IHistogramOutput[];
+export class ArcStackSpiral<T> extends SpiralBase<T> {
+    private stacked_hist_data: IStackedHistogramOutput[];
     private hist_fn: d3.layout.Histogram<T>;
     private n_points = 1000;
     private hist_x = d3.scale.linear().range([0, 1]);
@@ -24,13 +42,35 @@ export class ArcSpiral<T> extends SpiralBase<T> {
     }
 
     public set data(data: T[]) {
+        // need to group by the return values by this.color_map
+        const g_data = group_by<T>(this.category_map, data);
+        const keys = Object.keys(g_data);
+
         this.hist_fn = d3.layout.histogram<T>()
             .value(this.radial_map)
-            .bins(this.n_points + 1);
+            .bins(this.n_points);
 
-        this.hist_data = this.hist_fn(data);
-        this.hist_x.domain(d3.extent(this.hist_data, a => a.x));
-        this.hist_y.domain(d3.extent(this.hist_data, a => a.y));
+        const hist_data: any[] = this.hist_fn(data);
+        this.hist_x.domain(d3.extent(hist_data, a => a.x));
+        this.hist_y.domain(d3.extent(hist_data, a => a.y));
+
+        this.stacked_hist_data = hist_data.map((h) => {
+            const g_h = group_by<T>(this.category_map, h);
+            let cumsum = 0;
+            const stack = keys.reduce(
+                (s: any, k: string) => {
+                    const n = (k in g_h ? g_h[k].length : 0);
+                    if (n === 0) {
+                        return s;
+                    }
+
+                    s[k] = { y0: cumsum, y1: cumsum + n };
+                    cumsum += n;
+                    return s;
+                },
+                {});
+            return { x: h.x, dx: h.dx, y: h.y, ys: stack };
+        });
     }
 
     /**
@@ -71,16 +111,23 @@ export class ArcSpiral<T> extends SpiralBase<T> {
         this.render_spiral_axis(plot);
 
         for (let i = 0; i < this.n_points; i += 1) {
-            const d = this.hist_data[i];
-            const arc = this.arc(
-                this.hist_x(d.x), this.hist_x(d.x + d.dx), 0, 1.0);
-            plot.append('path')
-                .attr('class', 'arc')
-                .attr('d', arc)
-                .style('fill', 'red')
-                .style('fill-opacity', this.hist_y(d.y));
-        }
+            const d = this.stacked_hist_data[i];
+            if (d.y === 0) {
+                continue;
+            }
 
+            for (const k of Object.keys(d.ys)) {
+                const arc = this.arc(
+                    this.hist_x(d.x), this.hist_x(d.x + d.dx),
+                    d.ys[k].y0 / d.y, d.ys[k].y1 / d.y);
+
+                plot.append('path')
+                    .attr('class', 'arc')
+                    .attr('d', arc)
+                    .style('fill', this.category_color(k))
+                    .style('fill-opacity', this.hist_y(d.y));
+            }
+        }
         return plot;
     }
 
