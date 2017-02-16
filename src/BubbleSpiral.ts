@@ -24,8 +24,8 @@ export class BubbleSpiral<T> extends SpiralBase<T> {
      * `weight_map` and scaling that using `bubble_scale_fn`. It is not
      * recommended to change this function directly.
      */
-    public bubble_scale_map(x: T): number {
-        return this.bubble_scale_fn(this.weight_map(x));
+    public bubble_scale_map(t: T): number {
+        return this.bubble_scale_fn(this.weight_map(t));
     }
 
     /**
@@ -40,6 +40,29 @@ export class BubbleSpiral<T> extends SpiralBase<T> {
             .attr('transform', 'translate(400 300)');
 
         this.render_spiral_axis(plot);
+
+        if (this.x_map) {
+            const extent = d3.extent(data, (datum: T, _) => this.x_map(datum));
+            const turn_range_sec = this.period_fraction * (extent[1] - extent[0]);
+
+            // do the section from east to the end of the spiral
+            const s1_range = BubbleSpiral.MODULO(1 / this.period_fraction, 1) - 1 / 4;
+            const s1_fractions = d3.range(s1_range * 8 + 1).map(i => i / 8);
+            const s1_start_sec = extent[1] - s1_range * turn_range_sec;
+            const s1_labels = s1_fractions.map(i => (s1_start_sec + i * turn_range_sec)).map(this.label_map);
+
+            // do the section from one past the start of the last winding to east
+            const s2_range_start = s1_range + 1 / 8;
+            const s2_range = 1 - s2_range_start;
+            const s2_fractions = d3.range(s2_range * 8).map(i => i / 8);
+            const s2_start_sec = extent[1] - 7 / 8 * turn_range_sec;
+            const s2_labels = s2_fractions.map(i => (s2_start_sec + i * turn_range_sec)).map(this.label_map);
+
+            const marks = s1_fractions.concat(s2_fractions.map(x => x + s2_range_start));
+            const labels = s1_labels.concat(s2_labels);
+
+            this.add_axis(plot, marks, labels);
+        }
 
         const bubble_groups = plot.append('g').selectAll('g.bubble')
             .data(data)
