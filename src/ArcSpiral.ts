@@ -78,7 +78,7 @@ export class ArcSpiral<T> extends SpiralBase<T> {
                 .attr('class', 'arc')
                 .attr('d', arc)
                 .style('fill', 'red')
-                .style('fill-opacity', this.hist_y(d.y));
+                .style('fill-opacity', this.hist_y(d.y) * 0.8 + 0.2);
         }
 
         return plot;
