@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 
+import { group_by }         from './basechart';
 import { SpiralBase }       from './SpiralBase';
 
 interface IStackedHistogramOutput {
@@ -7,25 +8,6 @@ interface IStackedHistogramOutput {
     dx: number;
     y: number;
     ys: {[key: string]: { y0: number, y1: number }};
-}
-
-// (used to be in spiral.ts, module Chart)
-function group_by<T>(f: (d: T) => string, data: T[]): {[key: string]: T[]} {
-    type Groups = {[key: string]: T[]};
-
-    return data.reduce(
-        (r: Groups, d: T): Groups => {
-            const k: string = f(d);
-
-            if (k in r) {
-                r[k].push(d);
-            } else {
-                r[k] = [d];
-            }
-
-            return r;
-        },
-        {});
 }
 
 // function object_map(f: (d: any) => any, obj: {[key: string]: any}): any {
@@ -61,7 +43,7 @@ export class ArcStackSpiral<T> extends SpiralBase<T> {
 
     public set data(data: T[]) {
         // need to group by the return values by this.color_map
-        const g_data = group_by<T>(this.catagory_map, data);
+        const g_data = group_by<T>(this.category_map, data);
         const keys = Object.keys(g_data);
 
         this.hist_fn = d3.layout.histogram<T>()
@@ -73,7 +55,7 @@ export class ArcStackSpiral<T> extends SpiralBase<T> {
         this.hist_y.domain(d3.extent(hist_data, a => a.y));
 
         this.stacked_hist_data = hist_data.map((h) => {
-            const g_h = group_by<T>(this.catagory_map, h);
+            const g_h = group_by<T>(this.category_map, h);
             let cumsum = 0;
             const stack = keys.reduce(
                 (s: any, k: string) => {
@@ -142,7 +124,7 @@ export class ArcStackSpiral<T> extends SpiralBase<T> {
                 plot.append('path')
                     .attr('class', 'arc')
                     .attr('d', arc)
-                    .style('fill', this.catagory_color(k))
+                    .style('fill', this.category_color(k))
                     .style('fill-opacity', this.hist_y(d.y));
             }
         }
