@@ -15,12 +15,31 @@ import { ICoordinate } from './basechart';
  */
 export class SpiralBase<T> extends Base<T> {
     /**
+     * Maps a data element to a value on the x axis. The returned object is
+     * a Date or a number which is the location on the x-axis (in the data
+     * space, not plot space) of the record.
+     */
+    public x_map: (record: T) => number;
+
+    /**
+     * Maps an x value (e.g. output of x_map(record)) to a number in the range
+     * [0, 1], which indicates the place on the spiral that the data element
+     * should be given. Such a map can be created using `d3.scale`, setting the
+     * range to [0, 1] and the domain to the domain of your x values.
+     */
+    public x_radial_map: (x: number) => number;
+
+    /**
      * Maps a data element to a number in the range [0, 1]. The returned number
      * then indicates the place on the spiral that the data element should be
      * given. Such a map can be created using `d3.scale`, setting the range
      * to [0, 1] and the domain to the domain of your data.
+     *
+     * The default is to use x_map and x_radial_map.
      */
-    public radial_map: (x: T) => number;
+    public radial_map(x: T): number {
+        return this.x_radial_map(this.x_map(x));
+    };
 
     /**
      * A multiplier for the output of `radial_map`. This determines the scale
@@ -88,7 +107,7 @@ export class SpiralBase<T> extends Base<T> {
     /**
      * Get a label given a data element; used for labeling tics.
      */
-    public label_map(_: T): string {
+    public label_map(_: number): string {
         return '';
     }
 
@@ -138,6 +157,8 @@ export class SpiralBase<T> extends Base<T> {
 
         const group = selection.append('g').attr('class', 'axes');
 
+        angle = angle.map(x => x * 2 * Math.PI);
+
         const axes = group.selectAll('g.axis')
             .data(angle).enter().append('g').attr('class', 'axis');
 
@@ -148,8 +169,8 @@ export class SpiralBase<T> extends Base<T> {
             .style('stroke-width', 0.5);
 
         axes.append('text')
-            .attr('x', (d) => end(d).inc_r(15).x)
-            .attr('y', (d) => end(d).inc_r(15).y)
+            .attr('x', (d) => end(d).inc_r(20).x)
+            .attr('y', (d) => end(d).inc_r(20).y)
             .attr('text-anchor', 'middle').attr('dy', 5)
             .text((_, i) => label[i])
             .style('font-size', 16);
