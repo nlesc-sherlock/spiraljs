@@ -124,8 +124,8 @@ export class SpiralBase<T> extends Base<T> {
      */
     public render_spiral_axis(
             plot: d3.Selection<any>) {
-        const pts: ICoordinate[] = d3.range(-1, 1001).map(
-                (i) => this.get_polar(i / 1000));
+        const pts: ICoordinate[] = d3.range(-1, 2001).map(
+                (i) => this.get_polar(i / 2000));
 
         const group = plot.append('g')
             .attr('class', 'axis');
